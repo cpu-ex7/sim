@@ -1,3 +1,0 @@
-add $a2, $a3, 123
-addi $t3, $t3, $t4
-slti $v0, $k0, -9
