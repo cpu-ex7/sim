@@ -2,9 +2,9 @@
 
 (executable
  ((name test)
-  (libraries (oUnit Sim))))
+  (libraries (oUnit Simulator))))
 
 (alias
  ((name    runtest)
-  (deps    (test.bc))
+  (deps    (test.bc (glob_files *.input)))
   (action  (run ${<}))))

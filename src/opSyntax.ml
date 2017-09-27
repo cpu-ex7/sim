@@ -1,16 +1,18 @@
-open List
+type operator =
+  | OpAdd
+  | OpAddi
+  | OpSlti
 
-exception Wrong_operand_numver
-
-type reg =
+type operand =
   | Reg of int
   | Imm of int
-type operands = reg array
-type op_type = OpAdd | OpAddi
-type t = op_type * operands
+type operands = operand array
+type t = operator * operands
 
+(* アセンブリの文字列とoperator型の値との関係 *)
 let op_alist =
   [("add", OpAdd);
-   ("addi", OpAddi)]
+   ("addi", OpAddi);
+   ("slti", OpSlti)]
 
 let lookup op_str = List.assoc op_str op_alist

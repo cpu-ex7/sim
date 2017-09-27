@@ -4,4 +4,4 @@
 (menhir ((modules (parser))))
 
 (library
- ((name        Sim)))
+ ((name        Simulator)))

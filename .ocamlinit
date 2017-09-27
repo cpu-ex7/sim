@@ -1,1 +1,2 @@
-open Sim;;
+open Simulator;;
+open Simulator.Sim;;
