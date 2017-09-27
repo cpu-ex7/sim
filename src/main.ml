@@ -1,3 +1,9 @@
+open OpSyntax
+
+type core = {
+  reg : int array
+}
+
 let parse str = Parser.toplevel Lexer.main (Lexing.from_string str)
 
 let doit lst =

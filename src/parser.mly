@@ -3,7 +3,9 @@
 %}
 
 %token COMMA
+%token MINUS
 %token <int> REG
+%token <int> IMM
 %token <string> OP
 %token EOF
 
@@ -18,11 +20,13 @@ op_list:
   | op                     { [$1] }
 
 op:
-  | OP operands            { lookup $1 $2 }
+  | OP operands            { (lookup $1, $2) }
 
 operands:
-  | operand COMMA operands { $1 :: $3 }
-  | operand                { [$1] }
+  | operand COMMA operands { Array.append [|$1|] $3 }
+  | operand                { [|$1|] }
 
 operand:
-  | REG                    { $1 }
+  | REG                    { Reg $1 }
+  | IMM                    { Imm $1 }
+  | MINUS IMM              { Imm (-$2) }

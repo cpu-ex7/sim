@@ -1,9 +1,12 @@
+let digit = ['0'-'9']
+let alpha = ['a'-'z' 'A'-'Z' '_' ]
+let ident = alpha (alpha | digit)*
 let space = ' ' | '\t' | '\r' | '\n'
 
 rule main = parse
 | space+          { main lexbuf }
-| "add"           { Parser.OP "add" }
 | ","             { Parser.COMMA }
+| "-"             { Parser.MINUS }
 | '$'"zero"       { Parser.REG 0 }
 | '$'"at"         { Parser.REG 1 }
 | '$'"v0"         { Parser.REG 2 }
@@ -36,5 +39,7 @@ rule main = parse
 | '$'"sp"         { Parser.REG 29 }
 | '$'"fp"         { Parser.REG 30 }
 | '$'"ra"         { Parser.REG 31 }
-| eof           { Parser.EOF }
-| _             { failwith ("Unknown Token: " ^ Lexing.lexeme lexbuf)}
+| digit+ as n     { Parser.IMM (int_of_string n) }
+| ident as id     { Parser.OP id  }
+| eof             { Parser.EOF }
+| _               { failwith ("Unknown Token: " ^ Lexing.lexeme lexbuf)}

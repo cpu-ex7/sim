@@ -2,13 +2,15 @@ open List
 
 exception Wrong_operand_numver
 
-type reg = int
-type operands = reg list
-type t =
-  | OpAdd of operands
+type reg =
+  | Reg of int
+  | Imm of int
+type operands = reg array
+type op_type = OpAdd | OpAddi
+type t = op_type * operands
 
 let op_alist =
-  [("add", (fun lst -> OpAdd lst))]
+  [("add", OpAdd);
+   ("addi", OpAddi)]
 
-let lookup op_str operands =
-  (List.assoc op_str op_alist) operands
+let lookup op_str = List.assoc op_str op_alist
