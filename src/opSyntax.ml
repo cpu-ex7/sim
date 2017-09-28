@@ -9,14 +9,10 @@ type operator =
 type operand =
   | Reg of int
   | Imm of int
-  | Dest of string
+  | Dest of int
 
 type operands = operand array
-type labels = (string * int) list
-type t = {
-  ops : (operator * operands) array;
-  labels : labels
-}
+type t = (operator * operands) array
 
 (* アセンブリの文字列とoperator型の値との関係 *)
 let op_alist =

@@ -1,7 +1,7 @@
 (jbuild_version 1)
 
-(ocamllex (lexer))
-(menhir ((modules (parser))))
+(ocamllex (lexer labelLexer))
+(menhir ((modules (parser labelParser))))
 
 (library
  ((name        Simulator)))

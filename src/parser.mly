@@ -1,10 +1,5 @@
 %{
-  open OpSyntax
-  let num_ops = ref 0
-  let labels = ref []
 
-  let new_op () =
-    num_ops := !num_ops + 1
 %}
 
 %token COLON
@@ -21,13 +16,8 @@
 %%
 
 toplevel:
-  | line_list EOF {
-      let l = !labels in
-      labels := []; (* 次回の使用に備えて変数をリセットする *)
-      num_ops := 0;
-      { ops = $1; labels = l}
-    }
-  | EOF { { ops = [||]; labels = [] } }
+  | line_list EOF { $1 }
+  | EOF { [||] }
 
 line_list:
   | op line_list            { Array.append [|$1|] $2 }
@@ -36,19 +26,22 @@ line_list:
   | others                  { [||] }
 
 others:
-  | VAR COLON NEWLINE      { labels := ($1, !num_ops) :: !labels }
+  | VAR COLON NEWLINE      { }
   | NEWLINE                { }
 
 op:
-  | VAR operands NEWLINE   { new_op (); lookup $1, $2 }
-  | VAR                    { new_op (); lookup $1, [||] }
+  | VAR operands NEWLINE   { OpSyntax.lookup $1, $2 }
 
 operands:
   | operand COMMA operands { Array.append [|$1|] $3 }
   | operand                { [|$1|] }
+  |                        { [||] }
 
 operand:
   | REG                    { Reg $1 }
   | IMM                    { Imm $1 }
   | MINUS IMM              { Imm (-$2) }
-  | VAR                    { Dest $1 }
+  | VAR {
+     try Dest (List.assoc $1 !(Label.g_label))
+     with Not_found -> failwith ("parser: label definition not found: " ^ $1)
+   }
