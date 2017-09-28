@@ -21,14 +21,14 @@ let compile_file filename =
 let compile str =
   let label = label_parse str in
   Label.update_label label;
-  parse_file str
+  parse str
 
 type core = {
   pc : int ref;
   reg : int array;
 }
 
-let empty_core () = { pc = ref 0; reg = Array.make 32 0}
+let empty_core () = { pc = ref 0; reg = Array.make 32 0 }
 let incr core = core.pc := !(core.pc) + 1
 
 let rget core i = core.reg.(i)
