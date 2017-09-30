@@ -15,13 +15,12 @@ let label_parse str =
   |> LabelParser.toplevel LabelLexer.main
 
 let compile_file filename =
-  let label = label_parse_file filename in
-  Label.update_label label;
-  parse_file filename
+  Program.update_label (label_parse_file filename);
+  Program.update_lines (parse_file filename)
+
 let compile str =
-  let label = label_parse str in
-  Label.update_label label;
-  parse str
+  Program.update_label (label_parse str);
+  Program.update_lines (parse str)
 
 type core = {
   pc : int ref;
@@ -66,8 +65,8 @@ let exec_bne core operands =
       core.pc := if rget core i <> rget core j then k else !(core.pc) + 1
   | _ -> failwith "bne: bad operands"
 
-let exec_oneline core line =
-  match line with
+let exec_oneline core =
+  match !Program.g_lines.(!(core.pc)) with
   | OpAdd, operands -> exec_add core operands
   | OpAddi, operands -> exec_addi core operands
   | OpSlti, operands -> exec_slti core operands
@@ -75,22 +74,22 @@ let exec_oneline core line =
   | OpBne, operands -> exec_bne core operands
   | OpHalt, _ -> raise ExecutionEnd
 
-let exec_once lines core =
-  exec_oneline core lines.(!(core.pc));
+let exec_once core =
+  exec_oneline core;
   core
 
-let exec_all ?(core = empty_core ()) lines =
+let exec_all ?(core = empty_core ()) =
   (try while true do
-       exec_oneline  core lines.(!(core.pc))
+       exec_oneline core
      done with ExecutionEnd -> ());
   core
 
 (* filename内の1引数1返り値の関数を実行する *)
 let exec_func filename funcname arg =
-  let lines = compile_file filename in
-  let start = List.assoc funcname !(Label.g_label) in
+  compile_file filename;
+  let start = List.assoc funcname !(Program.g_label) in
   let core = empty_core () in
   core.pc := start;
   core.reg.(4) <- arg;
-  ignore (exec_all ~core:core lines);
+  ignore (exec_all ~core:core);
   core.reg.(2)

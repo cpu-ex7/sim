@@ -3,3 +3,7 @@
 .utop
 _build
 node_modules
+lib
+*[p|P]arser.ml
+*[p|P]arser.mli
+*[l|L]exer.ml
