@@ -19,10 +19,10 @@ let writeback core =
     reg_buttons
 
 let run () =
-  let program = Sim.compile (get input_area "textContent") in
+  Sim.compile (get input_area "textContent");
   let core = Sim.empty_core () in
   fetch core;
-  ignore (Sim.exec_all ~core:core program);
+  ignore (Sim.exec_all ~core:core);
   writeback core;
   ()
 
