@@ -12,7 +12,8 @@ type operand =
   | Dest of int
 
 type operands = operand array
-type t = (operator * operands) array
+type label = (string * int) list
+type lines = (operator * operands) array
 
 (* アセンブリの文字列とoperator型の値との関係 *)
 let op_alist =

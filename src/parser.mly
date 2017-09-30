@@ -12,7 +12,7 @@
 %token EOF
 
 %start toplevel
-%type <OpSyntax.t> toplevel
+%type <OpSyntax.lines> toplevel
 %%
 
 toplevel:
@@ -42,6 +42,6 @@ operand:
   | IMM                    { Imm $1 }
   | MINUS IMM              { Imm (-$2) }
   | VAR {
-     try Dest (List.assoc $1 !(Label.g_label))
+     try Dest (List.assoc $1 !(Program.g_label))
      with Not_found -> failwith ("parser: label definition not found: " ^ $1)
    }

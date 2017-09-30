@@ -22,7 +22,7 @@ let parse_test () =
 
 let compile_test () =
   assert_equal
-    (compile_file "sum.input")
+    (compile_file "sum.input"; !Program.g_lines)
     [|(OpAdd,  [|Reg 9; Reg 0; Reg 0|]);
       (OpSlti, [|Reg 8; Reg 4; Imm 1|]);
       (OpBne,  [|Reg 8; Reg 0; Dest 6|]);
