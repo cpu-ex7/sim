@@ -1064,7 +1064,7 @@ exports.add_channel    = add_channel;
 exports.output_buffer  = output_buffer;
 /* No side effect */
 
-},{"./bytes.js":6,"./caml_builtin_exceptions.js":8,"./caml_string.js":19,"./curry.js":25,"./pervasives.js":30,"./string.js":32,"./sys.js":33}],6:[function(require,module,exports){
+},{"./bytes.js":6,"./caml_builtin_exceptions.js":8,"./caml_string.js":19,"./curry.js":25,"./pervasives.js":32,"./string.js":34,"./sys.js":35}],6:[function(require,module,exports){
 'use strict';
 
 var Char                    = require("./char.js");
@@ -1561,7 +1561,7 @@ exports.unsafe_to_string = unsafe_to_string;
 exports.unsafe_of_string = unsafe_of_string;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":8,"./caml_int32.js":13,"./caml_obj.js":18,"./caml_string.js":19,"./char.js":24,"./curry.js":25,"./list.js":29,"./pervasives.js":30}],7:[function(require,module,exports){
+},{"./caml_builtin_exceptions.js":8,"./caml_int32.js":13,"./caml_obj.js":18,"./caml_string.js":19,"./char.js":24,"./curry.js":25,"./list.js":30,"./pervasives.js":32}],7:[function(require,module,exports){
 'use strict';
 
 var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
@@ -11120,7 +11120,7 @@ exports.trans                          = trans;
 exports.recast                         = recast;
 /* No side effect */
 
-},{"./block.js":4,"./buffer.js":5,"./bytes.js":6,"./caml_builtin_exceptions.js":8,"./caml_bytes.js":9,"./caml_exceptions.js":10,"./caml_float.js":11,"./caml_format.js":12,"./caml_int32.js":13,"./caml_io.js":15,"./caml_obj.js":18,"./caml_string.js":19,"./camlinternalFormatBasics.js":23,"./char.js":24,"./curry.js":25,"./js_exn.js":27,"./pervasives.js":30,"./string.js":32,"./sys.js":33}],23:[function(require,module,exports){
+},{"./block.js":4,"./buffer.js":5,"./bytes.js":6,"./caml_builtin_exceptions.js":8,"./caml_bytes.js":9,"./caml_exceptions.js":10,"./caml_float.js":11,"./caml_format.js":12,"./caml_int32.js":13,"./caml_io.js":15,"./caml_obj.js":18,"./caml_string.js":19,"./camlinternalFormatBasics.js":23,"./char.js":24,"./curry.js":25,"./js_exn.js":27,"./pervasives.js":32,"./string.js":34,"./sys.js":35}],23:[function(require,module,exports){
 'use strict';
 
 var Block = require("./block.js");
@@ -12229,6 +12229,66 @@ exports.raiseUriError            = raiseUriError;
 },{"./caml_exceptions.js":10}],28:[function(require,module,exports){
 'use strict';
 
+
+function is_nil_undef(x) {
+  if (x === null) {
+    return /* true */1;
+  } else {
+    return +(x === undefined);
+  }
+}
+
+function null_undefined_to_opt(x) {
+  if (x === null || x === undefined) {
+    return /* None */0;
+  } else {
+    return /* Some */[x];
+  }
+}
+
+function undefined_to_opt(x) {
+  if (x === undefined) {
+    return /* None */0;
+  } else {
+    return /* Some */[x];
+  }
+}
+
+function null_to_opt(x) {
+  if (x === null) {
+    return /* None */0;
+  } else {
+    return /* Some */[x];
+  }
+}
+
+function option_get(x) {
+  if (x) {
+    return x[0];
+  } else {
+    return undefined;
+  }
+}
+
+function option_get_unwrap(x) {
+  if (x) {
+    return x[0][1];
+  } else {
+    return undefined;
+  }
+}
+
+exports.is_nil_undef          = is_nil_undef;
+exports.null_undefined_to_opt = null_undefined_to_opt;
+exports.undefined_to_opt      = undefined_to_opt;
+exports.null_to_opt           = null_to_opt;
+exports.option_get            = option_get;
+exports.option_get_unwrap     = option_get_unwrap;
+/* No side effect */
+
+},{}],29:[function(require,module,exports){
+'use strict';
+
 var Sys                     = require("./sys.js");
 var Bytes                   = require("./bytes.js");
 var Curry                   = require("./curry.js");
@@ -12462,7 +12522,7 @@ exports.engine              = engine;
 exports.new_engine          = new_engine;
 /* No side effect */
 
-},{"./bytes.js":6,"./caml_array.js":7,"./caml_builtin_exceptions.js":8,"./caml_bytes.js":9,"./caml_lexer.js":16,"./caml_string.js":19,"./curry.js":25,"./pervasives.js":30,"./sys.js":33}],29:[function(require,module,exports){
+},{"./bytes.js":6,"./caml_array.js":7,"./caml_builtin_exceptions.js":8,"./caml_bytes.js":9,"./caml_lexer.js":16,"./caml_string.js":19,"./curry.js":25,"./pervasives.js":32,"./sys.js":35}],30:[function(require,module,exports){
 'use strict';
 
 var Curry                   = require("./curry.js");
@@ -14155,7 +14215,143 @@ exports.sort_uniq    = sort_uniq;
 exports.merge        = merge;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":8,"./caml_obj.js":18,"./curry.js":25,"./pervasives.js":30}],30:[function(require,module,exports){
+},{"./caml_builtin_exceptions.js":8,"./caml_obj.js":18,"./curry.js":25,"./pervasives.js":32}],31:[function(require,module,exports){
+'use strict';
+
+var List = require("./list.js");
+
+var length = List.length;
+
+var hd = List.hd;
+
+var tl = List.tl;
+
+var nth = List.nth;
+
+var rev = List.rev;
+
+var append = List.append;
+
+var rev_append = List.rev_append;
+
+var concat = List.concat;
+
+var flatten = List.flatten;
+
+var iter = List.iter;
+
+var iteri = List.iteri;
+
+var map = List.map;
+
+var mapi = List.mapi;
+
+var rev_map = List.rev_map;
+
+var fold_left = List.fold_left;
+
+var fold_right = List.fold_right;
+
+var iter2 = List.iter2;
+
+var map2 = List.map2;
+
+var rev_map2 = List.rev_map2;
+
+var fold_left2 = List.fold_left2;
+
+var fold_right2 = List.fold_right2;
+
+var for_all = List.for_all;
+
+var exists = List.exists;
+
+var for_all2 = List.for_all2;
+
+var exists2 = List.exists2;
+
+var mem = List.mem;
+
+var memq = List.memq;
+
+var find = List.find;
+
+var filter = List.filter;
+
+var find_all = List.find_all;
+
+var partition = List.partition;
+
+var assoc = List.assoc;
+
+var assq = List.assq;
+
+var mem_assoc = List.mem_assoc;
+
+var mem_assq = List.mem_assq;
+
+var remove_assoc = List.remove_assoc;
+
+var remove_assq = List.remove_assq;
+
+var split = List.split;
+
+var combine = List.combine;
+
+var sort = List.sort;
+
+var stable_sort = List.stable_sort;
+
+var fast_sort = List.fast_sort;
+
+var merge = List.merge;
+
+exports.length       = length;
+exports.hd           = hd;
+exports.tl           = tl;
+exports.nth          = nth;
+exports.rev          = rev;
+exports.append       = append;
+exports.rev_append   = rev_append;
+exports.concat       = concat;
+exports.flatten      = flatten;
+exports.iter         = iter;
+exports.iteri        = iteri;
+exports.map          = map;
+exports.mapi         = mapi;
+exports.rev_map      = rev_map;
+exports.fold_left    = fold_left;
+exports.fold_right   = fold_right;
+exports.iter2        = iter2;
+exports.map2         = map2;
+exports.rev_map2     = rev_map2;
+exports.fold_left2   = fold_left2;
+exports.fold_right2  = fold_right2;
+exports.for_all      = for_all;
+exports.exists       = exists;
+exports.for_all2     = for_all2;
+exports.exists2      = exists2;
+exports.mem          = mem;
+exports.memq         = memq;
+exports.find         = find;
+exports.filter       = filter;
+exports.find_all     = find_all;
+exports.partition    = partition;
+exports.assoc        = assoc;
+exports.assq         = assq;
+exports.mem_assoc    = mem_assoc;
+exports.mem_assq     = mem_assq;
+exports.remove_assoc = remove_assoc;
+exports.remove_assq  = remove_assq;
+exports.split        = split;
+exports.combine      = combine;
+exports.sort         = sort;
+exports.stable_sort  = stable_sort;
+exports.fast_sort    = fast_sort;
+exports.merge        = merge;
+/* No side effect */
+
+},{"./list.js":30}],32:[function(require,module,exports){
 'use strict';
 
 var Curry                    = require("./curry.js");
@@ -14851,7 +15047,7 @@ exports.unsafe_really_input = unsafe_really_input;
 exports.do_at_exit          = do_at_exit;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":8,"./caml_exceptions.js":10,"./caml_format.js":12,"./caml_io.js":15,"./caml_missing_polyfill.js":17,"./caml_obj.js":18,"./caml_string.js":19,"./caml_sys.js":20,"./camlinternalFormatBasics.js":23,"./curry.js":25}],31:[function(require,module,exports){
+},{"./caml_builtin_exceptions.js":8,"./caml_exceptions.js":10,"./caml_format.js":12,"./caml_io.js":15,"./caml_missing_polyfill.js":17,"./caml_obj.js":18,"./caml_string.js":19,"./caml_sys.js":20,"./camlinternalFormatBasics.js":23,"./curry.js":25}],33:[function(require,module,exports){
 'use strict';
 
 var Curry              = require("./curry.js");
@@ -14935,7 +15131,7 @@ exports.kbprintf  = kbprintf;
 exports.kprintf   = kprintf;
 /* No side effect */
 
-},{"./buffer.js":5,"./camlinternalFormat.js":22,"./curry.js":25,"./pervasives.js":30}],32:[function(require,module,exports){
+},{"./buffer.js":5,"./camlinternalFormat.js":22,"./curry.js":25,"./pervasives.js":32}],34:[function(require,module,exports){
 'use strict';
 
 var List        = require("./list.js");
@@ -15139,7 +15335,7 @@ exports.uncapitalize   = uncapitalize;
 exports.compare        = compare;
 /* No side effect */
 
-},{"./bytes.js":6,"./caml_int32.js":13,"./caml_string.js":19,"./list.js":29}],33:[function(require,module,exports){
+},{"./bytes.js":6,"./caml_int32.js":13,"./caml_string.js":19,"./list.js":30}],35:[function(require,module,exports){
 'use strict';
 
 var Caml_sys        = require("./caml_sys.js");
@@ -15264,7 +15460,7 @@ exports.catch_break       = catch_break;
 exports.ocaml_version     = ocaml_version;
 /* No side effect */
 
-},{"./caml_exceptions.js":10,"./caml_sys.js":20}],34:[function(require,module,exports){
+},{"./caml_exceptions.js":10,"./caml_sys.js":20}],36:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -15327,7 +15523,7 @@ exports.main                 = main;
 exports.__ocaml_lex_main_rec = __ocaml_lex_main_rec;
 /* No side effect */
 
-},{"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/lexing.js":28,"bs-platform/lib/js/pervasives.js":30}],35:[function(require,module,exports){
+},{"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/lexing.js":29,"bs-platform/lib/js/pervasives.js":32}],37:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -15775,7 +15971,7 @@ exports.$$Error  = $$Error;
 exports.toplevel = toplevel;
 /* No side effect */
 
-},{"bs-platform/lib/js/array.js":2,"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_builtin_exceptions.js":8,"bs-platform/lib/js/caml_exceptions.js":10,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/pervasives.js":30,"bs-platform/lib/js/printf.js":31}],36:[function(require,module,exports){
+},{"bs-platform/lib/js/array.js":2,"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_builtin_exceptions.js":8,"bs-platform/lib/js/caml_exceptions.js":10,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/pervasives.js":32,"bs-platform/lib/js/printf.js":33}],38:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -15911,11 +16107,12 @@ exports.main                 = main;
 exports.__ocaml_lex_main_rec = __ocaml_lex_main_rec;
 /* No side effect */
 
-},{"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_format.js":12,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/lexing.js":28,"bs-platform/lib/js/pervasives.js":30}],37:[function(require,module,exports){
+},{"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_format.js":12,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/lexing.js":29,"bs-platform/lib/js/pervasives.js":32}],39:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
-var List = require("bs-platform/lib/js/list.js");
+var List       = require("bs-platform/lib/js/list.js");
+var Pervasives = require("bs-platform/lib/js/pervasives.js");
 
 var op_alist = /* :: */[
   /* tuple */[
@@ -15959,43 +16156,198 @@ function lookup(op_str) {
   return List.assoc(op_str, op_alist);
 }
 
-exports.op_alist = op_alist;
-exports.lookup   = lookup;
+function string_of_regnum(param) {
+  if (param > 31 || param < 0) {
+    return Pervasives.failwith("string_of_regnum");
+  } else {
+    switch (param) {
+      case 0 : 
+          return "$zero";
+      case 1 : 
+          return "$at";
+      case 2 : 
+          return "$v0";
+      case 3 : 
+          return "$v1";
+      case 4 : 
+          return "$a0";
+      case 5 : 
+          return "$a1";
+      case 6 : 
+          return "$a2";
+      case 7 : 
+          return "$a3";
+      case 8 : 
+          return "$t0";
+      case 9 : 
+          return "$t1";
+      case 10 : 
+          return "$t2";
+      case 11 : 
+          return "$t3";
+      case 12 : 
+          return "$t4";
+      case 13 : 
+          return "$t5";
+      case 14 : 
+          return "$t6";
+      case 15 : 
+          return "$t7";
+      case 16 : 
+          return "$s0";
+      case 17 : 
+          return "$s1";
+      case 18 : 
+          return "$s2";
+      case 19 : 
+          return "$s3";
+      case 20 : 
+          return "$s4";
+      case 21 : 
+          return "$s5";
+      case 22 : 
+          return "$s6";
+      case 23 : 
+          return "$s7";
+      case 24 : 
+          return "$t8";
+      case 25 : 
+          return "$t9";
+      case 26 : 
+          return "$k0";
+      case 27 : 
+          return "$k1";
+      case 28 : 
+          return "$gp";
+      case 29 : 
+          return "$sp";
+      case 30 : 
+          return "$fp";
+      case 31 : 
+          return "$ra";
+      
+    }
+  }
+}
+
+function regnum_of_string(param) {
+  switch (param) {
+    case "$a0" : 
+        return 4;
+    case "$a1" : 
+        return 5;
+    case "$a2" : 
+        return 6;
+    case "$a3" : 
+        return 7;
+    case "$at" : 
+        return 1;
+    case "$fp" : 
+        return 30;
+    case "$gp" : 
+        return 28;
+    case "$k0" : 
+        return 26;
+    case "$k1" : 
+        return 27;
+    case "$ra" : 
+        return 31;
+    case "$s0" : 
+        return 16;
+    case "$s1" : 
+        return 17;
+    case "$s2" : 
+        return 18;
+    case "$s3" : 
+        return 19;
+    case "$s4" : 
+        return 20;
+    case "$s5" : 
+        return 21;
+    case "$s6" : 
+        return 22;
+    case "$s7" : 
+        return 23;
+    case "$sp" : 
+        return 29;
+    case "$t0" : 
+        return 8;
+    case "$t1" : 
+        return 9;
+    case "$t2" : 
+        return 10;
+    case "$t3" : 
+        return 11;
+    case "$t4" : 
+        return 12;
+    case "$t5" : 
+        return 13;
+    case "$t6" : 
+        return 14;
+    case "$t7" : 
+        return 15;
+    case "$t8" : 
+        return 24;
+    case "$t9" : 
+        return 25;
+    case "$v0" : 
+        return 2;
+    case "$v1" : 
+        return 3;
+    case "$zero" : 
+        return 0;
+    default:
+      return Pervasives.failwith("string_of_regnum");
+  }
+}
+
+exports.op_alist         = op_alist;
+exports.lookup           = lookup;
+exports.string_of_regnum = string_of_regnum;
+exports.regnum_of_string = regnum_of_string;
 /* No side effect */
 
-},{"bs-platform/lib/js/list.js":29}],38:[function(require,module,exports){
+},{"bs-platform/lib/js/list.js":30,"bs-platform/lib/js/pervasives.js":32}],40:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
 var Sim         = require("../sim.js");
+var Curry       = require("bs-platform/lib/js/curry.js");
 var JsExt       = require("./jsExt.js");
+var OpSyntax    = require("../opSyntax.js");
 var Caml_array  = require("bs-platform/lib/js/caml_array.js");
+var ListLabels  = require("bs-platform/lib/js/listLabels.js");
+var Pervasives  = require("bs-platform/lib/js/pervasives.js");
 var ArrayLabels = require("bs-platform/lib/js/arrayLabels.js");
 var Caml_format = require("bs-platform/lib/js/caml_format.js");
 
-var input_area = document.createElement("textarea");
+var input_area = JsExt.Textarea[/* create */0](/* () */0);
 
-var run_button = document.createElement("input");
+var run_button = JsExt.Button[/* create */2](/* () */0);
 
-var reg_buttons = ArrayLabels.init(32, (function () {
-        return document.createElement("textarea");
+var reg_textarea = ArrayLabels.init(32, (function () {
+        return JsExt.Textarea[/* create */0](/* () */0);
       }));
+
+function $pipe$pipe$great(v, f) {
+  Curry._1(f, v);
+  return v;
+}
 
 function fetch(core) {
   return ArrayLabels.iteri((function (i, button) {
-                return Caml_array.caml_array_set(core[/* reg */1], i, Caml_format.caml_int_of_string(button["value"]));
-              }), reg_buttons);
+                return Caml_array.caml_array_set(core[/* reg */1], i, Caml_format.caml_int_of_string(JsExt.Textarea[/* get_text */1](button)));
+              }), reg_textarea);
 }
 
 function writeback(core) {
   return ArrayLabels.iteri((function (i, button) {
-                button["textContent"] = Caml_array.caml_array_get(core[/* reg */1], i);
-                return /* () */0;
-              }), reg_buttons);
+                return JsExt.Textarea[/* set_text */2](Pervasives.string_of_int(Caml_array.caml_array_get(core[/* reg */1], i)), button);
+              }), reg_textarea);
 }
 
 function run() {
-  Sim.compile(input_area["textContent"]);
+  Sim.compile(JsExt.Textarea[/* get_text */1](input_area));
   var core = Sim.empty_core(/* () */0);
   fetch(core);
   Sim.exec_all(/* Some */[core]);
@@ -16004,29 +16356,76 @@ function run() {
 }
 
 function init_widgets() {
-  input_area["cols"] = "80";
-  input_area["rows"] = "30";
-  input_area["textContent"] = "sum:\n  add $t1, $zero, $zero\nsuminner:\n  slti $t0, $a0, 1\n  bne $t0, $zero, sum_exit\n  add $t1, $t1, $a0\n  addi $a0, $a0, -1\n  j suminner\nsum_exit:\n  add $v0, $t1, $zero\n  halt\n";
-  run_button["type"] = "button";
-  run_button["value"] = "run";
-  run_button["onclick"] = run;
-  ArrayLabels.iter((function (button) {
-          button["textContent"] = "0";
-          button["cols"] = "5";
-          button["rows"] = "1";
-          return /* () */0;
-        }), reg_buttons);
+  var partial_arg = JsExt.Textarea[/* set_rows */4];
+  var f = function (param) {
+    return partial_arg(30, param);
+  };
+  var partial_arg$1 = JsExt.Textarea[/* set_cols */3];
+  var f$1 = function (param) {
+    return partial_arg$1(80, param);
+  };
+  JsExt.Textarea[/* set_text */2]("sum:\n  add $t1, $zero, $zero\nsuminner:\n  slti $t0, $a0, 1\n  bne $t0, $zero, sum_exit\n  add $t1, $t1, $a0\n  addi $a0, $a0, -1\n  j suminner\nsum_exit:\n  add $v0, $t1, $zero\n  halt\n", (Curry._1(f$1, input_area), Curry._1(f, input_area), input_area));
+  var partial_arg$2 = JsExt.Button[/* set_text */0];
+  var f$2 = function (param) {
+    return partial_arg$2("run", param);
+  };
+  JsExt.Button[/* set_onclick */1](run, (Curry._1(f$2, run_button), run_button));
+  ArrayLabels.iter((function (tarea) {
+          var partial_arg = JsExt.Textarea[/* set_cols */3];
+          var f = function (param) {
+            return partial_arg(20, param);
+          };
+          var partial_arg$1 = JsExt.Textarea[/* set_text */2];
+          var f$1 = function (param) {
+            return partial_arg$1("0", param);
+          };
+          return JsExt.Textarea[/* set_rows */4](1, (Curry._1(f$1, tarea), Curry._1(f, tarea), tarea));
+        }), reg_textarea);
   return /* () */0;
 }
 
-function place_widgets() {
-  JsExt.insert_before(document.currentScript, run_button);
-  JsExt.insert_before(document.currentScript, document.createElement("br"));
-  JsExt.insert_before(document.currentScript, input_area);
-  JsExt.insert_before(document.currentScript, document.createElement("br"));
-  for(var i = 0; i <= 31; ++i){
-    JsExt.insert_before(document.currentScript, Caml_array.caml_array_get(reg_buttons, i));
+function range($staropt$star, $staropt$star$1, m) {
+  var start = $staropt$star ? $staropt$star[0] : 0;
+  var step = $staropt$star$1 ? $staropt$star$1[0] : 1;
+  if (start >= m) {
+    return /* [] */0;
+  } else {
+    return /* :: */[
+            start,
+            range(/* Some */[start + step | 0], /* Some */[step], m)
+          ];
   }
+}
+
+function place_widgets() {
+  JsExt.Document[/* just_put */2](run_button);
+  JsExt.Document[/* just_put */2](JsExt.Document[/* new_line */3](/* () */0));
+  JsExt.Document[/* just_put */2](input_area);
+  JsExt.Document[/* just_put */2](JsExt.Document[/* new_line */3](/* () */0));
+  var trs = ListLabels.map((function (i) {
+          var tr = JsExt.Tr[/* create */0](/* () */0);
+          var str = OpSyntax.string_of_regnum(i);
+          var partial_arg = Caml_array.caml_array_get(reg_textarea, i);
+          var partial_arg$1 = JsExt.Tr[/* add_cell */1];
+          var f = function (param) {
+            return partial_arg$1(partial_arg, param);
+          };
+          var partial_arg$2 = JsExt.Span[/* set_text */1];
+          var f$1 = function (param) {
+            return partial_arg$2(str, param);
+          };
+          var v = JsExt.Span[/* create */0](/* () */0);
+          Curry._1(f$1, v);
+          var partial_arg$3 = v;
+          var partial_arg$4 = JsExt.Tr[/* add_cell */1];
+          var f$2 = function (param) {
+            return partial_arg$4(partial_arg$3, param);
+          };
+          Curry._1(f$2, tr);
+          Curry._1(f, tr);
+          return tr;
+        }), range(/* None */0, /* None */0, 32));
+  JsExt.Document[/* just_put */2](JsExt.Table[/* from_trs */1](trs));
   return /* () */0;
 }
 
@@ -16036,27 +16435,331 @@ place_widgets(/* () */0);
 
 var num_regs = 32;
 
-exports.num_regs      = num_regs;
-exports.input_area    = input_area;
-exports.run_button    = run_button;
-exports.reg_buttons   = reg_buttons;
-exports.fetch         = fetch;
-exports.writeback     = writeback;
-exports.run           = run;
-exports.init_widgets  = init_widgets;
-exports.place_widgets = place_widgets;
+exports.num_regs         = num_regs;
+exports.input_area       = input_area;
+exports.run_button       = run_button;
+exports.reg_textarea     = reg_textarea;
+exports.$pipe$pipe$great = $pipe$pipe$great;
+exports.fetch            = fetch;
+exports.writeback        = writeback;
+exports.run              = run;
+exports.init_widgets     = init_widgets;
+exports.range            = range;
+exports.place_widgets    = place_widgets;
 /* input_area Not a pure module */
 
-},{"../sim.js":42,"./jsExt.js":39,"bs-platform/lib/js/arrayLabels.js":3,"bs-platform/lib/js/caml_array.js":7,"bs-platform/lib/js/caml_format.js":12}],39:[function(require,module,exports){
+},{"../opSyntax.js":39,"../sim.js":44,"./jsExt.js":41,"bs-platform/lib/js/arrayLabels.js":3,"bs-platform/lib/js/caml_array.js":7,"bs-platform/lib/js/caml_format.js":12,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/listLabels.js":31,"bs-platform/lib/js/pervasives.js":32}],41:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
-var Js = require("bs-platform/lib/js/js.js");
+var Js           = require("bs-platform/lib/js/js.js");
+var Block        = require("bs-platform/lib/js/block.js");
+var Curry        = require("bs-platform/lib/js/curry.js");
+var Printf       = require("bs-platform/lib/js/printf.js");
+var ListLabels   = require("bs-platform/lib/js/listLabels.js");
+var Pervasives   = require("bs-platform/lib/js/pervasives.js");
+var Caml_format  = require("bs-platform/lib/js/caml_format.js");
+var Js_primitive = require("bs-platform/lib/js/js_primitive.js");
 
-function insert_before(place, elem) {
+function $pipe$pipe$great(v, f) {
+  Curry._1(f, v);
+  return v;
+}
+
+function insertBefore(place, elem) {
   place["parentNode"].insertBefore(elem, place);
   return /* () */0;
 }
+
+var Element = /* module */[/* insertBefore */insertBefore];
+
+function createElement(str) {
+  return document.createElement(str);
+}
+
+function getElementById(str) {
+  return Js_primitive.null_to_opt(document.getElementById(str));
+}
+
+function just_put(elem) {
+  return insertBefore(document.currentScript, elem);
+}
+
+function new_line() {
+  return document.createElement("br");
+}
+
+var Document = /* module */[
+  /* createElement */createElement,
+  /* getElementById */getElementById,
+  /* just_put */just_put,
+  /* new_line */new_line
+];
+
+var Context = /* module */[];
+
+function create() {
+  return document.createElement("canvas");
+}
+
+function set_width(n, canvas) {
+  canvas["width"] = Pervasives.string_of_int(n);
+  return /* () */0;
+}
+
+function set_height(n, canvas) {
+  canvas["height"] = Pervasives.string_of_int(n);
+  return /* () */0;
+}
+
+var Canvas = /* module */[
+  /* create */create,
+  /* set_width */set_width,
+  /* set_height */set_height
+];
+
+function get_value(elem) {
+  return Caml_format.caml_float_of_string(elem["value"]);
+}
+
+function _set_float(str, v, elem) {
+  elem[str] = Curry._1(Printf.sprintf(/* Format */[
+            /* Float */Block.__(8, [
+                /* Float_f */0,
+                /* No_padding */0,
+                /* No_precision */0,
+                /* End_of_format */0
+              ]),
+            "%f"
+          ]), v);
+  return /* () */0;
+}
+
+function set_max(param, param$1) {
+  return _set_float("max", param, param$1);
+}
+
+function set_min(param, param$1) {
+  return _set_float("min", param, param$1);
+}
+
+function set_step(param, param$1) {
+  return _set_float("step", param, param$1);
+}
+
+function set_value(param, param$1) {
+  return _set_float("value", param, param$1);
+}
+
+function set_oninput(f, elem) {
+  elem["oninput"] = f;
+  return /* () */0;
+}
+
+function create$1() {
+  var elem = document.createElement("input");
+  elem["type"] = "range";
+  return elem;
+}
+
+function hide(elem) {
+  elem["style"]["display"] = "none";
+  return /* () */0;
+}
+
+function show(elem) {
+  elem["style"]["display"] = "inline";
+  return /* () */0;
+}
+
+var Range = /* module */[
+  /* get_value */get_value,
+  /* _set_float */_set_float,
+  /* set_max */set_max,
+  /* set_min */set_min,
+  /* set_step */set_step,
+  /* set_value */set_value,
+  /* set_oninput */set_oninput,
+  /* create */create$1,
+  /* hide */hide,
+  /* show */show
+];
+
+function set_text(str, elem) {
+  elem["value"] = str;
+  return /* () */0;
+}
+
+function set_onclick(f, elem) {
+  elem["onclick"] = f;
+  return /* () */0;
+}
+
+function create$2() {
+  var elem = document.createElement("input");
+  elem["type"] = "button";
+  return elem;
+}
+
+var Button = /* module */[
+  /* set_text */set_text,
+  /* set_onclick */set_onclick,
+  /* create */create$2
+];
+
+function create$3() {
+  return document.createElement("div");
+}
+
+function append_child(div, elem) {
+  elem.appendChild(div);
+  return /* () */0;
+}
+
+function set_style(elem) {
+  elem["style"]["display"] = "none";
+  return /* () */0;
+}
+
+function hide$1(elem) {
+  elem["style"]["display"] = "none";
+  return /* () */0;
+}
+
+function show$1(elem) {
+  elem["style"]["display"] = "inline";
+  return /* () */0;
+}
+
+var Div = /* module */[
+  /* create */create$3,
+  /* append_child */append_child,
+  /* set_style */set_style,
+  /* hide */hide$1,
+  /* show */show$1
+];
+
+function create$4() {
+  return document.createElement("span");
+}
+
+function set_text$1(str, span) {
+  span["textContent"] = str;
+  return /* () */0;
+}
+
+function hide$2(elem) {
+  elem["style"]["display"] = "none";
+  return /* () */0;
+}
+
+function show$2(elem) {
+  elem["style"]["display"] = "inline";
+  return /* () */0;
+}
+
+var Span = /* module */[
+  /* create */create$4,
+  /* set_text */set_text$1,
+  /* hide */hide$2,
+  /* show */show$2
+];
+
+function create$5() {
+  return document.createElement("select");
+}
+
+function get_value$1(select) {
+  return select["value"];
+}
+
+function add_option(descr, value, select) {
+  var opt = document.createElement("option");
+  opt["textContent"] = descr;
+  opt["value"] = value;
+  select.appendChild(opt);
+  return /* () */0;
+}
+
+function set_onchange(f, select) {
+  select["onchange"] = f;
+  return /* () */0;
+}
+
+var Select = /* module */[
+  /* create */create$5,
+  /* get_value */get_value$1,
+  /* add_option */add_option,
+  /* set_onchange */set_onchange
+];
+
+function create$6() {
+  return document.createElement("textarea");
+}
+
+function get_text(textarea) {
+  return textarea["value"];
+}
+
+function set_text$2(str, textarea) {
+  textarea["value"] = str;
+  return /* () */0;
+}
+
+function set_cols(v, textarea) {
+  textarea["cols"] = Pervasives.string_of_int(v);
+  return /* () */0;
+}
+
+function set_rows(v, textarea) {
+  textarea["rows"] = Pervasives.string_of_int(v);
+  return /* () */0;
+}
+
+var Textarea = /* module */[
+  /* create */create$6,
+  /* get_text */get_text,
+  /* set_text */set_text$2,
+  /* set_cols */set_cols,
+  /* set_rows */set_rows
+];
+
+function create$7() {
+  return document.createElement("table");
+}
+
+function from_trs(trs) {
+  return ListLabels.fold_left((function (table, tr) {
+                table.appendChild(tr);
+                return table;
+              }), document.createElement("table"), trs);
+}
+
+var Table = /* module */[
+  /* create */create$7,
+  /* from_trs */from_trs
+];
+
+function create$8() {
+  return document.createElement("tr");
+}
+
+function add_cell(elem, tr) {
+  var v = document.createElement("td");
+  tr.appendChild((v.appendChild(elem), v));
+  return /* () */0;
+}
+
+function put_to_table(table, tr) {
+  table.appendChild(tr);
+  return /* () */0;
+}
+
+var Tr = /* module */[
+  /* create */create$8,
+  /* add_cell */add_cell,
+  /* put_to_table */put_to_table
+];
 
 var Internal = Js.Internal;
 
@@ -16108,35 +16811,47 @@ var List = Js.List;
 
 var Vector = Js.Vector;
 
-exports.Internal       = Internal;
-exports.Null           = Null;
-exports.Undefined      = Undefined;
-exports.Nullable       = Nullable;
-exports.Null_undefined = Null_undefined;
-exports.Exn            = Exn;
-exports.$$Array        = $$Array;
-exports.$$String       = $$String;
-exports.$$Boolean      = $$Boolean;
-exports.Re             = Re;
-exports.Promise        = Promise;
-exports.$$Date         = $$Date;
-exports.Dict           = Dict;
-exports.Global         = Global;
-exports.Json           = Json;
-exports.$$Math         = $$Math;
-exports.Obj            = Obj;
-exports.Typed_array    = Typed_array;
-exports.Types          = Types;
-exports.Float          = Float;
-exports.Int            = Int;
-exports.Option         = Option;
-exports.Result         = Result;
-exports.List           = List;
-exports.Vector         = Vector;
-exports.insert_before  = insert_before;
+exports.Internal         = Internal;
+exports.Null             = Null;
+exports.Undefined        = Undefined;
+exports.Nullable         = Nullable;
+exports.Null_undefined   = Null_undefined;
+exports.Exn              = Exn;
+exports.$$Array          = $$Array;
+exports.$$String         = $$String;
+exports.$$Boolean        = $$Boolean;
+exports.Re               = Re;
+exports.Promise          = Promise;
+exports.$$Date           = $$Date;
+exports.Dict             = Dict;
+exports.Global           = Global;
+exports.Json             = Json;
+exports.$$Math           = $$Math;
+exports.Obj              = Obj;
+exports.Typed_array      = Typed_array;
+exports.Types            = Types;
+exports.Float            = Float;
+exports.Int              = Int;
+exports.Option           = Option;
+exports.Result           = Result;
+exports.List             = List;
+exports.Vector           = Vector;
+exports.$pipe$pipe$great = $pipe$pipe$great;
+exports.Element          = Element;
+exports.Document         = Document;
+exports.Context          = Context;
+exports.Canvas           = Canvas;
+exports.Range            = Range;
+exports.Button           = Button;
+exports.Div              = Div;
+exports.Span             = Span;
+exports.Select           = Select;
+exports.Textarea         = Textarea;
+exports.Table            = Table;
+exports.Tr               = Tr;
 /* No side effect */
 
-},{"bs-platform/lib/js/js.js":26}],40:[function(require,module,exports){
+},{"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_format.js":12,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/js.js":26,"bs-platform/lib/js/js_primitive.js":28,"bs-platform/lib/js/listLabels.js":31,"bs-platform/lib/js/pervasives.js":32,"bs-platform/lib/js/printf.js":33}],42:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -16705,7 +17420,7 @@ exports.$$Error  = $$Error;
 exports.toplevel = toplevel;
 /* No side effect */
 
-},{"./opSyntax.js":37,"./program.js":41,"bs-platform/lib/js/array.js":2,"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_builtin_exceptions.js":8,"bs-platform/lib/js/caml_exceptions.js":10,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/list.js":29,"bs-platform/lib/js/pervasives.js":30,"bs-platform/lib/js/printf.js":31}],41:[function(require,module,exports){
+},{"./opSyntax.js":39,"./program.js":43,"bs-platform/lib/js/array.js":2,"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_builtin_exceptions.js":8,"bs-platform/lib/js/caml_exceptions.js":10,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/list.js":30,"bs-platform/lib/js/pervasives.js":32,"bs-platform/lib/js/printf.js":33}],43:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -16730,7 +17445,7 @@ exports.update_label = update_label;
 exports.update_lines = update_lines;
 /* No side effect */
 
-},{}],42:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -17030,4 +17745,4 @@ exports.exec_all         = exec_all;
 exports.exec_func        = exec_func;
 /* No side effect */
 
-},{"./labelLexer.js":34,"./labelParser.js":35,"./lexer.js":36,"./parser.js":40,"./program.js":41,"bs-platform/lib/js/caml_array.js":7,"bs-platform/lib/js/caml_exceptions.js":10,"bs-platform/lib/js/lexing.js":28,"bs-platform/lib/js/list.js":29,"bs-platform/lib/js/pervasives.js":30}]},{},[38]);
+},{"./labelLexer.js":36,"./labelParser.js":37,"./lexer.js":38,"./parser.js":42,"./program.js":43,"bs-platform/lib/js/caml_array.js":7,"bs-platform/lib/js/caml_exceptions.js":10,"bs-platform/lib/js/lexing.js":29,"bs-platform/lib/js/list.js":30,"bs-platform/lib/js/pervasives.js":32}]},{},[40]);
