@@ -6,8 +6,10 @@
 %token NEWLINE
 %token COMMA
 %token MINUS
+%token LPAREN
+%token RPAREN
 %token <int> REG
-%token <int> IMM
+%token <int> NUM
 %token <string> VAR
 %token EOF
 
@@ -39,8 +41,8 @@ operands:
 
 operand:
   | REG                    { Reg $1 }
-  | IMM                    { Imm $1 }
-  | MINUS IMM              { Imm (-$2) }
+  | NUM                    { Imm $1 }
+  | MINUS NUM              { Imm (-$2) }
   | VAR {
      try Dest (List.assoc $1 !(Program.g_label))
      with Not_found -> failwith ("parser: label definition not found: " ^ $1)

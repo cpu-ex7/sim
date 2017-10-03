@@ -1,3 +1,6 @@
+type reg = int
+type imm = int
+type dest = int
 type operator =
   | OpAdd
   | OpAddi
@@ -7,9 +10,10 @@ type operator =
   | OpBne
 
 type operand =
-  | Reg of int
-  | Imm of int
-  | Dest of int
+  | Reg of reg
+  | Imm of imm
+  | Dest of dest
+  | RelReg of (imm * reg)
 
 type operands = operand array
 type label = (string * int) list
@@ -94,4 +98,4 @@ let regnum_of_string = function
   | "$sp" -> 29
   | "$fp" -> 30
   | "$ra" -> 31
-  | _ -> failwith "string_of_regnum"
+  | _ -> failwith "regnum_of_string"

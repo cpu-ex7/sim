@@ -14,6 +14,8 @@ rule main = parse
 | ","             { COMMA }
 | ":"             { COLON }
 | "-"             { MINUS }
+| "("             { LPAREN }
+| ")"             { RPAREN }
 | '$'"zero"       { REG 0 }
 | '$'"at"         { REG 1 }
 | '$'"v0"         { REG 2 }
@@ -46,11 +48,11 @@ rule main = parse
 | '$'"sp"         { REG 29 }
 | '$'"fp"         { REG 30 }
 | '$'"ra"         { REG 31 }
-| digit+ as n     { IMM (int_of_string n) }
+| digit+ as n     { NUM (int_of_string n) }
 | ident as id     { VAR id  }
 | eof             { EOF }
 | _ {
-  failwith ("Unknown token in line " ^
+  failwith ("Parser: Unknown token in line " ^
            (string_of_int lexbuf.lex_curr_p.pos_lnum)  ^
            ": " ^ Lexing.lexeme lexbuf)
   }
