@@ -4,4 +4,6 @@
 (menhir ((modules (parser labelParser))))
 
 (library
- ((name        Simulator)))
+ ((name           Simulator)
+  (flags          (-ccopt -O3 -cclib -O3 -w +a-4))
+  (ocamlopt_flags (-inline 100))))
