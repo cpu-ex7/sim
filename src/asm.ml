@@ -53,7 +53,14 @@ let bits_of_line (op, operands) line_num =
   | OpBne -> string_of_bne line_num operands
   | OpHalt -> ""
 
-let assembly () =
+let print_assembly () =
   Array.iteri
     (fun line_num l -> print_endline (bits_of_line l line_num))
     !Program.g_lines
+
+let assembly_string () =
+  let ans = ref "" in
+  Array.iteri
+    (fun line_num l -> ans := (!ans ^ (bits_of_line l line_num)) ^ "\n")
+    !Program.g_lines;
+  !ans
