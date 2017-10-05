@@ -1,5 +1,5 @@
 %{
-
+  open OpSyntax
 %}
 
 %token COLON

@@ -94,7 +94,7 @@ let exec_once core =
   exec_oneline core;
   core
 
-let exec_all ?(core = empty_core ()) =
+let exec_all core =
   (try while true do
        exec_oneline core
      done with ExecutionEnd -> ());
@@ -107,5 +107,5 @@ let exec_func filename funcname arg =
   let core = empty_core () in
   core.pc := start;
   core.reg.(4) <- arg;
-  ignore (exec_all ~core:core);
+  ignore (exec_all core);
   core.reg.(2)
