@@ -618,7 +618,7 @@ exports.stable_sort   = stable_sort;
 exports.fast_sort     = fast_sort;
 /* No side effect */
 
-},{"./caml_array.js":7,"./caml_builtin_exceptions.js":8,"./caml_exceptions.js":10,"./curry.js":25,"./js_exn.js":27}],3:[function(require,module,exports){
+},{"./caml_array.js":7,"./caml_builtin_exceptions.js":8,"./caml_exceptions.js":10,"./curry.js":25,"./js_exn.js":28}],3:[function(require,module,exports){
 'use strict';
 
 var $$Array = require("./array.js");
@@ -1064,7 +1064,7 @@ exports.add_channel    = add_channel;
 exports.output_buffer  = output_buffer;
 /* No side effect */
 
-},{"./bytes.js":6,"./caml_builtin_exceptions.js":8,"./caml_string.js":19,"./curry.js":25,"./pervasives.js":32,"./string.js":34,"./sys.js":35}],6:[function(require,module,exports){
+},{"./bytes.js":6,"./caml_builtin_exceptions.js":8,"./caml_string.js":19,"./curry.js":25,"./pervasives.js":34,"./string.js":36,"./sys.js":37}],6:[function(require,module,exports){
 'use strict';
 
 var Char                    = require("./char.js");
@@ -1561,7 +1561,7 @@ exports.unsafe_to_string = unsafe_to_string;
 exports.unsafe_of_string = unsafe_of_string;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":8,"./caml_int32.js":13,"./caml_obj.js":18,"./caml_string.js":19,"./char.js":24,"./curry.js":25,"./list.js":30,"./pervasives.js":32}],7:[function(require,module,exports){
+},{"./caml_builtin_exceptions.js":8,"./caml_int32.js":13,"./caml_obj.js":18,"./caml_string.js":19,"./char.js":24,"./curry.js":25,"./list.js":31,"./pervasives.js":34}],7:[function(require,module,exports){
 'use strict';
 
 var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
@@ -11120,7 +11120,7 @@ exports.trans                          = trans;
 exports.recast                         = recast;
 /* No side effect */
 
-},{"./block.js":4,"./buffer.js":5,"./bytes.js":6,"./caml_builtin_exceptions.js":8,"./caml_bytes.js":9,"./caml_exceptions.js":10,"./caml_float.js":11,"./caml_format.js":12,"./caml_int32.js":13,"./caml_io.js":15,"./caml_obj.js":18,"./caml_string.js":19,"./camlinternalFormatBasics.js":23,"./char.js":24,"./curry.js":25,"./js_exn.js":27,"./pervasives.js":32,"./string.js":34,"./sys.js":35}],23:[function(require,module,exports){
+},{"./block.js":4,"./buffer.js":5,"./bytes.js":6,"./caml_builtin_exceptions.js":8,"./caml_bytes.js":9,"./caml_exceptions.js":10,"./caml_float.js":11,"./caml_format.js":12,"./caml_int32.js":13,"./caml_io.js":15,"./caml_obj.js":18,"./caml_string.js":19,"./camlinternalFormatBasics.js":23,"./char.js":24,"./curry.js":25,"./js_exn.js":28,"./pervasives.js":34,"./string.js":36,"./sys.js":37}],23:[function(require,module,exports){
 'use strict';
 
 var Block = require("./block.js");
@@ -12172,6 +12172,21 @@ exports.Vector         = Vector;
 },{}],27:[function(require,module,exports){
 'use strict';
 
+
+function to_js_boolean(b) {
+  if (b) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+exports.to_js_boolean = to_js_boolean;
+/* No side effect */
+
+},{}],28:[function(require,module,exports){
+'use strict';
+
 var Caml_exceptions = require("./caml_exceptions.js");
 
 var $$Error = Caml_exceptions.create("Js_exn.Error");
@@ -12226,7 +12241,7 @@ exports.raiseTypeError           = raiseTypeError;
 exports.raiseUriError            = raiseUriError;
 /* No side effect */
 
-},{"./caml_exceptions.js":10}],28:[function(require,module,exports){
+},{"./caml_exceptions.js":10}],29:[function(require,module,exports){
 'use strict';
 
 
@@ -12286,7 +12301,7 @@ exports.option_get            = option_get;
 exports.option_get_unwrap     = option_get_unwrap;
 /* No side effect */
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 var Sys                     = require("./sys.js");
@@ -12522,7 +12537,7 @@ exports.engine              = engine;
 exports.new_engine          = new_engine;
 /* No side effect */
 
-},{"./bytes.js":6,"./caml_array.js":7,"./caml_builtin_exceptions.js":8,"./caml_bytes.js":9,"./caml_lexer.js":16,"./caml_string.js":19,"./curry.js":25,"./pervasives.js":32,"./sys.js":35}],30:[function(require,module,exports){
+},{"./bytes.js":6,"./caml_array.js":7,"./caml_builtin_exceptions.js":8,"./caml_bytes.js":9,"./caml_lexer.js":16,"./caml_string.js":19,"./curry.js":25,"./pervasives.js":34,"./sys.js":37}],31:[function(require,module,exports){
 'use strict';
 
 var Curry                   = require("./curry.js");
@@ -14215,7 +14230,7 @@ exports.sort_uniq    = sort_uniq;
 exports.merge        = merge;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":8,"./caml_obj.js":18,"./curry.js":25,"./pervasives.js":32}],31:[function(require,module,exports){
+},{"./caml_builtin_exceptions.js":8,"./caml_obj.js":18,"./curry.js":25,"./pervasives.js":34}],32:[function(require,module,exports){
 'use strict';
 
 var List = require("./list.js");
@@ -14351,7 +14366,664 @@ exports.fast_sort    = fast_sort;
 exports.merge        = merge;
 /* No side effect */
 
-},{"./list.js":30}],32:[function(require,module,exports){
+},{"./list.js":31}],33:[function(require,module,exports){
+'use strict';
+
+var Curry                   = require("./curry.js");
+var Caml_builtin_exceptions = require("./caml_builtin_exceptions.js");
+
+function Make(funarg) {
+  var height = function (param) {
+    if (param) {
+      return param[4];
+    } else {
+      return 0;
+    }
+  };
+  var create = function (l, x, d, r) {
+    var hl = height(l);
+    var hr = height(r);
+    return /* Node */[
+            l,
+            x,
+            d,
+            r,
+            hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+          ];
+  };
+  var singleton = function (x, d) {
+    return /* Node */[
+            /* Empty */0,
+            x,
+            d,
+            /* Empty */0,
+            1
+          ];
+  };
+  var bal = function (l, x, d, r) {
+    var hl = l ? l[4] : 0;
+    var hr = r ? r[4] : 0;
+    if (hl > (hr + 2 | 0)) {
+      if (l) {
+        var lr = l[3];
+        var ld = l[2];
+        var lv = l[1];
+        var ll = l[0];
+        if (height(ll) >= height(lr)) {
+          return create(ll, lv, ld, create(lr, x, d, r));
+        } else if (lr) {
+          return create(create(ll, lv, ld, lr[0]), lr[1], lr[2], create(lr[3], x, d, r));
+        } else {
+          throw [
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ];
+        }
+      } else {
+        throw [
+              Caml_builtin_exceptions.invalid_argument,
+              "Map.bal"
+            ];
+      }
+    } else if (hr > (hl + 2 | 0)) {
+      if (r) {
+        var rr = r[3];
+        var rd = r[2];
+        var rv = r[1];
+        var rl = r[0];
+        if (height(rr) >= height(rl)) {
+          return create(create(l, x, d, rl), rv, rd, rr);
+        } else if (rl) {
+          return create(create(l, x, d, rl[0]), rl[1], rl[2], create(rl[3], rv, rd, rr));
+        } else {
+          throw [
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ];
+        }
+      } else {
+        throw [
+              Caml_builtin_exceptions.invalid_argument,
+              "Map.bal"
+            ];
+      }
+    } else {
+      return /* Node */[
+              l,
+              x,
+              d,
+              r,
+              hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+            ];
+    }
+  };
+  var is_empty = function (param) {
+    if (param) {
+      return /* false */0;
+    } else {
+      return /* true */1;
+    }
+  };
+  var add = function (x, data, param) {
+    if (param) {
+      var r = param[3];
+      var d = param[2];
+      var v = param[1];
+      var l = param[0];
+      var c = Curry._2(funarg[/* compare */0], x, v);
+      if (c) {
+        if (c < 0) {
+          return bal(add(x, data, l), v, d, r);
+        } else {
+          return bal(l, v, d, add(x, data, r));
+        }
+      } else {
+        return /* Node */[
+                l,
+                x,
+                data,
+                r,
+                param[4]
+              ];
+      }
+    } else {
+      return /* Node */[
+              /* Empty */0,
+              x,
+              data,
+              /* Empty */0,
+              1
+            ];
+    }
+  };
+  var find = function (x, _param) {
+    while(true) {
+      var param = _param;
+      if (param) {
+        var c = Curry._2(funarg[/* compare */0], x, param[1]);
+        if (c) {
+          _param = c < 0 ? param[0] : param[3];
+          continue ;
+          
+        } else {
+          return param[2];
+        }
+      } else {
+        throw Caml_builtin_exceptions.not_found;
+      }
+    };
+  };
+  var mem = function (x, _param) {
+    while(true) {
+      var param = _param;
+      if (param) {
+        var c = Curry._2(funarg[/* compare */0], x, param[1]);
+        if (c) {
+          _param = c < 0 ? param[0] : param[3];
+          continue ;
+          
+        } else {
+          return /* true */1;
+        }
+      } else {
+        return /* false */0;
+      }
+    };
+  };
+  var min_binding = function (_param) {
+    while(true) {
+      var param = _param;
+      if (param) {
+        var l = param[0];
+        if (l) {
+          _param = l;
+          continue ;
+          
+        } else {
+          return /* tuple */[
+                  param[1],
+                  param[2]
+                ];
+        }
+      } else {
+        throw Caml_builtin_exceptions.not_found;
+      }
+    };
+  };
+  var max_binding = function (_param) {
+    while(true) {
+      var param = _param;
+      if (param) {
+        var r = param[3];
+        if (r) {
+          _param = r;
+          continue ;
+          
+        } else {
+          return /* tuple */[
+                  param[1],
+                  param[2]
+                ];
+        }
+      } else {
+        throw Caml_builtin_exceptions.not_found;
+      }
+    };
+  };
+  var remove_min_binding = function (param) {
+    if (param) {
+      var l = param[0];
+      if (l) {
+        return bal(remove_min_binding(l), param[1], param[2], param[3]);
+      } else {
+        return param[3];
+      }
+    } else {
+      throw [
+            Caml_builtin_exceptions.invalid_argument,
+            "Map.remove_min_elt"
+          ];
+    }
+  };
+  var remove = function (x, param) {
+    if (param) {
+      var r = param[3];
+      var d = param[2];
+      var v = param[1];
+      var l = param[0];
+      var c = Curry._2(funarg[/* compare */0], x, v);
+      if (c) {
+        if (c < 0) {
+          return bal(remove(x, l), v, d, r);
+        } else {
+          return bal(l, v, d, remove(x, r));
+        }
+      } else {
+        var t1 = l;
+        var t2 = r;
+        if (t1) {
+          if (t2) {
+            var match = min_binding(t2);
+            return bal(t1, match[0], match[1], remove_min_binding(t2));
+          } else {
+            return t1;
+          }
+        } else {
+          return t2;
+        }
+      }
+    } else {
+      return /* Empty */0;
+    }
+  };
+  var iter = function (f, _param) {
+    while(true) {
+      var param = _param;
+      if (param) {
+        iter(f, param[0]);
+        Curry._2(f, param[1], param[2]);
+        _param = param[3];
+        continue ;
+        
+      } else {
+        return /* () */0;
+      }
+    };
+  };
+  var map = function (f, param) {
+    if (param) {
+      var l$prime = map(f, param[0]);
+      var d$prime = Curry._1(f, param[2]);
+      var r$prime = map(f, param[3]);
+      return /* Node */[
+              l$prime,
+              param[1],
+              d$prime,
+              r$prime,
+              param[4]
+            ];
+    } else {
+      return /* Empty */0;
+    }
+  };
+  var mapi = function (f, param) {
+    if (param) {
+      var v = param[1];
+      var l$prime = mapi(f, param[0]);
+      var d$prime = Curry._2(f, v, param[2]);
+      var r$prime = mapi(f, param[3]);
+      return /* Node */[
+              l$prime,
+              v,
+              d$prime,
+              r$prime,
+              param[4]
+            ];
+    } else {
+      return /* Empty */0;
+    }
+  };
+  var fold = function (f, _m, _accu) {
+    while(true) {
+      var accu = _accu;
+      var m = _m;
+      if (m) {
+        _accu = Curry._3(f, m[1], m[2], fold(f, m[0], accu));
+        _m = m[3];
+        continue ;
+        
+      } else {
+        return accu;
+      }
+    };
+  };
+  var for_all = function (p, _param) {
+    while(true) {
+      var param = _param;
+      if (param) {
+        if (Curry._2(p, param[1], param[2])) {
+          if (for_all(p, param[0])) {
+            _param = param[3];
+            continue ;
+            
+          } else {
+            return /* false */0;
+          }
+        } else {
+          return /* false */0;
+        }
+      } else {
+        return /* true */1;
+      }
+    };
+  };
+  var exists = function (p, _param) {
+    while(true) {
+      var param = _param;
+      if (param) {
+        if (Curry._2(p, param[1], param[2])) {
+          return /* true */1;
+        } else if (exists(p, param[0])) {
+          return /* true */1;
+        } else {
+          _param = param[3];
+          continue ;
+          
+        }
+      } else {
+        return /* false */0;
+      }
+    };
+  };
+  var add_min_binding = function (k, v, param) {
+    if (param) {
+      return bal(add_min_binding(k, v, param[0]), param[1], param[2], param[3]);
+    } else {
+      return singleton(k, v);
+    }
+  };
+  var add_max_binding = function (k, v, param) {
+    if (param) {
+      return bal(param[0], param[1], param[2], add_max_binding(k, v, param[3]));
+    } else {
+      return singleton(k, v);
+    }
+  };
+  var join = function (l, v, d, r) {
+    if (l) {
+      if (r) {
+        var rh = r[4];
+        var lh = l[4];
+        if (lh > (rh + 2 | 0)) {
+          return bal(l[0], l[1], l[2], join(l[3], v, d, r));
+        } else if (rh > (lh + 2 | 0)) {
+          return bal(join(l, v, d, r[0]), r[1], r[2], r[3]);
+        } else {
+          return create(l, v, d, r);
+        }
+      } else {
+        return add_max_binding(v, d, l);
+      }
+    } else {
+      return add_min_binding(v, d, r);
+    }
+  };
+  var concat = function (t1, t2) {
+    if (t1) {
+      if (t2) {
+        var match = min_binding(t2);
+        return join(t1, match[0], match[1], remove_min_binding(t2));
+      } else {
+        return t1;
+      }
+    } else {
+      return t2;
+    }
+  };
+  var concat_or_join = function (t1, v, d, t2) {
+    if (d) {
+      return join(t1, v, d[0], t2);
+    } else {
+      return concat(t1, t2);
+    }
+  };
+  var split = function (x, param) {
+    if (param) {
+      var r = param[3];
+      var d = param[2];
+      var v = param[1];
+      var l = param[0];
+      var c = Curry._2(funarg[/* compare */0], x, v);
+      if (c) {
+        if (c < 0) {
+          var match = split(x, l);
+          return /* tuple */[
+                  match[0],
+                  match[1],
+                  join(match[2], v, d, r)
+                ];
+        } else {
+          var match$1 = split(x, r);
+          return /* tuple */[
+                  join(l, v, d, match$1[0]),
+                  match$1[1],
+                  match$1[2]
+                ];
+        }
+      } else {
+        return /* tuple */[
+                l,
+                /* Some */[d],
+                r
+              ];
+      }
+    } else {
+      return /* tuple */[
+              /* Empty */0,
+              /* None */0,
+              /* Empty */0
+            ];
+    }
+  };
+  var merge = function (f, s1, s2) {
+    var exit = 0;
+    if (s1) {
+      var v1 = s1[1];
+      if (s1[4] >= height(s2)) {
+        var match = split(v1, s2);
+        return concat_or_join(merge(f, s1[0], match[0]), v1, Curry._3(f, v1, /* Some */[s1[2]], match[1]), merge(f, s1[3], match[2]));
+      } else {
+        exit = 1;
+      }
+    } else if (s2) {
+      exit = 1;
+    } else {
+      return /* Empty */0;
+    }
+    if (exit === 1) {
+      if (s2) {
+        var v2 = s2[1];
+        var match$1 = split(v2, s1);
+        return concat_or_join(merge(f, match$1[0], s2[0]), v2, Curry._3(f, v2, match$1[1], /* Some */[s2[2]]), merge(f, match$1[2], s2[3]));
+      } else {
+        throw [
+              Caml_builtin_exceptions.assert_failure,
+              [
+                "map.ml",
+                270,
+                10
+              ]
+            ];
+      }
+    }
+    
+  };
+  var filter = function (p, param) {
+    if (param) {
+      var d = param[2];
+      var v = param[1];
+      var l$prime = filter(p, param[0]);
+      var pvd = Curry._2(p, v, d);
+      var r$prime = filter(p, param[3]);
+      if (pvd) {
+        return join(l$prime, v, d, r$prime);
+      } else {
+        return concat(l$prime, r$prime);
+      }
+    } else {
+      return /* Empty */0;
+    }
+  };
+  var partition = function (p, param) {
+    if (param) {
+      var d = param[2];
+      var v = param[1];
+      var match = partition(p, param[0]);
+      var lf = match[1];
+      var lt = match[0];
+      var pvd = Curry._2(p, v, d);
+      var match$1 = partition(p, param[3]);
+      var rf = match$1[1];
+      var rt = match$1[0];
+      if (pvd) {
+        return /* tuple */[
+                join(lt, v, d, rt),
+                concat(lf, rf)
+              ];
+      } else {
+        return /* tuple */[
+                concat(lt, rt),
+                join(lf, v, d, rf)
+              ];
+      }
+    } else {
+      return /* tuple */[
+              /* Empty */0,
+              /* Empty */0
+            ];
+    }
+  };
+  var cons_enum = function (_m, _e) {
+    while(true) {
+      var e = _e;
+      var m = _m;
+      if (m) {
+        _e = /* More */[
+          m[1],
+          m[2],
+          m[3],
+          e
+        ];
+        _m = m[0];
+        continue ;
+        
+      } else {
+        return e;
+      }
+    };
+  };
+  var compare = function (cmp, m1, m2) {
+    var _e1 = cons_enum(m1, /* End */0);
+    var _e2 = cons_enum(m2, /* End */0);
+    while(true) {
+      var e2 = _e2;
+      var e1 = _e1;
+      if (e1) {
+        if (e2) {
+          var c = Curry._2(funarg[/* compare */0], e1[0], e2[0]);
+          if (c !== 0) {
+            return c;
+          } else {
+            var c$1 = Curry._2(cmp, e1[1], e2[1]);
+            if (c$1 !== 0) {
+              return c$1;
+            } else {
+              _e2 = cons_enum(e2[2], e2[3]);
+              _e1 = cons_enum(e1[2], e1[3]);
+              continue ;
+              
+            }
+          }
+        } else {
+          return 1;
+        }
+      } else if (e2) {
+        return -1;
+      } else {
+        return 0;
+      }
+    };
+  };
+  var equal = function (cmp, m1, m2) {
+    var _e1 = cons_enum(m1, /* End */0);
+    var _e2 = cons_enum(m2, /* End */0);
+    while(true) {
+      var e2 = _e2;
+      var e1 = _e1;
+      if (e1) {
+        if (e2) {
+          if (Curry._2(funarg[/* compare */0], e1[0], e2[0])) {
+            return /* false */0;
+          } else if (Curry._2(cmp, e1[1], e2[1])) {
+            _e2 = cons_enum(e2[2], e2[3]);
+            _e1 = cons_enum(e1[2], e1[3]);
+            continue ;
+            
+          } else {
+            return /* false */0;
+          }
+        } else {
+          return /* false */0;
+        }
+      } else if (e2) {
+        return /* false */0;
+      } else {
+        return /* true */1;
+      }
+    };
+  };
+  var cardinal = function (param) {
+    if (param) {
+      return (cardinal(param[0]) + 1 | 0) + cardinal(param[3]) | 0;
+    } else {
+      return 0;
+    }
+  };
+  var bindings_aux = function (_accu, _param) {
+    while(true) {
+      var param = _param;
+      var accu = _accu;
+      if (param) {
+        _param = param[0];
+        _accu = /* :: */[
+          /* tuple */[
+            param[1],
+            param[2]
+          ],
+          bindings_aux(accu, param[3])
+        ];
+        continue ;
+        
+      } else {
+        return accu;
+      }
+    };
+  };
+  var bindings = function (s) {
+    return bindings_aux(/* [] */0, s);
+  };
+  return [
+          /* Empty */0,
+          is_empty,
+          mem,
+          add,
+          singleton,
+          remove,
+          merge,
+          compare,
+          equal,
+          iter,
+          fold,
+          for_all,
+          exists,
+          filter,
+          partition,
+          cardinal,
+          bindings,
+          min_binding,
+          max_binding,
+          min_binding,
+          split,
+          find,
+          map,
+          mapi
+        ];
+}
+
+exports.Make = Make;
+/* No side effect */
+
+},{"./caml_builtin_exceptions.js":8,"./curry.js":25}],34:[function(require,module,exports){
 'use strict';
 
 var Curry                    = require("./curry.js");
@@ -15047,7 +15719,7 @@ exports.unsafe_really_input = unsafe_really_input;
 exports.do_at_exit          = do_at_exit;
 /* No side effect */
 
-},{"./caml_builtin_exceptions.js":8,"./caml_exceptions.js":10,"./caml_format.js":12,"./caml_io.js":15,"./caml_missing_polyfill.js":17,"./caml_obj.js":18,"./caml_string.js":19,"./caml_sys.js":20,"./camlinternalFormatBasics.js":23,"./curry.js":25}],33:[function(require,module,exports){
+},{"./caml_builtin_exceptions.js":8,"./caml_exceptions.js":10,"./caml_format.js":12,"./caml_io.js":15,"./caml_missing_polyfill.js":17,"./caml_obj.js":18,"./caml_string.js":19,"./caml_sys.js":20,"./camlinternalFormatBasics.js":23,"./curry.js":25}],35:[function(require,module,exports){
 'use strict';
 
 var Curry              = require("./curry.js");
@@ -15131,7 +15803,7 @@ exports.kbprintf  = kbprintf;
 exports.kprintf   = kprintf;
 /* No side effect */
 
-},{"./buffer.js":5,"./camlinternalFormat.js":22,"./curry.js":25,"./pervasives.js":32}],34:[function(require,module,exports){
+},{"./buffer.js":5,"./camlinternalFormat.js":22,"./curry.js":25,"./pervasives.js":34}],36:[function(require,module,exports){
 'use strict';
 
 var List        = require("./list.js");
@@ -15335,7 +16007,7 @@ exports.uncapitalize   = uncapitalize;
 exports.compare        = compare;
 /* No side effect */
 
-},{"./bytes.js":6,"./caml_int32.js":13,"./caml_string.js":19,"./list.js":30}],35:[function(require,module,exports){
+},{"./bytes.js":6,"./caml_int32.js":13,"./caml_string.js":19,"./list.js":31}],37:[function(require,module,exports){
 'use strict';
 
 var Caml_sys        = require("./caml_sys.js");
@@ -15460,7 +16132,288 @@ exports.catch_break       = catch_break;
 exports.ocaml_version     = ocaml_version;
 /* No side effect */
 
-},{"./caml_exceptions.js":10,"./caml_sys.js":20}],36:[function(require,module,exports){
+},{"./caml_exceptions.js":10,"./caml_sys.js":20}],38:[function(require,module,exports){
+// Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
+'use strict';
+
+var $$Array    = require("bs-platform/lib/js/array.js");
+var Block      = require("bs-platform/lib/js/block.js");
+var Curry      = require("bs-platform/lib/js/curry.js");
+var Printf     = require("bs-platform/lib/js/printf.js");
+var $$String   = require("bs-platform/lib/js/string.js");
+var Program    = require("./program.js");
+var Caml_array = require("bs-platform/lib/js/caml_array.js");
+var Pervasives = require("bs-platform/lib/js/pervasives.js");
+
+function pad(str, width) {
+  var left = width - str.length | 0;
+  if (left <= 0) {
+    return str;
+  } else {
+    return $$Array.fold_left(Pervasives.$caret, "", Caml_array.caml_make_vect(left, "0")) + str;
+  }
+}
+
+function bits_of_num(_d, width) {
+  while(true) {
+    var d = _d;
+    if (d < 0) {
+      _d = (2 << (width - 1 | 0)) + d | 0;
+      continue ;
+      
+    } else if (d) {
+      var aux = function (_acc, _d) {
+        while(true) {
+          var d = _d;
+          var acc = _acc;
+          if (d) {
+            _d = (d >>> 1);
+            _acc = /* :: */[
+              Pervasives.string_of_int(d & 1),
+              acc
+            ];
+            continue ;
+            
+          } else {
+            return acc;
+          }
+        };
+      };
+      return pad($$String.concat("", aux(/* [] */0, d)), width);
+    } else {
+      return pad("0", width);
+    }
+  };
+}
+
+function string_of_add(param) {
+  if (param.length !== 3) {
+    return Pervasives.failwith("string_of_add");
+  } else {
+    var match = param[0];
+    if (match.tag) {
+      return Pervasives.failwith("string_of_add");
+    } else {
+      var match$1 = param[1];
+      if (match$1.tag) {
+        return Pervasives.failwith("string_of_add");
+      } else {
+        var match$2 = param[2];
+        if (match$2.tag) {
+          return Pervasives.failwith("string_of_add");
+        } else {
+          return Curry._6(Printf.sprintf(/* Format */[
+                          /* String */Block.__(2, [
+                              /* No_padding */0,
+                              /* String */Block.__(2, [
+                                  /* No_padding */0,
+                                  /* String */Block.__(2, [
+                                      /* No_padding */0,
+                                      /* String */Block.__(2, [
+                                          /* No_padding */0,
+                                          /* String */Block.__(2, [
+                                              /* No_padding */0,
+                                              /* String */Block.__(2, [
+                                                  /* No_padding */0,
+                                                  /* End_of_format */0
+                                                ])
+                                            ])
+                                        ])
+                                    ])
+                                ])
+                            ]),
+                          "%s%s%s%s%s%s"
+                        ]), "000000", bits_of_num(match$1[0], 5), bits_of_num(match$2[0], 5), bits_of_num(match[0], 5), "00000", "100000");
+        }
+      }
+    }
+  }
+}
+
+function string_of_addi(param) {
+  if (param.length !== 3) {
+    return Pervasives.failwith("string_of_addi");
+  } else {
+    var match = param[0];
+    if (match.tag) {
+      return Pervasives.failwith("string_of_addi");
+    } else {
+      var match$1 = param[1];
+      if (match$1.tag) {
+        return Pervasives.failwith("string_of_addi");
+      } else {
+        var match$2 = param[2];
+        if (match$2.tag === 1) {
+          return Curry._4(Printf.sprintf(/* Format */[
+                          /* String */Block.__(2, [
+                              /* No_padding */0,
+                              /* String */Block.__(2, [
+                                  /* No_padding */0,
+                                  /* String */Block.__(2, [
+                                      /* No_padding */0,
+                                      /* String */Block.__(2, [
+                                          /* No_padding */0,
+                                          /* End_of_format */0
+                                        ])
+                                    ])
+                                ])
+                            ]),
+                          "%s%s%s%s"
+                        ]), "001000", bits_of_num(match$1[0], 5), bits_of_num(match[0], 5), bits_of_num(match$2[0], 16));
+        } else {
+          return Pervasives.failwith("string_of_addi");
+        }
+      }
+    }
+  }
+}
+
+function string_of_slti(param) {
+  if (param.length !== 3) {
+    return Pervasives.failwith("string_of_slti");
+  } else {
+    var match = param[0];
+    if (match.tag) {
+      return Pervasives.failwith("string_of_slti");
+    } else {
+      var match$1 = param[1];
+      if (match$1.tag) {
+        return Pervasives.failwith("string_of_slti");
+      } else {
+        var match$2 = param[2];
+        if (match$2.tag === 1) {
+          return Curry._4(Printf.sprintf(/* Format */[
+                          /* String */Block.__(2, [
+                              /* No_padding */0,
+                              /* String */Block.__(2, [
+                                  /* No_padding */0,
+                                  /* String */Block.__(2, [
+                                      /* No_padding */0,
+                                      /* String */Block.__(2, [
+                                          /* No_padding */0,
+                                          /* End_of_format */0
+                                        ])
+                                    ])
+                                ])
+                            ]),
+                          "%s%s%s%s"
+                        ]), "001010", bits_of_num(match$1[0], 5), bits_of_num(match[0], 5), bits_of_num(match$2[0], 16));
+        } else {
+          return Pervasives.failwith("string_of_slti");
+        }
+      }
+    }
+  }
+}
+
+function string_of_jump(param) {
+  if (param.length !== 1) {
+    return Pervasives.failwith("string_of_slti");
+  } else {
+    var match = param[0];
+    if (match.tag === 2) {
+      return Curry._2(Printf.sprintf(/* Format */[
+                      /* String */Block.__(2, [
+                          /* No_padding */0,
+                          /* String */Block.__(2, [
+                              /* No_padding */0,
+                              /* End_of_format */0
+                            ])
+                        ]),
+                      "%s%s"
+                    ]), "000010", bits_of_num(match[0], 26));
+    } else {
+      return Pervasives.failwith("string_of_slti");
+    }
+  }
+}
+
+function string_of_bne(line_num, param) {
+  if (param.length !== 3) {
+    return Pervasives.failwith("string_of_bne");
+  } else {
+    var match = param[0];
+    if (match.tag) {
+      return Pervasives.failwith("string_of_bne");
+    } else {
+      var match$1 = param[1];
+      if (match$1.tag) {
+        return Pervasives.failwith("string_of_bne");
+      } else {
+        var match$2 = param[2];
+        if (match$2.tag === 2) {
+          return Curry._4(Printf.sprintf(/* Format */[
+                          /* String */Block.__(2, [
+                              /* No_padding */0,
+                              /* String */Block.__(2, [
+                                  /* No_padding */0,
+                                  /* String */Block.__(2, [
+                                      /* No_padding */0,
+                                      /* String */Block.__(2, [
+                                          /* No_padding */0,
+                                          /* End_of_format */0
+                                        ])
+                                    ])
+                                ])
+                            ]),
+                          "%s%s%s%s"
+                        ]), "000101", bits_of_num(match[0], 5), bits_of_num(match$1[0], 5), bits_of_num(match$2[0] - line_num | 0, 16));
+        } else {
+          return Pervasives.failwith("string_of_bne");
+        }
+      }
+    }
+  }
+}
+
+function bits_of_line(param, line_num) {
+  var operands = param[1];
+  switch (param[0]) {
+    case 0 : 
+        return string_of_add(operands);
+    case 1 : 
+        return string_of_addi(operands);
+    case 2 : 
+        return string_of_slti(operands);
+    case 3 : 
+        return string_of_jump(operands);
+    case 4 : 
+        return "";
+    case 5 : 
+        return string_of_bne(line_num, operands);
+    
+  }
+}
+
+function print_assembly() {
+  return $$Array.iteri((function (line_num, l) {
+                console.log(bits_of_line(l, line_num));
+                return /* () */0;
+              }), Program.g_lines[0]);
+}
+
+function assembly_string() {
+  var ans = [""];
+  $$Array.iteri((function (line_num, l) {
+          ans[0] = ans[0] + bits_of_line(l, line_num) + "\n";
+          return /* () */0;
+        }), Program.g_lines[0]);
+  return ans[0];
+}
+
+exports.pad             = pad;
+exports.bits_of_num     = bits_of_num;
+exports.string_of_add   = string_of_add;
+exports.string_of_addi  = string_of_addi;
+exports.string_of_slti  = string_of_slti;
+exports.string_of_jump  = string_of_jump;
+exports.string_of_bne   = string_of_bne;
+exports.bits_of_line    = bits_of_line;
+exports.print_assembly  = print_assembly;
+exports.assembly_string = assembly_string;
+/* No side effect */
+
+},{"./program.js":46,"bs-platform/lib/js/array.js":2,"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_array.js":7,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/pervasives.js":34,"bs-platform/lib/js/printf.js":35,"bs-platform/lib/js/string.js":36}],39:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -15472,8 +16425,8 @@ var __ocaml_lex_tables = /* record */[
   /* lex_base */"\0\0\xfa\xff\xfb\xffW\0\xfd\xff\xfe\xff\x02\0",
   /* lex_backtrk */"\x03\0\xff\xff\xff\xff\x03\0\xff\xff\xff\xff\0\0",
   /* lex_default */"\x01\0\0\0\0\0\xff\xff\0\0\0\0\xff\xff",
-  /* lex_trans */"\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x06\0\x05\0\x06\0\0\0\x06\0\0\0\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x06\0\0\0\x06\0\0\0\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x03\0\x03\0\0\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x04\0\0\0\0\0\0\0\0\0\0\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\0\0\x03\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x03\0\x03\0\0\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\0\0\x03\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-  /* lex_check */"\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\x06\0\xff\xff\0\0\xff\xff\x06\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\x06\0\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x03\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x03\0\x03\0\xff\xff\xff\xff\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\xff\xff\xff\xff\xff\xff\xff\xff\x03\0\xff\xff\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
+  /* lex_trans */"\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x06\0\x05\0\x06\0\0\0\x06\0\0\0\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x06\0\0\0\x06\0\0\0\x03\0\0\0\0\0\0\0\x03\0\x03\0\0\0\0\0\x03\0\x03\0\0\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x04\0\0\0\0\0\0\0\0\0\0\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\0\0\x03\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\x03\0\x03\0\0\0\0\0\x03\0\x03\0\0\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\0\0\x03\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+  /* lex_check */"\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\x06\0\xff\xff\0\0\xff\xff\x06\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\x06\0\xff\xff\0\0\xff\xff\xff\xff\xff\xff\0\0\0\0\xff\xff\xff\xff\0\0\0\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x03\0\xff\xff\xff\xff\xff\xff\x03\0\x03\0\xff\xff\xff\xff\x03\0\x03\0\xff\xff\xff\xff\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\xff\xff\xff\xff\xff\xff\xff\xff\x03\0\xff\xff\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
   /* lex_base_code */"",
   /* lex_backtrk_code */"",
   /* lex_default_code */"",
@@ -15507,7 +16460,7 @@ function __ocaml_lex_main_rec(lexbuf, ___ocaml_lex_state) {
         case 4 : 
             return /* EOF */1;
         case 5 : 
-            return Pervasives.failwith("Unknown token in line " + (Pervasives.string_of_int(lexbuf[/* lex_curr_p */11][/* pos_lnum */1]) + (": " + Lexing.lexeme(lexbuf))));
+            return Pervasives.failwith("LabelParser: Unknown token in line " + (Pervasives.string_of_int(lexbuf[/* lex_curr_p */11][/* pos_lnum */1]) + (": " + Lexing.lexeme(lexbuf))));
         
       }
     }
@@ -15523,7 +16476,7 @@ exports.main                 = main;
 exports.__ocaml_lex_main_rec = __ocaml_lex_main_rec;
 /* No side effect */
 
-},{"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/lexing.js":29,"bs-platform/lib/js/pervasives.js":32}],37:[function(require,module,exports){
+},{"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/lexing.js":30,"bs-platform/lib/js/pervasives.js":34}],40:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -15574,7 +16527,7 @@ function _menhir_run1(__menhir_env, __menhir_stack, __menhir_s, __v) {
                     Caml_builtin_exceptions.assert_failure,
                     [
                       "labelParser.ml",
-                      364,
+                      363,
                       8
                     ]
                   ];
@@ -15607,7 +16560,7 @@ function _menhir_run1(__menhir_env, __menhir_stack, __menhir_s, __v) {
                         Caml_builtin_exceptions.assert_failure,
                         [
                           "labelParser.ml",
-                          327,
+                          326,
                           14
                         ]
                       ];
@@ -15626,7 +16579,7 @@ function _menhir_run1(__menhir_env, __menhir_stack, __menhir_s, __v) {
                                 Caml_builtin_exceptions.assert_failure,
                                 [
                                   "labelParser.ml",
-                                  345,
+                                  344,
                                   16
                                 ]
                               ];
@@ -15653,7 +16606,7 @@ function _menhir_run1(__menhir_env, __menhir_stack, __menhir_s, __v) {
                       Caml_builtin_exceptions.assert_failure,
                       [
                         "labelParser.ml",
-                        349,
+                        348,
                         12
                       ]
                     ];
@@ -15688,7 +16641,7 @@ function _menhir_run1(__menhir_env, __menhir_stack, __menhir_s, __v) {
                     Caml_builtin_exceptions.assert_failure,
                     [
                       "labelParser.ml",
-                      137,
+                      136,
                       8
                     ]
                   ];
@@ -15769,7 +16722,7 @@ function _menhir_goto_line_list(_menhir_env, __menhir_stack, __menhir_s, __v) {
                   Caml_builtin_exceptions.assert_failure,
                   [
                     "labelParser.ml",
-                    172,
+                    171,
                     10
                   ]
                 ];
@@ -15794,7 +16747,7 @@ function _menhir_goto_line_list(_menhir_env, __menhir_stack, __menhir_s, __v) {
                     Caml_builtin_exceptions.assert_failure,
                     [
                       "labelParser.ml",
-                      198,
+                      197,
                       12
                     ]
                   ];
@@ -15817,7 +16770,7 @@ function _menhir_goto_line_list(_menhir_env, __menhir_stack, __menhir_s, __v) {
             Caml_builtin_exceptions.assert_failure,
             [
               "labelParser.ml",
-              207,
+              206,
               8
             ]
           ];
@@ -15837,7 +16790,7 @@ function _menhir_goto_others(_menhir_env, _menhir_stack, _menhir_s, _v) {
           Caml_builtin_exceptions.assert_failure,
           [
             "labelParser.ml",
-            214,
+            213,
             6
           ]
         ];
@@ -15856,7 +16809,7 @@ function _menhir_goto_others(_menhir_env, _menhir_stack, _menhir_s, _v) {
                   Caml_builtin_exceptions.assert_failure,
                   [
                     "labelParser.ml",
-                    232,
+                    231,
                     8
                   ]
                 ];
@@ -15890,7 +16843,7 @@ function _menhir_reduce11(_menhir_env, _menhir_stack) {
               Caml_builtin_exceptions.assert_failure,
               [
                 "labelParser.ml",
-                79,
+                78,
                 10
               ]
             ];
@@ -15914,7 +16867,7 @@ function _menhir_reduce11(_menhir_env, _menhir_stack) {
                 Caml_builtin_exceptions.assert_failure,
                 [
                   "labelParser.ml",
-                  97,
+                  96,
                   12
                 ]
               ];
@@ -15953,7 +16906,7 @@ function toplevel(lexer, lexbuf) {
                   Caml_builtin_exceptions.assert_failure,
                   [
                     "labelParser.ml",
-                    467,
+                    466,
                     8
                   ]
                 ];
@@ -15971,7 +16924,7 @@ exports.$$Error  = $$Error;
 exports.toplevel = toplevel;
 /* No side effect */
 
-},{"bs-platform/lib/js/array.js":2,"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_builtin_exceptions.js":8,"bs-platform/lib/js/caml_exceptions.js":10,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/pervasives.js":32,"bs-platform/lib/js/printf.js":33}],38:[function(require,module,exports){
+},{"bs-platform/lib/js/array.js":2,"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_builtin_exceptions.js":8,"bs-platform/lib/js/caml_exceptions.js":10,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/pervasives.js":34,"bs-platform/lib/js/printf.js":35}],41:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -15982,11 +16935,11 @@ var Pervasives  = require("bs-platform/lib/js/pervasives.js");
 var Caml_format = require("bs-platform/lib/js/caml_format.js");
 
 var __ocaml_lex_tables = /* record */[
-  /* lex_base */"\0\0\xd7\xff\xd8\xffK\0\x96\0o\0\xfb\xff\xfc\xff\xfd\xff\xfe\xff\x02\0$\0\x16\0\x17\0\x0b\0\xba\0\xc2\0\r\0\xa1\0#\0\x17\0\x1b\0\xfa\xff\xf3\xff\xf4\xff\xf5\xff\xf6\xff\xf9\xff\xf7\xff\xf8\xff\xe1\xff\xe2\xff\xeb\xff\xec\xff\xed\xff\xee\xff\xef\xff\xf0\xff\xf1\xff\xf2\xff\xdd\xff\xe3\xff\xe4\xff\xe5\xff\xe6\xff\xe7\xff\xe8\xff\xe9\xff\xea\xff\xdf\xff\xe0\xff\xde\xff\xdc\xff\xdb\xff",
-  /* lex_backtrk */"\xff\xff\xff\xff\xff\xff&\0%\0(\0\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
-  /* lex_default */"\x01\0\0\0\0\0\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-  /* lex_trans */"\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\n\0\t\0\n\0\0\0\n\0\0\0\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\n\0\0\0\n\0\0\0\x05\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\b\0\x06\0\0\0\0\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x07\x002\x001\0\x1d\0\x1c\0\0\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\0\0\x03\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\x005\x004\x003\0\x14\0\x15\0\x16\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\0\0\x03\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x12\0\x1a\0\x19\0\x18\0\x17\0\f\0\r\0\0\0\0\0\0\0\x0e\0\0\0\0\0\0\0\0\0\0\0\0\0\x0b\0\x0f\0\x10\0\0\0\x11\0\0\0\0\0\0\0\x13\x000\0/\0.\0-\0,\0+\0*\0)\0'\0&\0%\0$\0#\0\"\0!\0 \0\x1f\0\x1e\0\0\0\0\0\0\0\0\0\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x1b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0(\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-  /* lex_check */"\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\n\0\xff\xff\0\0\xff\xff\n\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\n\0\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x0e\0\x0e\0\x11\0\x11\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x0b\0\f\0\r\0\x13\0\x14\0\x15\0\xff\xff\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\xff\xff\xff\xff\xff\xff\xff\xff\x03\0\xff\xff\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x05\0\x12\0\x12\0\x12\0\x12\0\x05\0\x05\0\xff\xff\xff\xff\xff\xff\x05\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x05\0\x05\0\x05\0\xff\xff\x05\0\xff\xff\xff\xff\xff\xff\x05\0\x0f\0\x0f\0\x0f\0\x0f\0\x0f\0\x0f\0\x0f\0\x0f\0\x10\0\x10\0\x10\0\x10\0\x10\0\x10\0\x10\0\x10\0\x10\0\x10\0\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x12\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x0f\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
+  /* lex_base */"\0\0\xd5\xff\xd6\xffK\0\x96\0o\0\xf9\xff\xfa\xff\xfb\xff\xfc\xff\xfd\xff\xfe\xff\x02\0$\0\x16\0\x17\0\x0b\0\xba\0\xc2\0\r\0\xa1\0#\0\x17\0\x1b\0\xf8\xff\xf1\xff\xf2\xff\xf3\xff\xf4\xff\xf7\xff\xf5\xff\xf6\xff\xdf\xff\xe0\xff\xe9\xff\xea\xff\xeb\xff\xec\xff\xed\xff\xee\xff\xef\xff\xf0\xff\xdb\xff\xe1\xff\xe2\xff\xe3\xff\xe4\xff\xe5\xff\xe6\xff\xe7\xff\xe8\xff\xdd\xff\xde\xff\xdc\xff\xda\xff\xd9\xff",
+  /* lex_backtrk */"\xff\xff\xff\xff\xff\xff(\0'\0*\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
+  /* lex_default */"\x01\0\0\0\0\0\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+  /* lex_trans */"\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\f\0\x0b\0\f\0\0\0\f\0\0\0\f\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\f\0\0\0\f\0\0\0\x05\0\0\0\0\0\0\0\x07\0\x06\0\0\0\0\0\n\0\b\0\0\0\0\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\t\x004\x003\0\x1f\0\x1e\0\0\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\0\0\x03\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\x007\x006\x005\0\x16\0\x17\0\x18\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\0\0\0\0\0\0\0\0\x03\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x14\0\x1c\0\x1b\0\x1a\0\x19\0\x0e\0\x0f\0\0\0\0\0\0\0\x10\0\0\0\0\0\0\0\0\0\0\0\0\0\r\0\x11\0\x12\0\0\0\x13\0\0\0\0\0\0\0\x15\x002\x001\x000\0/\0.\0-\0,\0+\0)\0(\0'\0&\0%\0$\0#\0\"\0!\0 \0\0\0\0\0\0\0\0\0\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x1d\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0*\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+  /* lex_check */"\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\0\0\f\0\xff\xff\0\0\xff\xff\f\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\f\0\xff\xff\0\0\xff\xff\xff\xff\xff\xff\0\0\0\0\xff\xff\xff\xff\0\0\0\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x10\0\x10\0\x13\0\x13\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\r\0\x0e\0\x0f\0\x15\0\x16\0\x17\0\xff\xff\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\xff\xff\xff\xff\xff\xff\xff\xff\x03\0\xff\xff\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x03\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x04\0\x05\0\x14\0\x14\0\x14\0\x14\0\x05\0\x05\0\xff\xff\xff\xff\xff\xff\x05\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x05\0\x05\0\x05\0\xff\xff\x05\0\xff\xff\xff\xff\xff\xff\x05\0\x11\0\x11\0\x11\0\x11\0\x11\0\x11\0\x11\0\x11\0\x12\0\x12\0\x12\0\x12\0\x12\0\x12\0\x12\0\x12\0\x12\0\x12\0\xff\xff\xff\xff\xff\xff\xff\xff\0\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x14\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x11\0\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff",
   /* lex_base_code */"",
   /* lex_backtrk_code */"",
   /* lex_default_code */"",
@@ -15999,7 +16952,7 @@ function __ocaml_lex_main_rec(lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
     var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    if (__ocaml_lex_state$1 > 40 || __ocaml_lex_state$1 < 0) {
+    if (__ocaml_lex_state$1 > 42 || __ocaml_lex_state$1 < 0) {
       Curry._1(lexbuf[/* refill_buff */0], lexbuf);
       ___ocaml_lex_state = __ocaml_lex_state$1;
       continue ;
@@ -16011,87 +16964,91 @@ function __ocaml_lex_main_rec(lexbuf, ___ocaml_lex_state) {
             continue ;
             case 1 : 
             Lexing.new_line(lexbuf);
-            return /* NEWLINE */0;
+            return /* NEWLINE */1;
         case 2 : 
-            return /* COMMA */3;
+            return /* COMMA */5;
         case 3 : 
-            return /* COLON */4;
+            return /* COLON */6;
         case 4 : 
-            return /* MINUS */1;
+            return /* MINUS */2;
         case 5 : 
-            return /* REG */Block.__(1, [0]);
+            return /* LPAREN */3;
         case 6 : 
-            return /* REG */Block.__(1, [1]);
+            return /* RPAREN */0;
         case 7 : 
-            return /* REG */Block.__(1, [2]);
+            return /* REG */Block.__(1, [0]);
         case 8 : 
-            return /* REG */Block.__(1, [3]);
+            return /* REG */Block.__(1, [1]);
         case 9 : 
-            return /* REG */Block.__(1, [4]);
+            return /* REG */Block.__(1, [2]);
         case 10 : 
-            return /* REG */Block.__(1, [5]);
+            return /* REG */Block.__(1, [3]);
         case 11 : 
-            return /* REG */Block.__(1, [6]);
+            return /* REG */Block.__(1, [4]);
         case 12 : 
-            return /* REG */Block.__(1, [7]);
+            return /* REG */Block.__(1, [5]);
         case 13 : 
-            return /* REG */Block.__(1, [8]);
+            return /* REG */Block.__(1, [6]);
         case 14 : 
-            return /* REG */Block.__(1, [9]);
+            return /* REG */Block.__(1, [7]);
         case 15 : 
-            return /* REG */Block.__(1, [10]);
+            return /* REG */Block.__(1, [8]);
         case 16 : 
-            return /* REG */Block.__(1, [11]);
+            return /* REG */Block.__(1, [9]);
         case 17 : 
-            return /* REG */Block.__(1, [12]);
+            return /* REG */Block.__(1, [10]);
         case 18 : 
-            return /* REG */Block.__(1, [13]);
+            return /* REG */Block.__(1, [11]);
         case 19 : 
-            return /* REG */Block.__(1, [14]);
+            return /* REG */Block.__(1, [12]);
         case 20 : 
-            return /* REG */Block.__(1, [15]);
+            return /* REG */Block.__(1, [13]);
         case 21 : 
-            return /* REG */Block.__(1, [16]);
+            return /* REG */Block.__(1, [14]);
         case 22 : 
-            return /* REG */Block.__(1, [17]);
+            return /* REG */Block.__(1, [15]);
         case 23 : 
-            return /* REG */Block.__(1, [18]);
+            return /* REG */Block.__(1, [16]);
         case 24 : 
-            return /* REG */Block.__(1, [19]);
+            return /* REG */Block.__(1, [17]);
         case 25 : 
-            return /* REG */Block.__(1, [20]);
+            return /* REG */Block.__(1, [18]);
         case 26 : 
-            return /* REG */Block.__(1, [21]);
+            return /* REG */Block.__(1, [19]);
         case 27 : 
-            return /* REG */Block.__(1, [22]);
+            return /* REG */Block.__(1, [20]);
         case 28 : 
-            return /* REG */Block.__(1, [23]);
+            return /* REG */Block.__(1, [21]);
         case 29 : 
-            return /* REG */Block.__(1, [24]);
+            return /* REG */Block.__(1, [22]);
         case 30 : 
-            return /* REG */Block.__(1, [25]);
+            return /* REG */Block.__(1, [23]);
         case 31 : 
-            return /* REG */Block.__(1, [26]);
+            return /* REG */Block.__(1, [24]);
         case 32 : 
-            return /* REG */Block.__(1, [27]);
+            return /* REG */Block.__(1, [25]);
         case 33 : 
-            return /* REG */Block.__(1, [28]);
+            return /* REG */Block.__(1, [26]);
         case 34 : 
-            return /* REG */Block.__(1, [29]);
+            return /* REG */Block.__(1, [27]);
         case 35 : 
-            return /* REG */Block.__(1, [30]);
+            return /* REG */Block.__(1, [28]);
         case 36 : 
-            return /* REG */Block.__(1, [31]);
+            return /* REG */Block.__(1, [29]);
         case 37 : 
-            var n = Lexing.sub_lexeme(lexbuf, lexbuf[/* lex_start_pos */4], lexbuf[/* lex_curr_pos */5]);
-            return /* IMM */Block.__(2, [Caml_format.caml_int_of_string(n)]);
+            return /* REG */Block.__(1, [30]);
         case 38 : 
+            return /* REG */Block.__(1, [31]);
+        case 39 : 
+            var n = Lexing.sub_lexeme(lexbuf, lexbuf[/* lex_start_pos */4], lexbuf[/* lex_curr_pos */5]);
+            return /* NUM */Block.__(2, [Caml_format.caml_int_of_string(n)]);
+        case 40 : 
             var id = Lexing.sub_lexeme(lexbuf, lexbuf[/* lex_start_pos */4], lexbuf[/* lex_curr_pos */5]);
             return /* VAR */Block.__(0, [id]);
-        case 39 : 
-            return /* EOF */2;
-        case 40 : 
-            return Pervasives.failwith("Unknown token in line " + (Pervasives.string_of_int(lexbuf[/* lex_curr_p */11][/* pos_lnum */1]) + (": " + Lexing.lexeme(lexbuf))));
+        case 41 : 
+            return /* EOF */4;
+        case 42 : 
+            return Pervasives.failwith("Parser: Unknown token in line " + (Pervasives.string_of_int(lexbuf[/* lex_curr_p */11][/* pos_lnum */1]) + (": " + Lexing.lexeme(lexbuf))));
         
       }
     }
@@ -16107,7 +17064,7 @@ exports.main                 = main;
 exports.__ocaml_lex_main_rec = __ocaml_lex_main_rec;
 /* No side effect */
 
-},{"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_format.js":12,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/lexing.js":29,"bs-platform/lib/js/pervasives.js":32}],39:[function(require,module,exports){
+},{"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_format.js":12,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/lexing.js":30,"bs-platform/lib/js/pervasives.js":34}],42:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -16297,7 +17254,7 @@ function regnum_of_string(param) {
     case "$zero" : 
         return 0;
     default:
-      return Pervasives.failwith("string_of_regnum");
+      return Pervasives.failwith("regnum_of_string");
   }
 }
 
@@ -16307,10 +17264,11 @@ exports.string_of_regnum = string_of_regnum;
 exports.regnum_of_string = regnum_of_string;
 /* No side effect */
 
-},{"bs-platform/lib/js/list.js":30,"bs-platform/lib/js/pervasives.js":32}],40:[function(require,module,exports){
+},{"bs-platform/lib/js/list.js":31,"bs-platform/lib/js/pervasives.js":34}],43:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
+var Asm         = require("../asm.js");
 var Sim         = require("../sim.js");
 var Curry       = require("bs-platform/lib/js/curry.js");
 var JsExt       = require("./jsExt.js");
@@ -16325,9 +17283,13 @@ var input_area = JsExt.Textarea[/* create */0](/* () */0);
 
 var run_button = JsExt.Button[/* create */2](/* () */0);
 
-var reg_textarea = ArrayLabels.init(32, (function () {
+var reg_textareas = ArrayLabels.init(32, (function () {
         return JsExt.Textarea[/* create */0](/* () */0);
       }));
+
+var asm_button = JsExt.Button[/* create */2](/* () */0);
+
+var asm_output_area = JsExt.Textarea[/* create */0](/* () */0);
 
 function $pipe$pipe$great(v, f) {
   Curry._1(f, v);
@@ -16337,21 +17299,27 @@ function $pipe$pipe$great(v, f) {
 function fetch(core) {
   return ArrayLabels.iteri((function (i, button) {
                 return Caml_array.caml_array_set(core[/* reg */1], i, Caml_format.caml_int_of_string(JsExt.Textarea[/* get_text */1](button)));
-              }), reg_textarea);
+              }), reg_textareas);
 }
 
 function writeback(core) {
   return ArrayLabels.iteri((function (i, button) {
                 return JsExt.Textarea[/* set_text */2](Pervasives.string_of_int(Caml_array.caml_array_get(core[/* reg */1], i)), button);
-              }), reg_textarea);
+              }), reg_textareas);
 }
 
 function run() {
   Sim.compile(JsExt.Textarea[/* get_text */1](input_area));
   var core = Sim.empty_core(/* () */0);
   fetch(core);
-  Sim.exec_all(/* Some */[core]);
+  Sim.exec_all(core);
   writeback(core);
+  return /* () */0;
+}
+
+function assmeble() {
+  Sim.compile(JsExt.Textarea[/* get_text */1](input_area));
+  JsExt.Textarea[/* set_text */2](Asm.assembly_string(/* () */0), asm_output_area);
   return /* () */0;
 }
 
@@ -16380,7 +17348,21 @@ function init_widgets() {
             return partial_arg$1("0", param);
           };
           return JsExt.Textarea[/* set_rows */4](1, (Curry._1(f$1, tarea), Curry._1(f, tarea), tarea));
-        }), reg_textarea);
+        }), reg_textareas);
+  var partial_arg$3 = JsExt.Button[/* set_text */0];
+  var f$3 = function (param) {
+    return partial_arg$3("assembly", param);
+  };
+  JsExt.Button[/* set_onclick */1](assmeble, (Curry._1(f$3, asm_button), asm_button));
+  var partial_arg$4 = JsExt.Textarea[/* set_cols */3];
+  var f$4 = function (param) {
+    return partial_arg$4(35, param);
+  };
+  var partial_arg$5 = JsExt.Textarea[/* set_text */2];
+  var f$5 = function (param) {
+    return partial_arg$5("assembly output here", param);
+  };
+  JsExt.Textarea[/* set_rows */4](30, (JsExt.Textarea[/* set_readonly */5](asm_output_area), Curry._1(f$5, asm_output_area), Curry._1(f$4, asm_output_area), asm_output_area));
   return /* () */0;
 }
 
@@ -16399,31 +17381,33 @@ function range($staropt$star, $staropt$star$1, m) {
 
 function place_widgets() {
   JsExt.Document[/* just_put */2](run_button);
+  JsExt.Document[/* just_put */2](asm_button);
   JsExt.Document[/* just_put */2](JsExt.Document[/* new_line */3](/* () */0));
   JsExt.Document[/* just_put */2](input_area);
+  JsExt.Document[/* just_put */2](asm_output_area);
   JsExt.Document[/* just_put */2](JsExt.Document[/* new_line */3](/* () */0));
   var trs = ListLabels.map((function (i) {
-          var tr = JsExt.Tr[/* create */0](/* () */0);
-          var str = OpSyntax.string_of_regnum(i);
-          var partial_arg = Caml_array.caml_array_get(reg_textarea, i);
+          var partial_arg = Caml_array.caml_array_get(reg_textareas, i);
           var partial_arg$1 = JsExt.Tr[/* add_cell */1];
           var f = function (param) {
             return partial_arg$1(partial_arg, param);
           };
-          var partial_arg$2 = JsExt.Span[/* set_text */1];
+          var partial_arg$2 = OpSyntax.string_of_regnum(i);
+          var partial_arg$3 = JsExt.Span[/* set_text */1];
           var f$1 = function (param) {
-            return partial_arg$2(str, param);
+            return partial_arg$3(partial_arg$2, param);
           };
           var v = JsExt.Span[/* create */0](/* () */0);
           Curry._1(f$1, v);
-          var partial_arg$3 = v;
-          var partial_arg$4 = JsExt.Tr[/* add_cell */1];
+          var partial_arg$4 = v;
+          var partial_arg$5 = JsExt.Tr[/* add_cell */1];
           var f$2 = function (param) {
-            return partial_arg$4(partial_arg$3, param);
+            return partial_arg$5(partial_arg$4, param);
           };
-          Curry._1(f$2, tr);
-          Curry._1(f, tr);
-          return tr;
+          var v$1 = JsExt.Tr[/* create */0](/* () */0);
+          Curry._1(f$2, v$1);
+          Curry._1(f, v$1);
+          return v$1;
         }), range(/* None */0, /* None */0, 32));
   JsExt.Document[/* just_put */2](JsExt.Table[/* from_trs */1](trs));
   return /* () */0;
@@ -16438,17 +17422,20 @@ var num_regs = 32;
 exports.num_regs         = num_regs;
 exports.input_area       = input_area;
 exports.run_button       = run_button;
-exports.reg_textarea     = reg_textarea;
+exports.reg_textareas    = reg_textareas;
+exports.asm_button       = asm_button;
+exports.asm_output_area  = asm_output_area;
 exports.$pipe$pipe$great = $pipe$pipe$great;
 exports.fetch            = fetch;
 exports.writeback        = writeback;
 exports.run              = run;
+exports.assmeble         = assmeble;
 exports.init_widgets     = init_widgets;
 exports.range            = range;
 exports.place_widgets    = place_widgets;
 /* input_area Not a pure module */
 
-},{"../opSyntax.js":39,"../sim.js":44,"./jsExt.js":41,"bs-platform/lib/js/arrayLabels.js":3,"bs-platform/lib/js/caml_array.js":7,"bs-platform/lib/js/caml_format.js":12,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/listLabels.js":31,"bs-platform/lib/js/pervasives.js":32}],41:[function(require,module,exports){
+},{"../asm.js":38,"../opSyntax.js":42,"../sim.js":47,"./jsExt.js":44,"bs-platform/lib/js/arrayLabels.js":3,"bs-platform/lib/js/caml_array.js":7,"bs-platform/lib/js/caml_format.js":12,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/listLabels.js":32,"bs-platform/lib/js/pervasives.js":34}],44:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -16456,6 +17443,7 @@ var Js           = require("bs-platform/lib/js/js.js");
 var Block        = require("bs-platform/lib/js/block.js");
 var Curry        = require("bs-platform/lib/js/curry.js");
 var Printf       = require("bs-platform/lib/js/printf.js");
+var Js_boolean   = require("bs-platform/lib/js/js_boolean.js");
 var ListLabels   = require("bs-platform/lib/js/listLabels.js");
 var Pervasives   = require("bs-platform/lib/js/pervasives.js");
 var Caml_format  = require("bs-platform/lib/js/caml_format.js");
@@ -16716,12 +17704,18 @@ function set_rows(v, textarea) {
   return /* () */0;
 }
 
+function set_readonly(textarea) {
+  textarea["readOnly"] = Js_boolean.to_js_boolean(/* true */1);
+  return /* () */0;
+}
+
 var Textarea = /* module */[
   /* create */create$6,
   /* get_text */get_text,
   /* set_text */set_text$2,
   /* set_cols */set_cols,
-  /* set_rows */set_rows
+  /* set_rows */set_rows,
+  /* set_readonly */set_readonly
 ];
 
 function create$7() {
@@ -16851,7 +17845,7 @@ exports.Table            = Table;
 exports.Tr               = Tr;
 /* No side effect */
 
-},{"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_format.js":12,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/js.js":26,"bs-platform/lib/js/js_primitive.js":28,"bs-platform/lib/js/listLabels.js":31,"bs-platform/lib/js/pervasives.js":32,"bs-platform/lib/js/printf.js":33}],42:[function(require,module,exports){
+},{"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_format.js":12,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/js.js":26,"bs-platform/lib/js/js_boolean.js":27,"bs-platform/lib/js/js_primitive.js":29,"bs-platform/lib/js/listLabels.js":32,"bs-platform/lib/js/pervasives.js":34,"bs-platform/lib/js/printf.js":35}],45:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -16880,88 +17874,123 @@ function _menhir_fail() {
         Caml_builtin_exceptions.assert_failure,
         [
           "parser.ml",
-          58,
+          60,
           4
         ]
       ];
 }
 
-function _menhir_run1(_menhir_env, _menhir_stack, _menhir_s, _v) {
+function _menhir_goto_operand(_menhir_env, _menhir_stack, _menhir_s, _v) {
   var _menhir_stack$1 = /* tuple */[
     _menhir_stack,
     _menhir_s,
     _v
   ];
-  var _menhir_env$1 = _menhir_discard(_menhir_env);
-  var _tok = _menhir_env$1[/* _menhir_token */2];
+  if (_menhir_env[/* _menhir_error */3]) {
+    throw [
+          Caml_builtin_exceptions.assert_failure,
+          [
+            "parser.ml",
+            161,
+            6
+          ]
+        ];
+  }
+  var _tok = _menhir_env[/* _menhir_token */2];
   var exit = 0;
   if (typeof _tok === "number") {
-    switch (_tok) {
-      case 0 : 
-          return _menhir_reduce12(_menhir_env$1, _menhir_stack$1, /* MenhirState1 */3);
-      case 1 : 
-          return _menhir_run4(_menhir_env$1, _menhir_stack$1, /* MenhirState1 */3);
-      case 2 : 
-      case 3 : 
-          exit = 1;
-          break;
-      case 4 : 
-          var _menhir_env$2 = _menhir_discard(_menhir_env$1);
-          var _tok$1 = _menhir_env$2[/* _menhir_token */2];
-          var exit$1 = 0;
-          if (typeof _tok$1 === "number") {
-            if (_tok$1 !== 0) {
-              exit$1 = 2;
-            } else {
-              var _menhir_env$3 = _menhir_discard(_menhir_env$2);
-              return _menhir_goto_others(_menhir_env$3, _menhir_stack, _menhir_s, /* () */0);
-            }
-          } else {
-            exit$1 = 2;
+    if (_tok !== 1) {
+      if (_tok !== 5) {
+        exit = 1;
+      } else {
+        var _menhir_env$1 = _menhir_discard(_menhir_env);
+        var _tok$1 = _menhir_env$1[/* _menhir_token */2];
+        if (typeof _tok$1 === "number") {
+          switch (_tok$1) {
+            case 1 : 
+                return _menhir_reduce12(_menhir_env$1, _menhir_stack$1, /* MenhirState12 */2);
+            case 2 : 
+                return _menhir_run5(_menhir_env$1, _menhir_stack$1, /* MenhirState12 */2);
+            default:
+              if (_menhir_env$1[/* _menhir_error */3]) {
+                throw [
+                      Caml_builtin_exceptions.assert_failure,
+                      [
+                        "parser.ml",
+                        181,
+                        12
+                      ]
+                    ];
+              }
+              _menhir_env$1[/* _menhir_error */3] = /* true */1;
+              return _menhir_errorcase(_menhir_env$1, _menhir_stack$1, /* MenhirState12 */2);
           }
-          if (exit$1 === 2) {
-            if (_menhir_env$2[/* _menhir_error */3]) {
-              throw [
-                    Caml_builtin_exceptions.assert_failure,
-                    [
-                      "parser.ml",
-                      502,
-                      12
-                    ]
-                  ];
-            }
-            _menhir_env$2[/* _menhir_error */3] = /* true */1;
-            return _menhir_errorcase(_menhir_env$2, _menhir_stack$1, /* MenhirState1 */3);
+        } else {
+          switch (_tok$1.tag | 0) {
+            case 0 : 
+                return _menhir_run2(_menhir_env$1, _menhir_stack$1, /* MenhirState12 */2, _tok$1[0]);
+            case 1 : 
+                return _menhir_run3(_menhir_env$1, _menhir_stack$1, /* MenhirState12 */2, _tok$1[0]);
+            case 2 : 
+                return _menhir_run4(_menhir_env$1, _menhir_stack$1, /* MenhirState12 */2, _tok$1[0]);
+            
           }
-          break;
-      
+        }
+      }
+    } else {
+      var _v$1 = /* array */[_v];
+      return _menhir_goto_operands(_menhir_env, _menhir_stack, _menhir_s, _v$1);
     }
   } else {
-    switch (_tok.tag | 0) {
-      case 0 : 
-          return _menhir_run2(_menhir_env$1, _menhir_stack$1, /* MenhirState1 */3, _tok[0]);
-      case 1 : 
-          return _menhir_run3(_menhir_env$1, _menhir_stack$1, /* MenhirState1 */3, _tok[0]);
-      case 2 : 
-          return _menhir_run6(_menhir_env$1, _menhir_stack$1, /* MenhirState1 */3, _tok[0]);
-      
-    }
+    exit = 1;
   }
   if (exit === 1) {
-    if (_menhir_env$1[/* _menhir_error */3]) {
+    if (_menhir_env[/* _menhir_error */3]) {
       throw [
             Caml_builtin_exceptions.assert_failure,
             [
               "parser.ml",
-              523,
+              195,
               8
             ]
           ];
     }
-    _menhir_env$1[/* _menhir_error */3] = /* true */1;
-    return _menhir_errorcase(_menhir_env$1, _menhir_stack$1, /* MenhirState1 */3);
+    _menhir_env[/* _menhir_error */3] = /* true */1;
+    return _menhir_errorcase(_menhir_env, _menhir_stack, _menhir_s);
   }
   
+}
+
+function _menhir_discard(_menhir_env) {
+  var lexer = _menhir_env[/* _menhir_lexer */0];
+  var lexbuf = _menhir_env[/* _menhir_lexbuf */1];
+  var _tok = Curry._1(lexer, lexbuf);
+  return /* record */[
+          /* _menhir_lexer */lexer,
+          /* _menhir_lexbuf */lexbuf,
+          /* _menhir_token */_tok,
+          /* _menhir_error : false */0
+        ];
+}
+
+function _menhir_errorcase(_, __menhir_stack, __menhir_s) {
+  while(true) {
+    var _menhir_s = __menhir_s;
+    var _menhir_stack = __menhir_stack;
+    if (_menhir_s >= 4) {
+      throw $$Error;
+    } else {
+      __menhir_s = _menhir_stack[1];
+      __menhir_stack = _menhir_stack[0];
+      continue ;
+      
+    }
+  };
+}
+
+function _menhir_run14(_menhir_env, _menhir_stack, _menhir_s) {
+  var _menhir_env$1 = _menhir_discard(_menhir_env);
+  return _menhir_goto_others(_menhir_env$1, _menhir_stack, _menhir_s, /* () */0);
 }
 
 function _menhir_goto_line_list(_menhir_env, __menhir_stack, __menhir_s, __v) {
@@ -16989,7 +18018,7 @@ function _menhir_goto_line_list(_menhir_env, __menhir_stack, __menhir_s, __v) {
                   Caml_builtin_exceptions.assert_failure,
                   [
                     "parser.ml",
-                    231,
+                    233,
                     10
                   ]
                 ];
@@ -16997,7 +18026,7 @@ function _menhir_goto_line_list(_menhir_env, __menhir_stack, __menhir_s, __v) {
           var _tok = _menhir_env[/* _menhir_token */2];
           var exit = 0;
           if (typeof _tok === "number") {
-            if (_tok !== 2) {
+            if (_tok !== 4) {
               exit = 1;
             } else {
               return _menhir_goto_toplevel(_menhir_env, _menhir_stack, _menhir_s, _v);
@@ -17011,7 +18040,7 @@ function _menhir_goto_line_list(_menhir_env, __menhir_stack, __menhir_s, __v) {
                     Caml_builtin_exceptions.assert_failure,
                     [
                       "parser.ml",
-                      252,
+                      254,
                       12
                     ]
                   ];
@@ -17025,40 +18054,74 @@ function _menhir_goto_line_list(_menhir_env, __menhir_stack, __menhir_s, __v) {
   };
 }
 
-function _menhir_run14(_menhir_env, _menhir_stack, _menhir_s) {
+function _menhir_run1(_menhir_env, _menhir_stack, _menhir_s, _v) {
+  var _menhir_stack$1 = /* tuple */[
+    _menhir_stack,
+    _menhir_s,
+    _v
+  ];
   var _menhir_env$1 = _menhir_discard(_menhir_env);
-  return _menhir_goto_others(_menhir_env$1, _menhir_stack, _menhir_s, /* () */0);
-}
-
-function _menhir_errorcase(_, __menhir_stack, __menhir_s) {
-  while(true) {
-    var _menhir_s = __menhir_s;
-    var _menhir_stack = __menhir_stack;
-    if (_menhir_s >= 4) {
-      throw $$Error;
-    } else {
-      __menhir_s = _menhir_stack[1];
-      __menhir_stack = _menhir_stack[0];
-      continue ;
+  var _tok = _menhir_env$1[/* _menhir_token */2];
+  if (typeof _tok === "number") {
+    switch (_tok) {
+      case 1 : 
+          return _menhir_reduce12(_menhir_env$1, _menhir_stack$1, /* MenhirState1 */3);
+      case 2 : 
+          return _menhir_run5(_menhir_env$1, _menhir_stack$1, /* MenhirState1 */3);
+      case 6 : 
+          var _menhir_env$2 = _menhir_discard(_menhir_env$1);
+          var _tok$1 = _menhir_env$2[/* _menhir_token */2];
+          var exit = 0;
+          if (typeof _tok$1 === "number") {
+            if (_tok$1 !== 1) {
+              exit = 1;
+            } else {
+              var _menhir_env$3 = _menhir_discard(_menhir_env$2);
+              return _menhir_goto_others(_menhir_env$3, _menhir_stack, _menhir_s, /* () */0);
+            }
+          } else {
+            exit = 1;
+          }
+          if (exit === 1) {
+            if (_menhir_env$2[/* _menhir_error */3]) {
+              throw [
+                    Caml_builtin_exceptions.assert_failure,
+                    [
+                      "parser.ml",
+                      504,
+                      12
+                    ]
+                  ];
+            }
+            _menhir_env$2[/* _menhir_error */3] = /* true */1;
+            return _menhir_errorcase(_menhir_env$2, _menhir_stack$1, /* MenhirState1 */3);
+          }
+          break;
+      default:
+        if (_menhir_env$1[/* _menhir_error */3]) {
+          throw [
+                Caml_builtin_exceptions.assert_failure,
+                [
+                  "parser.ml",
+                  525,
+                  8
+                ]
+              ];
+        }
+        _menhir_env$1[/* _menhir_error */3] = /* true */1;
+        return _menhir_errorcase(_menhir_env$1, _menhir_stack$1, /* MenhirState1 */3);
+    }
+  } else {
+    switch (_tok.tag | 0) {
+      case 0 : 
+          return _menhir_run2(_menhir_env$1, _menhir_stack$1, /* MenhirState1 */3, _tok[0]);
+      case 1 : 
+          return _menhir_run3(_menhir_env$1, _menhir_stack$1, /* MenhirState1 */3, _tok[0]);
+      case 2 : 
+          return _menhir_run4(_menhir_env$1, _menhir_stack$1, /* MenhirState1 */3, _tok[0]);
       
     }
-  };
-}
-
-function _menhir_discard(_menhir_env) {
-  var lexer = _menhir_env[/* _menhir_lexer */0];
-  var lexbuf = _menhir_env[/* _menhir_lexbuf */1];
-  var _tok = Curry._1(lexer, lexbuf);
-  return /* record */[
-          /* _menhir_lexer */lexer,
-          /* _menhir_lexbuf */lexbuf,
-          /* _menhir_token */_tok,
-          /* _menhir_error : false */0
-        ];
-}
-
-function _menhir_goto_toplevel(_, _$1, _$2, _v) {
-  return _v;
+  }
 }
 
 function _menhir_goto_operands(_menhir_env, __menhir_stack, __menhir_s, __v) {
@@ -17080,7 +18143,7 @@ function _menhir_goto_operands(_menhir_env, __menhir_stack, __menhir_s, __v) {
                     Caml_builtin_exceptions.assert_failure,
                     [
                       "parser.ml",
-                      71,
+                      73,
                       10
                     ]
                   ];
@@ -17088,7 +18151,7 @@ function _menhir_goto_operands(_menhir_env, __menhir_stack, __menhir_s, __v) {
             var _tok = _menhir_env[/* _menhir_token */2];
             var exit = 0;
             if (typeof _tok === "number") {
-              if (_tok !== 0) {
+              if (_tok !== 1) {
                 exit = 1;
               } else {
                 var _menhir_env$1 = _menhir_discard(_menhir_env);
@@ -17109,7 +18172,7 @@ function _menhir_goto_operands(_menhir_env, __menhir_stack, __menhir_s, __v) {
                         Caml_builtin_exceptions.assert_failure,
                         [
                           "parser.ml",
-                          106,
+                          108,
                           14
                         ]
                       ];
@@ -17118,9 +18181,9 @@ function _menhir_goto_operands(_menhir_env, __menhir_stack, __menhir_s, __v) {
                 var exit$1 = 0;
                 if (typeof _tok$1 === "number") {
                   switch (_tok$1) {
-                    case 0 : 
+                    case 1 : 
                         return _menhir_run14(_menhir_env$1, _menhir_stack$2, /* MenhirState18 */0);
-                    case 2 : 
+                    case 4 : 
                         var _v$3 = /* array */[_v$2];
                         return _menhir_goto_line_list(_menhir_env$1, _menhir_stack$1, _menhir_s$1, _v$3);
                     default:
@@ -17137,7 +18200,7 @@ function _menhir_goto_operands(_menhir_env, __menhir_stack, __menhir_s, __v) {
                           Caml_builtin_exceptions.assert_failure,
                           [
                             "parser.ml",
-                            124,
+                            126,
                             16
                           ]
                         ];
@@ -17156,7 +18219,7 @@ function _menhir_goto_operands(_menhir_env, __menhir_stack, __menhir_s, __v) {
                       Caml_builtin_exceptions.assert_failure,
                       [
                         "parser.ml",
-                        128,
+                        130,
                         12
                       ]
                     ];
@@ -17175,7 +18238,11 @@ function _menhir_goto_operands(_menhir_env, __menhir_stack, __menhir_s, __v) {
   };
 }
 
-function _menhir_run6(_menhir_env, _menhir_stack, _menhir_s, _v) {
+function _menhir_goto_toplevel(_, _$1, _$2, _v) {
+  return _v;
+}
+
+function _menhir_run4(_menhir_env, _menhir_stack, _menhir_s, _v) {
   var _menhir_env$1 = _menhir_discard(_menhir_env);
   var _v$1 = /* Imm */Block.__(1, [_v]);
   return _menhir_goto_operand(_menhir_env$1, _menhir_stack, _menhir_s, _v$1);
@@ -17197,7 +18264,12 @@ function _menhir_run2(_menhir_env, _menhir_stack, _menhir_s, _v) {
   return _menhir_goto_operand(_menhir_env$1, _menhir_stack, _menhir_s, _v$1);
 }
 
-function _menhir_run4(_menhir_env, _menhir_stack, _menhir_s) {
+function _menhir_reduce12(_menhir_env, _menhir_stack, _menhir_s) {
+  var _v = /* array */[];
+  return _menhir_goto_operands(_menhir_env, _menhir_stack, _menhir_s, _v);
+}
+
+function _menhir_run5(_menhir_env, _menhir_stack, _menhir_s) {
   var _menhir_env$1 = _menhir_discard(_menhir_env);
   var _tok = _menhir_env$1[/* _menhir_token */2];
   var exit = 0;
@@ -17216,7 +18288,7 @@ function _menhir_run4(_menhir_env, _menhir_stack, _menhir_s) {
             Caml_builtin_exceptions.assert_failure,
             [
               "parser.ml",
-              360,
+              388,
               8
             ]
           ];
@@ -17227,96 +18299,10 @@ function _menhir_run4(_menhir_env, _menhir_stack, _menhir_s) {
   
 }
 
-function _menhir_reduce12(_menhir_env, _menhir_stack, _menhir_s) {
-  var _v = /* array */[];
-  return _menhir_goto_operands(_menhir_env, _menhir_stack, _menhir_s, _v);
-}
-
 function _menhir_run3(_menhir_env, _menhir_stack, _menhir_s, _v) {
   var _menhir_env$1 = _menhir_discard(_menhir_env);
   var _v$1 = /* Reg */Block.__(0, [_v]);
   return _menhir_goto_operand(_menhir_env$1, _menhir_stack, _menhir_s, _v$1);
-}
-
-function _menhir_goto_operand(_menhir_env, _menhir_stack, _menhir_s, _v) {
-  var _menhir_stack$1 = /* tuple */[
-    _menhir_stack,
-    _menhir_s,
-    _v
-  ];
-  if (_menhir_env[/* _menhir_error */3]) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          [
-            "parser.ml",
-            159,
-            6
-          ]
-        ];
-  }
-  var _tok = _menhir_env[/* _menhir_token */2];
-  var exit = 0;
-  if (typeof _tok === "number") {
-    if (_tok !== 3) {
-      if (_tok !== 0) {
-        exit = 1;
-      } else {
-        var _v$1 = /* array */[_v];
-        return _menhir_goto_operands(_menhir_env, _menhir_stack, _menhir_s, _v$1);
-      }
-    } else {
-      var _menhir_env$1 = _menhir_discard(_menhir_env);
-      var _tok$1 = _menhir_env$1[/* _menhir_token */2];
-      if (typeof _tok$1 === "number") {
-        switch (_tok$1) {
-          case 0 : 
-              return _menhir_reduce12(_menhir_env$1, _menhir_stack$1, /* MenhirState12 */2);
-          case 1 : 
-              return _menhir_run4(_menhir_env$1, _menhir_stack$1, /* MenhirState12 */2);
-          default:
-            if (_menhir_env$1[/* _menhir_error */3]) {
-              throw [
-                    Caml_builtin_exceptions.assert_failure,
-                    [
-                      "parser.ml",
-                      179,
-                      12
-                    ]
-                  ];
-            }
-            _menhir_env$1[/* _menhir_error */3] = /* true */1;
-            return _menhir_errorcase(_menhir_env$1, _menhir_stack$1, /* MenhirState12 */2);
-        }
-      } else {
-        switch (_tok$1.tag | 0) {
-          case 0 : 
-              return _menhir_run2(_menhir_env$1, _menhir_stack$1, /* MenhirState12 */2, _tok$1[0]);
-          case 1 : 
-              return _menhir_run3(_menhir_env$1, _menhir_stack$1, /* MenhirState12 */2, _tok$1[0]);
-          case 2 : 
-              return _menhir_run6(_menhir_env$1, _menhir_stack$1, /* MenhirState12 */2, _tok$1[0]);
-          
-        }
-      }
-    }
-  } else {
-    exit = 1;
-  }
-  if (exit === 1) {
-    if (_menhir_env[/* _menhir_error */3]) {
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            [
-              "parser.ml",
-              193,
-              8
-            ]
-          ];
-    }
-    _menhir_env[/* _menhir_error */3] = /* true */1;
-    return _menhir_errorcase(_menhir_env, _menhir_stack, _menhir_s);
-  }
-  
 }
 
 function _menhir_goto_others(_menhir_env, _menhir_stack, _menhir_s, _v) {
@@ -17330,7 +18316,7 @@ function _menhir_goto_others(_menhir_env, _menhir_stack, _menhir_s, _v) {
           Caml_builtin_exceptions.assert_failure,
           [
             "parser.ml",
-            398,
+            400,
             6
           ]
         ];
@@ -17339,9 +18325,9 @@ function _menhir_goto_others(_menhir_env, _menhir_stack, _menhir_s, _v) {
   var exit = 0;
   if (typeof _tok === "number") {
     switch (_tok) {
-      case 0 : 
+      case 1 : 
           return _menhir_run14(_menhir_env, _menhir_stack$1, /* MenhirState17 */1);
-      case 2 : 
+      case 4 : 
           var _v$1 = /* array */[];
           return _menhir_goto_line_list(_menhir_env, _menhir_stack, _menhir_s, _v$1);
       default:
@@ -17358,7 +18344,7 @@ function _menhir_goto_others(_menhir_env, _menhir_stack, _menhir_s, _v) {
             Caml_builtin_exceptions.assert_failure,
             [
               "parser.ml",
-              416,
+              418,
               8
             ]
           ];
@@ -17386,9 +18372,9 @@ function toplevel(lexer, lexbuf) {
   var exit = 0;
   if (typeof _tok === "number") {
     switch (_tok) {
-      case 0 : 
+      case 1 : 
           return _menhir_run14(_menhir_env$1, _menhir_stack, /* MenhirState0 */4);
-      case 2 : 
+      case 4 : 
           var _v = /* array */[];
           return _menhir_goto_toplevel(_menhir_env$1, _menhir_stack, /* MenhirState0 */4, _v);
       default:
@@ -17405,7 +18391,7 @@ function toplevel(lexer, lexbuf) {
             Caml_builtin_exceptions.assert_failure,
             [
               "parser.ml",
-              626,
+              628,
               8
             ]
           ];
@@ -17420,7 +18406,7 @@ exports.$$Error  = $$Error;
 exports.toplevel = toplevel;
 /* No side effect */
 
-},{"./opSyntax.js":39,"./program.js":43,"bs-platform/lib/js/array.js":2,"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_builtin_exceptions.js":8,"bs-platform/lib/js/caml_exceptions.js":10,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/list.js":30,"bs-platform/lib/js/pervasives.js":32,"bs-platform/lib/js/printf.js":33}],43:[function(require,module,exports){
+},{"./opSyntax.js":42,"./program.js":46,"bs-platform/lib/js/array.js":2,"bs-platform/lib/js/block.js":4,"bs-platform/lib/js/caml_builtin_exceptions.js":8,"bs-platform/lib/js/caml_exceptions.js":10,"bs-platform/lib/js/curry.js":25,"bs-platform/lib/js/list.js":31,"bs-platform/lib/js/pervasives.js":34,"bs-platform/lib/js/printf.js":35}],46:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
@@ -17445,10 +18431,11 @@ exports.update_label = update_label;
 exports.update_lines = update_lines;
 /* No side effect */
 
-},{}],44:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 // Generated by BUCKLESCRIPT VERSION 1.9.2, PLEASE EDIT WITH CARE
 'use strict';
 
+var $$Map           = require("bs-platform/lib/js/map.js");
 var List            = require("bs-platform/lib/js/list.js");
 var Lexer           = require("./lexer.js");
 var Lexing          = require("bs-platform/lib/js/lexing.js");
@@ -17461,6 +18448,14 @@ var LabelParser     = require("./labelParser.js");
 var Caml_exceptions = require("bs-platform/lib/js/caml_exceptions.js");
 
 var ExecutionEnd = Caml_exceptions.create("Sim.ExecutionEnd");
+
+function compare(prim, prim$1) {
+  return prim - prim$1 | 0;
+}
+
+var OrderedInt = /* module */[/* compare */compare];
+
+var IntMap = $$Map.Make(OrderedInt);
 
 function parse(str) {
   return Parser.toplevel(Lexer.main, Lexing.from_string(str));
@@ -17491,7 +18486,8 @@ function compile(str) {
 function empty_core() {
   return /* record */[
           /* pc */[0],
-          /* reg */Caml_array.caml_make_vect(32, 0)
+          /* reg */Caml_array.caml_make_vect(32, 0),
+          /* mem */IntMap[/* empty */0]
         ];
 }
 
@@ -17513,32 +18509,21 @@ function exec_add(core, operands) {
     return Pervasives.failwith("add: bad operands");
   } else {
     var match = operands[0];
-    switch (match.tag | 0) {
-      case 0 : 
-          var match$1 = operands[1];
-          switch (match$1.tag | 0) {
-            case 0 : 
-                var match$2 = operands[2];
-                switch (match$2.tag | 0) {
-                  case 0 : 
-                      rset(core, match[0], Caml_array.caml_array_get(core[/* reg */1], match$1[0]) + Caml_array.caml_array_get(core[/* reg */1], match$2[0]) | 0);
-                      return incr(core);
-                  case 1 : 
-                  case 2 : 
-                      return Pervasives.failwith("add: bad operands");
-                  
-                }
-                break;
-            case 1 : 
-            case 2 : 
-                return Pervasives.failwith("add: bad operands");
-            
-          }
-          break;
-      case 1 : 
-      case 2 : 
+    if (match.tag) {
+      return Pervasives.failwith("add: bad operands");
+    } else {
+      var match$1 = operands[1];
+      if (match$1.tag) {
+        return Pervasives.failwith("add: bad operands");
+      } else {
+        var match$2 = operands[2];
+        if (match$2.tag) {
           return Pervasives.failwith("add: bad operands");
-      
+        } else {
+          rset(core, match[0], Caml_array.caml_array_get(core[/* reg */1], match$1[0]) + Caml_array.caml_array_get(core[/* reg */1], match$2[0]) | 0);
+          return incr(core);
+        }
+      }
     }
   }
 }
@@ -17548,32 +18533,21 @@ function exec_addi(core, operands) {
     return Pervasives.failwith("addi: bad operands");
   } else {
     var match = operands[0];
-    switch (match.tag | 0) {
-      case 0 : 
-          var match$1 = operands[1];
-          switch (match$1.tag | 0) {
-            case 0 : 
-                var match$2 = operands[2];
-                switch (match$2.tag | 0) {
-                  case 1 : 
-                      rset(core, match[0], Caml_array.caml_array_get(core[/* reg */1], match$1[0]) + match$2[0] | 0);
-                      return incr(core);
-                  case 0 : 
-                  case 2 : 
-                      return Pervasives.failwith("addi: bad operands");
-                  
-                }
-                break;
-            case 1 : 
-            case 2 : 
-                return Pervasives.failwith("addi: bad operands");
-            
-          }
-          break;
-      case 1 : 
-      case 2 : 
+    if (match.tag) {
+      return Pervasives.failwith("addi: bad operands");
+    } else {
+      var match$1 = operands[1];
+      if (match$1.tag) {
+        return Pervasives.failwith("addi: bad operands");
+      } else {
+        var match$2 = operands[2];
+        if (match$2.tag === 1) {
+          rset(core, match[0], Caml_array.caml_array_get(core[/* reg */1], match$1[0]) + match$2[0] | 0);
+          return incr(core);
+        } else {
           return Pervasives.failwith("addi: bad operands");
-      
+        }
+      }
     }
   }
 }
@@ -17583,32 +18557,21 @@ function exec_slti(core, operands) {
     return Pervasives.failwith("addi: bad operands");
   } else {
     var match = operands[0];
-    switch (match.tag | 0) {
-      case 0 : 
-          var match$1 = operands[1];
-          switch (match$1.tag | 0) {
-            case 0 : 
-                var match$2 = operands[2];
-                switch (match$2.tag | 0) {
-                  case 1 : 
-                      rset(core, match[0], Caml_array.caml_array_get(core[/* reg */1], match$1[0]) < match$2[0] ? 1 : 0);
-                      return incr(core);
-                  case 0 : 
-                  case 2 : 
-                      return Pervasives.failwith("addi: bad operands");
-                  
-                }
-                break;
-            case 1 : 
-            case 2 : 
-                return Pervasives.failwith("addi: bad operands");
-            
-          }
-          break;
-      case 1 : 
-      case 2 : 
+    if (match.tag) {
+      return Pervasives.failwith("addi: bad operands");
+    } else {
+      var match$1 = operands[1];
+      if (match$1.tag) {
+        return Pervasives.failwith("addi: bad operands");
+      } else {
+        var match$2 = operands[2];
+        if (match$2.tag === 1) {
+          rset(core, match[0], Caml_array.caml_array_get(core[/* reg */1], match$1[0]) < match$2[0] ? 1 : 0);
+          return incr(core);
+        } else {
           return Pervasives.failwith("addi: bad operands");
-      
+        }
+      }
     }
   }
 }
@@ -17618,14 +18581,11 @@ function exec_jump(core, operands) {
     return Pervasives.failwith("jump: bad operands");
   } else {
     var match = operands[0];
-    switch (match.tag | 0) {
-      case 0 : 
-      case 1 : 
-          return Pervasives.failwith("jump: bad operands");
-      case 2 : 
-          core[/* pc */0][0] = match[0];
-          return /* () */0;
-      
+    if (match.tag === 2) {
+      core[/* pc */0][0] = match[0];
+      return /* () */0;
+    } else {
+      return Pervasives.failwith("jump: bad operands");
     }
   }
 }
@@ -17635,32 +18595,46 @@ function exec_bne(core, operands) {
     return Pervasives.failwith("bne: bad operands");
   } else {
     var match = operands[0];
-    switch (match.tag | 0) {
-      case 0 : 
-          var match$1 = operands[1];
-          switch (match$1.tag | 0) {
-            case 0 : 
-                var match$2 = operands[2];
-                switch (match$2.tag | 0) {
-                  case 0 : 
-                  case 1 : 
-                      return Pervasives.failwith("bne: bad operands");
-                  case 2 : 
-                      core[/* pc */0][0] = Caml_array.caml_array_get(core[/* reg */1], match[0]) !== Caml_array.caml_array_get(core[/* reg */1], match$1[0]) ? match$2[0] : core[/* pc */0][0] + 1 | 0;
-                      return /* () */0;
-                  
-                }
-                break;
-            case 1 : 
-            case 2 : 
-                return Pervasives.failwith("bne: bad operands");
-            
-          }
-          break;
-      case 1 : 
-      case 2 : 
+    if (match.tag) {
+      return Pervasives.failwith("bne: bad operands");
+    } else {
+      var match$1 = operands[1];
+      if (match$1.tag) {
+        return Pervasives.failwith("bne: bad operands");
+      } else {
+        var match$2 = operands[2];
+        if (match$2.tag === 2) {
+          core[/* pc */0][0] = Caml_array.caml_array_get(core[/* reg */1], match[0]) !== Caml_array.caml_array_get(core[/* reg */1], match$1[0]) ? match$2[0] : core[/* pc */0][0] + 1 | 0;
+          return /* () */0;
+        } else {
           return Pervasives.failwith("bne: bad operands");
-      
+        }
+      }
+    }
+  }
+}
+
+function exec_xor(core, operands) {
+  if (operands.length !== 3) {
+    return Pervasives.failwith("bne: bad operands");
+  } else {
+    var match = operands[0];
+    if (match.tag) {
+      return Pervasives.failwith("bne: bad operands");
+    } else {
+      var match$1 = operands[1];
+      if (match$1.tag) {
+        return Pervasives.failwith("bne: bad operands");
+      } else {
+        var match$2 = operands[2];
+        if (match$2.tag) {
+          return Pervasives.failwith("bne: bad operands");
+        } else {
+          Caml_array.caml_array_set(core[/* reg */1], match$2[0], match[0] ^ match$1[0]);
+          core[/* pc */0][0] = core[/* pc */0][0] + 1 | 0;
+          return /* () */0;
+        }
+      }
     }
   }
 }
@@ -17689,11 +18663,7 @@ function exec_once(core) {
   return core;
 }
 
-function exec_all($staropt$star) {
-  var core = $staropt$star ? $staropt$star[0] : /* record */[
-      /* pc */[0],
-      /* reg */Caml_array.caml_make_vect(32, 0)
-    ];
+function exec_all(core) {
   try {
     while(true) {
       exec_oneline(core);
@@ -17713,17 +18683,21 @@ function exec_func(filename, funcname, arg) {
   var start = List.assoc(funcname, Program.g_label[0]);
   var core_000 = /* pc */[0];
   var core_001 = /* reg */Caml_array.caml_make_vect(32, 0);
+  var core_002 = /* mem */IntMap[/* empty */0];
   var core = /* record */[
     core_000,
-    core_001
+    core_001,
+    core_002
   ];
   core_000[0] = start;
   Caml_array.caml_array_set(core_001, 4, arg);
-  exec_all(/* Some */[core]);
+  exec_all(core);
   return Caml_array.caml_array_get(core_001, 2);
 }
 
 exports.ExecutionEnd     = ExecutionEnd;
+exports.OrderedInt       = OrderedInt;
+exports.IntMap           = IntMap;
 exports.parse            = parse;
 exports.parse_file       = parse_file;
 exports.label_parse_file = label_parse_file;
@@ -17739,10 +18713,11 @@ exports.exec_addi        = exec_addi;
 exports.exec_slti        = exec_slti;
 exports.exec_jump        = exec_jump;
 exports.exec_bne         = exec_bne;
+exports.exec_xor         = exec_xor;
 exports.exec_oneline     = exec_oneline;
 exports.exec_once        = exec_once;
 exports.exec_all         = exec_all;
 exports.exec_func        = exec_func;
-/* No side effect */
+/* IntMap Not a pure module */
 
-},{"./labelLexer.js":36,"./labelParser.js":37,"./lexer.js":38,"./parser.js":42,"./program.js":43,"bs-platform/lib/js/caml_array.js":7,"bs-platform/lib/js/caml_exceptions.js":10,"bs-platform/lib/js/lexing.js":29,"bs-platform/lib/js/list.js":30,"bs-platform/lib/js/pervasives.js":32}]},{},[40]);
+},{"./labelLexer.js":39,"./labelParser.js":40,"./lexer.js":41,"./parser.js":45,"./program.js":46,"bs-platform/lib/js/caml_array.js":7,"bs-platform/lib/js/caml_exceptions.js":10,"bs-platform/lib/js/lexing.js":30,"bs-platform/lib/js/list.js":31,"bs-platform/lib/js/map.js":33,"bs-platform/lib/js/pervasives.js":34}]},{},[43]);

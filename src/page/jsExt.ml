@@ -131,6 +131,7 @@ struct
   let set_text (str:string) textarea = set textarea "value" str
   let set_cols (v:int) textarea = set textarea "cols" (string_of_int v)
   let set_rows (v:int) textarea = set textarea "rows" (string_of_int v)
+  let set_readonly textarea = set textarea "readOnly" (Js.Boolean.to_js_boolean true)
 end
 
 module Table =
