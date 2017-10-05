@@ -1,7 +1,6 @@
 open OUnit
 open Simulator
 open Sim
-open Main
 open OpSyntax
 
 let parse_test () =

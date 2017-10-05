@@ -4,7 +4,7 @@
 }
 
 let digit = ['0'-'9']
-let alpha = ['a'-'z' 'A'-'Z' '_' '$' ',' '-' ]
+let alpha = ['a'-'z' 'A'-'Z' '_' '$' ',' '-' '(' ')' ]
 let ident = (alpha | digit)*
 let space = ' ' | '\t' | '\r'
 
@@ -15,7 +15,7 @@ rule main = parse
 | ident as id     { VAR id }
 | eof             { EOF }
 | _ {
-  failwith ("Unknown token in line " ^
+  failwith ("LabelParser: Unknown token in line " ^
            (string_of_int lexbuf.lex_curr_p.pos_lnum)  ^
            ": " ^ Lexing.lexeme lexbuf)
   }

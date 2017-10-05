@@ -2,6 +2,20 @@ open OpSyntax
 
 exception ExecutionEnd
 
+module OrderedInt : Map.OrderedType =
+struct
+  type t = int
+  let compare = (-)
+end
+
+module IntMap = Map.Make(OrderedInt)
+
+type core = {
+  pc : int ref;
+  reg : int array;
+  mem : int IntMap.t;
+}
+
 let parse str = Parser.toplevel Lexer.main (Lexing.from_string str)
 let parse_file filename =
   Lexing.from_channel (open_in filename)
@@ -22,12 +36,7 @@ let compile str =
   Program.update_label (label_parse str);
   Program.update_lines (parse str)
 
-type core = {
-  pc : int ref;
-  reg : int array;
-}
-
-let empty_core () = { pc = ref 0; reg = Array.make 32 0 }
+let empty_core () = { pc = ref 0; reg = Array.make 32 0; mem = IntMap.empty }
 let incr core = core.pc := !(core.pc) + 1
 
 let rget core i = core.reg.(i)
@@ -65,6 +74,13 @@ let exec_bne core operands =
       core.pc := if rget core i <> rget core j then k else !(core.pc) + 1
   | _ -> failwith "bne: bad operands"
 
+let exec_xor core operands =
+  match operands with
+  | [|Reg i; Reg j; Reg k|] ->
+      core.reg.(k) <- i lxor j;
+      core.pc := !(core.pc) + 1
+  | _ -> failwith "bne: bad operands"
+
 let exec_oneline core =
   match !Program.g_lines.(!(core.pc)) with
   | OpAdd, operands -> exec_add core operands
@@ -78,7 +94,7 @@ let exec_once core =
   exec_oneline core;
   core
 
-let exec_all ?(core = empty_core ()) =
+let exec_all core =
   (try while true do
        exec_oneline core
      done with ExecutionEnd -> ());
@@ -91,5 +107,5 @@ let exec_func filename funcname arg =
   let core = empty_core () in
   core.pc := start;
   core.reg.(4) <- arg;
-  ignore (exec_all ~core:core);
+  ignore (exec_all core);
   core.reg.(2)

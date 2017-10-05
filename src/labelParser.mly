@@ -1,5 +1,4 @@
 %{
-  open OpSyntax
   let num_ops = ref 0
   let labels = ref []
 
