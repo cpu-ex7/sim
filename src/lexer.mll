@@ -7,9 +7,11 @@ let digit = ['0'-'9']
 let alpha = ['a'-'z' 'A'-'Z' '_' ]
 let ident = alpha (alpha | digit)*
 let space = ' ' | '\t' | '\r'
+let comment = '#'[^'\n']*'\n'
 
 rule main = parse
 | space+          { main lexbuf }
+| comment         { new_line lexbuf; main lexbuf }
 | "\n"            { new_line lexbuf; NEWLINE }
 | ","             { COMMA }
 | ":"             { COLON }
