@@ -43,6 +43,7 @@ operand:
   | REG                    { Reg $1 }
   | NUM                    { Imm $1 }
   | MINUS NUM              { Imm (-$2) }
+  | NUM LPAREN REG RPAREN  { RelReg ($1, $3) }
   | VAR {
      try Dest (List.assoc $1 !(Program.g_label))
      with Not_found -> failwith ("parser: label definition not found: " ^ $1)

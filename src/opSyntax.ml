@@ -8,6 +8,10 @@ type operator =
   | OpJump
   | OpHalt
   | OpBne
+  | OpLi
+  | OpLui
+  | OpLw
+  | OpSw
 
 type operand =
   | Reg of reg
@@ -26,7 +30,11 @@ let op_alist =
    ("slti", OpSlti);
    ("j", OpJump);
    ("halt", OpHalt);
-   ("bne", OpBne)]
+   ("bne", OpBne);
+   ("li", OpLi);
+   ("lui", OpLui);
+   ("lw", OpLw);
+   ("sw", OpSw);]
 
 let lookup op_str = List.assoc op_str op_alist
 
