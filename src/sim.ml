@@ -69,20 +69,20 @@ let exec_bne core = function
 
 let exec_xor core = function
   | [|Reg i; Reg j; Reg k|] ->
-      core.reg.(k) <- i lxor j;
+      rset core k (i lxor j);
       incr core
   | _ -> failwith "bne: bad operands"
 
 let exec_li core = function
   | [|Reg i; Imm j|] ->
-      core.reg.(i) <- j;
+      rset core i j;
       incr core
   | _ -> failwith "li: bad operands"
 
 let exec_lw core = function
   | [|Reg i; RelReg (d, from)|] ->
-      (try core.reg.(i) <- IntMap.find (d + core.reg.(from)) !(core.mem)
-       with Not_found -> ());
+      (try rset core i (IntMap.find (d + core.reg.(from)) !(core.mem))
+       with Not_found -> rset core i 0);
       incr core
   | _ -> failwith "lw: bad operands"
 
@@ -124,7 +124,7 @@ let exec_func filename funcname arg =
   let start = List.assoc funcname !(Program.g_label) in
   let core = empty_core () in
   core.pc := start;
-  core.reg.(4) <- arg;
+  rset core 4 arg;
   ignore (exec_all core);
   core.reg.(2)
 
