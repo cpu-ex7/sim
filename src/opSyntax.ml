@@ -14,12 +14,13 @@ type operator =
   | OpSw
 
 type operand =
+  | Empty
   | Reg of reg
   | Imm of imm
   | Dest of dest
   | RelReg of (imm * reg)
 
-type operands = operand array
+type operands = operand * operand * operand
 type label = (string * int) list
 type lines = (operator * operands) array
 

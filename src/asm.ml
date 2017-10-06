@@ -15,30 +15,30 @@ let rec bits_of_num d width =
     pad (String.concat "" (aux [] d)) width
 
 let string_of_add = function
-  | [|Reg i; Reg j; Reg k|] ->
+  | (Reg i, Reg j, Reg k) ->
       Printf.sprintf "%s%s%s%s%s%s"
         "000000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "00000" "100000"
   | _ -> failwith "string_of_add"
 
 let string_of_addi = function
-  | [|Reg i; Reg j; Imm k|] ->
+  | (Reg i, Reg j, Imm k) ->
       Printf.sprintf "%s%s%s%s"
         "001000" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num k 16)
   | _ -> failwith "string_of_addi"
 
 let string_of_slti = function
-  | [|Reg i; Reg j; Imm k|] ->
+  | (Reg i, Reg j, Imm k) ->
       Printf.sprintf "%s%s%s%s"
         "001010" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num k 16)
   | _ -> failwith "string_of_slti"
 
 let string_of_jump = function
-  | [|Dest i|] ->
+  | (Dest i, Empty, Empty) ->
       Printf.sprintf "%s%s" "000010" (bits_of_num i 26)
   | _ -> failwith "string_of_slti"
 
 let string_of_bne line_num = function
-  | [|Reg i; Reg j; Dest k|] ->
+  | (Reg i, Reg j, Dest k) ->
       Printf.sprintf "%s%s%s%s"
         "000101" (bits_of_num i 5) (bits_of_num j 5)
         (bits_of_num (k - line_num) 16)
