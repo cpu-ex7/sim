@@ -43,96 +43,50 @@ let incr core = core.pc := !(core.pc) + 1
 let rget core i = core.reg.(i)
 let rset core i n = core.reg.(i) <- n
 
-let exec_add core = function
-  | (Reg i, Reg j, Reg k) ->
-      rset core i (rget core j + rget core k);
-      incr core
-  | _ -> failwith "add: bad operands"
-
-let exec_addi core = function
-  | (Reg i, Reg j, Imm k) ->
-      rset core i (rget core j + k);
-      incr core
-  | _ -> failwith "addi: bad operands"
-
-let exec_and core = function
-  | (Reg i, Reg j, Reg k) ->
-      rset core i (rget core j land rget core k);
-      incr core
-  | _ -> failwith "and: bad operands"
-
-let exec_or core = function
-  | (Reg i, Reg j, Reg k) ->
-      rset core i (rget core j lor rget core k);
-      incr core
-  | _ -> failwith "or: bad operands"
-
-let exec_xor core = function
-  | (Reg i, Reg j, Reg k) ->
-      rset core i (rget core j lxor rget core k);
-      incr core
-  | _ -> failwith "xor: bad operands"
-
-let exec_nor core = function
-  | (Reg i, Reg j, Reg k) ->
-      rset core i (lnot (rget core j lor rget core k));
-      incr core
-  | _ -> failwith "nor: bad operands"
-
-let exec_slti core = function
-  | (Reg i, Reg j, Imm k) ->
-      rset core i (if rget core j < k then 1 else 0);
-      incr core
-  | _ -> failwith "addi: bad operands"
-
-let exec_jump core = function
-  | (Dest i, Empty, Empty) -> core.pc := i
-  | _ -> failwith "jump: bad operands"
-
-let exec_bne core = function
-  | (Reg i, Reg j, Dest k) ->
-      core.pc := if rget core i <> rget core j then k else !(core.pc) + 1
-  | _ -> failwith "bne: bad operands"
-
-let exec_li core = function
-  | (Reg i, Imm j, Empty) ->
-      rset core i j;
-      incr core
-  | _ -> failwith "li: bad operands"
-
-let exec_lw core = function
-  | (Reg i, RelReg (d, from), Empty) ->
-      (try rset core i (IH.find core.mem (d + core.reg.(from)))
-       with Not_found -> rset core i 0);
-      incr core
-  | _ -> failwith "lw: bad operands"
-
-let exec_sw core = function
-  | (Reg i, RelReg (d, from), Empty) ->
-      IH.add core.mem (d + core.reg.(from)) core.reg.(i);
-      incr core
-  | _ -> failwith "lw: bad operands"
-
 let exec_oneline core =
   core.count := !(core.count) + 1;
   let line =
     try !Program.g_lines.(!(core.pc))
     with Invalid_argument "index out of bounds" -> raise ExecutionEnd in
   match line with
-  | OpAdd, operands -> exec_add core operands
-  | OpAddi, operands -> exec_addi core operands
-  | OpAnd, operands -> exec_and core operands
-  | OpOr, operands -> exec_or core operands
-  | OpNor, operands -> exec_nor core operands
-  | OpXor, operands -> exec_xor core operands
-  | OpSlti, operands -> exec_slti core operands
-  | OpJump, operands -> exec_jump core operands
-  | OpBne, operands -> exec_bne core operands
-  | OpLui, operands (* no assertion *)
-  | OpLi, operands -> exec_li core operands
-  | OpLw, operands -> exec_lw core operands
-  | OpSw, operands -> exec_sw core operands
+  | OpAdd, (Reg i, Reg j, Reg k) ->
+      rset core i (rget core j + rget core k);
+      incr core
+  | OpAddi, (Reg i, Reg j, Imm k) ->
+      rset core i (rget core j + k);
+      incr core
+  | OpAnd, (Reg i, Reg j, Reg k) ->
+      rset core i (rget core j land rget core k);
+      incr core
+  | OpOr, (Reg i, Reg j, Reg k) ->
+      rset core i (rget core j lor rget core k);
+      incr core
+  | OpNor, (Reg i, Reg j, Reg k) ->
+      rset core i (lnot (rget core j lor rget core k));
+      incr core
+  | OpXor, (Reg i, Reg j, Reg k) ->
+      rset core i (rget core j lxor rget core k);
+      incr core
+  | OpSlti, (Reg i, Reg j, Imm k) ->
+      rset core i (if rget core j < k then 1 else 0);
+      incr core
+  | OpJump, (Dest i, Empty, Empty) ->
+      core.pc := i
+  | OpBne, (Reg i, Reg j, Dest k) ->
+      core.pc := if rget core i <> rget core j then k else !(core.pc) + 1
+  | OpLui, (Reg i, Imm j, Empty) (* no assertion *)
+  | OpLi, (Reg i, Imm j, Empty) ->
+      rset core i j;
+      incr core
+  | OpLw, (Reg i, RelReg (d, from), Empty) ->
+      (try rset core i (IH.find core.mem (d + core.reg.(from)))
+       with Not_found -> rset core i 0);
+      incr core
+  | OpSw, (Reg i, RelReg (d, from), Empty) ->
+      IH.add core.mem (d + core.reg.(from)) core.reg.(i);
+      incr core
   | OpHalt, _ -> raise ExecutionEnd
+  | op, _ -> failwith ("bad operand: " ^ (List.assoc op OpSyntax.op_alist_rev))
 
 let exec_once core =
   exec_oneline core;
