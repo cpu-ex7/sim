@@ -105,6 +105,14 @@ let instruction_test () =
   assert_equal
     (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
     ~-8;
+
+  compile
+    "li  $t0, 2
+     li  $t1, 16
+     sub $t0, $t0, $t1";
+  assert_equal
+    (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
+    ~-14;
   ()
 
 let suite =

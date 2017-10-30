@@ -52,6 +52,9 @@ let exec_oneline core =
   | OpAdd, (Reg i, Reg j, Reg k) ->
       rset core i (rget core j + rget core k);
       incr core
+  | OpSub, (Reg i, Reg j, Reg k) ->
+      rset core i (rget core j - rget core k);
+      incr core
   | OpAddi, (Reg i, Reg j, Imm k) ->
       rset core i (rget core j + k);
       incr core

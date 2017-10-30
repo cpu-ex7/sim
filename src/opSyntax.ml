@@ -2,20 +2,26 @@ type reg = int
 type imm = int
 type dest = int
 type operator =
+  (* 算術命令 *)
   | OpAdd
+  | OpSub
   | OpAddi
+  (* 論理命令 *)
   | OpAnd
   | OpOr
   | OpNor
   | OpXor
+  (* 制御命令 *)
   | OpSlti
   | OpJump
-  | OpHalt
   | OpBne
+  | OpHalt
+  (* メモリ命令 *)
   | OpLi
   | OpLui
   | OpLw
   | OpSw
+
 
 type operand =
   | Empty
@@ -31,6 +37,7 @@ type lines = (operator * operands) array
 (* アセンブリの文字列とoperator型の値との関係 *)
 let op_alist =
   [("add", OpAdd);
+   ("sub", OpSub);
    ("addi", OpAddi);
    ("and", OpAnd);
    ("or", OpOr);
@@ -44,6 +51,9 @@ let op_alist =
    ("lui", OpLui);
    ("lw", OpLw);
    ("sw", OpSw);]
+
+let op_alist_rev =
+  List.map (fun (x, y) -> (y, x)) op_alist
 
 let lookup op_str = List.assoc op_str op_alist
 
