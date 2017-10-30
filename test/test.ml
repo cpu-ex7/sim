@@ -21,7 +21,7 @@ let parse_test () =
 
 let compile_test () =
   assert_equal
-    (compile_file "sum.input"; !Program.g_lines)
+    (Sim.file "sum.input"; !Program.g_lines)
     [|(OpAdd,  (Reg 9, Reg 0, Reg 0));
       (OpSlti, (Reg 8, Reg 4, Imm 1));
       (OpBne,  (Reg 8, Reg 0, Dest 6));
@@ -39,7 +39,7 @@ let exec_test () =
   ()
 
 let asm_test () =
-  (compile_file "sum.input");
+  (Sim.file "sum.input");
   assert_equal
     (assembly_string ())
     "00000000000000000100100000100000
@@ -51,7 +51,7 @@ let asm_test () =
 00000001001000000001000000100000\n\n"
 
 let memory_test () =
-  compile_file "fibtable.input";
+  Sim.file "fibtable.input";
   assert_equal
     (exec_all (empty_core ()) |> Sim.dump_memory_alist)
     [(4160, 987);
@@ -74,7 +74,7 @@ let memory_test () =
 
 let instruction_test () =
   let assert_equal = assert_equal ?printer:(Some string_of_int) in
-  compile
+  Sim.string
     "li  $t0, 7
      li  $t1, 3
      and $t0, $t0, $t1";
@@ -82,7 +82,7 @@ let instruction_test () =
     (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
     3;
 
-  compile
+  Sim.string
     "li  $t0, 6
      li  $t1, 1
      or $t0, $t0, $t1";
@@ -90,7 +90,7 @@ let instruction_test () =
     (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
     7;
 
-  compile
+  Sim.string
     "li  $t0, 7
      li  $t1, 1
      xor $t0, $t0, $t1";
@@ -98,7 +98,7 @@ let instruction_test () =
     (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
     6;
 
-  compile
+  Sim.string
     "li  $t0, 7
      li  $t1, 1
      nor $t0, $t0, $t1";
@@ -106,7 +106,7 @@ let instruction_test () =
     (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
     ~-8;
 
-  compile
+  Sim.string
     "li  $t0, 2
      li  $t1, 16
      sub $t0, $t0, $t1";

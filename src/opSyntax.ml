@@ -43,6 +43,7 @@ type operand =
 type operands = operand * operand * operand
 type label = (string * int) list
 type lines = (operator * operands) array
+type lines_verified = (operator * int * int * int) array
 
 (* アセンブリの文字列とoperator型の値との関係 *)
 let op_alist =
