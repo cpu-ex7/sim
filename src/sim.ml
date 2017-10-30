@@ -47,8 +47,9 @@ let exec_oneline core =
   core.count := !(core.count) + 1;
   let line =
     try !Program.g_lines.(!(core.pc))
-    with Invalid_argument "index out of bounds" -> raise ExecutionEnd in
+    with _ -> raise ExecutionEnd in
   match line with
+  (* 算術命令 *)
   | OpAdd, (Reg i, Reg j, Reg k) ->
       rset core i (rget core j + rget core k);
       incr core
@@ -58,6 +59,7 @@ let exec_oneline core =
   | OpAddi, (Reg i, Reg j, Imm k) ->
       rset core i (rget core j + k);
       incr core
+  (* 論理命令 *)
   | OpAnd, (Reg i, Reg j, Reg k) ->
       rset core i (rget core j land rget core k);
       incr core
@@ -70,15 +72,47 @@ let exec_oneline core =
   | OpXor, (Reg i, Reg j, Reg k) ->
       rset core i (rget core j lxor rget core k);
       incr core
+  (* シフト命令 *)
+  | OpSll, (Reg i, Reg j, Imm k) ->
+      rset core i (rget core j lsl k);
+      incr core
+  | OpSllv, (Reg i, Reg j, Reg k) ->
+      rset core i (rget core j lsl rget core k);
+      incr core
+  | OpSrl, (Reg i, Reg j, Imm k) ->
+      rset core i (rget core j lsr k);
+      incr core
+  | OpSrlv, (Reg i, Reg j, Reg k) ->
+      rset core i (rget core j lsr rget core k);
+      incr core
+  | OpSrav, (Reg i, Reg j, Imm k) ->
+      rset core i (rget core j asr k);
+      incr core
+  | OpSra, (Reg i, Reg j, Reg k) ->
+      rset core i (rget core j asr rget core k);
+      incr core
+  (* 制御命令 *)
+  | OpSlt, (Reg i, Reg j, Reg k) ->
+      rset core i (if rget core j < rget core k then 1 else 0);
+      incr core
   | OpSlti, (Reg i, Reg j, Imm k) ->
       rset core i (if rget core j < k then 1 else 0);
       incr core
   | OpJump, (Dest i, Empty, Empty) ->
       core.pc := i
+  | OpJal, (Dest i, Empty, Empty) ->
+      rset core (regnum_of_string "$ra") (!(core.pc) + 8);
+      core.pc := i
+  | OpJr, (Reg i, Empty, Empty) ->
+      core.pc := rget core i
   | OpBne, (Reg i, Reg j, Dest k) ->
       core.pc := if rget core i <> rget core j then k else !(core.pc) + 1
-  | OpLui, (Reg i, Imm j, Empty) (* no assertion *)
-  | OpLi, (Reg i, Imm j, Empty) ->
+  | OpBeq, (Reg i, Reg j, Dest k) ->
+      core.pc := if rget core i = rget core j then k else !(core.pc) + 1
+  | OpHalt, _ -> raise ExecutionEnd
+  (* メモリ命令 *)
+  | OpLi, (Reg i, Imm j, Empty)
+  | OpLui, (Reg i, Imm j, Empty) (* no assertion *) ->
       rset core i j;
       incr core
   | OpLw, (Reg i, RelReg (d, from), Empty) ->
@@ -88,7 +122,6 @@ let exec_oneline core =
   | OpSw, (Reg i, RelReg (d, from), Empty) ->
       IH.add core.mem (d + core.reg.(from)) core.reg.(i);
       incr core
-  | OpHalt, _ -> raise ExecutionEnd
   | op, _ -> failwith ("bad operand: " ^ (List.assoc op OpSyntax.op_alist_rev))
 
 let exec_once core =

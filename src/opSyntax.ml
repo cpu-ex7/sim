@@ -11,17 +11,27 @@ type operator =
   | OpOr
   | OpNor
   | OpXor
+  (* シフト命令 *)
+  | OpSll
+  | OpSllv
+  | OpSrl
+  | OpSrlv
+  | OpSra
+  | OpSrav
   (* 制御命令 *)
+  | OpSlt
   | OpSlti
   | OpJump
+  | OpJal
+  | OpJr
   | OpBne
+  | OpBeq
   | OpHalt
   (* メモリ命令 *)
   | OpLi
   | OpLui
   | OpLw
   | OpSw
-
 
 type operand =
   | Empty
@@ -36,21 +46,36 @@ type lines = (operator * operands) array
 
 (* アセンブリの文字列とoperator型の値との関係 *)
 let op_alist =
-  [("add", OpAdd);
-   ("sub", OpSub);
-   ("addi", OpAddi);
-   ("and", OpAnd);
-   ("or", OpOr);
-   ("nor", OpNor);
-   ("xor", OpXor);
-   ("slti", OpSlti);
-   ("j", OpJump);
-   ("halt", OpHalt);
-   ("bne", OpBne);
-   ("li", OpLi);
-   ("lui", OpLui);
-   ("lw", OpLw);
-   ("sw", OpSw);]
+  [ (* 算術命令 *)
+    ("add", OpAdd);
+    ("sub", OpSub);
+    ("addi", OpAddi);
+    (* 論理命令 *)
+    ("and", OpAnd);
+    ("or", OpOr);
+    ("nor", OpNor);
+    ("xor", OpXor);
+    (* シフト命令 *)
+    ("sll", OpSll);
+    ("sllv", OpSllv);
+    ("srl", OpSrl);
+    ("srlv", OpSrlv);
+    ("sra", OpSrl);
+    ("srav", OpSrlv);
+    (* 制御命令 *)
+    ("slt", OpSlt);
+    ("slti", OpSlti);
+    ("j", OpJump);
+    ("jal", OpJal);
+    ("jr", OpJr);
+    ("bne", OpBne);
+    ("beq", OpBeq);
+    ("halt", OpHalt);
+    (* メモリ命令 *)
+    ("li", OpLi);
+    ("lui", OpLui);
+    ("lw", OpLw);
+    ("sw", OpSw);]
 
 let op_alist_rev =
   List.map (fun (x, y) -> (y, x)) op_alist
