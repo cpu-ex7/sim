@@ -13,7 +13,6 @@ let parse_test () =
     (parse "addi $a0, $a0, -1\n")
     [|(OpAddi, (Reg 4, Reg 4, Imm (-1)))|];
 
-
   assert_equal
     (parse "add $a2, $a3, 123\naddi $t3, $t3, $t4\n")
     [|(OpAdd, (Reg 6, Reg 7, Imm 123));
@@ -55,23 +54,58 @@ let memory_test () =
   compile_file "fibtable.input";
   assert_equal
     (exec_all (empty_core ()) |> Sim.dump_memory_alist)
-    [(4096, 0);
-     (4100, 1);
-     (4104, 1);
-     (4108, 2);
-     (4112, 3);
-     (4116, 5);
-     (4120, 8);
-     (4124, 13);
-     (4128, 21);
-     (4132, 34);
-     (4136, 55);
-     (4140, 89);
-     (4144, 144);
-     (4148, 233);
-     (4152, 377);
+    [(4160, 987);
      (4156, 610);
-     (4160, 987)]
+     (4152, 377);
+     (4148, 233);
+     (4144, 144);
+     (4140, 89);
+     (4136, 55);
+     (4132, 34);
+     (4128, 21);
+     (4124, 13);
+     (4120, 8);
+     (4116, 5);
+     (4112, 3);
+     (4108, 2);
+     (4104, 1);
+     (4100, 1);
+     (4096, 0)]
+
+let instruction_test () =
+  let assert_equal = assert_equal ?printer:(Some string_of_int) in
+  compile
+    "li  $t0, 7
+     li  $t1, 3
+     and $t0, $t0, $t1";
+  assert_equal
+    (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
+    3;
+
+  compile
+    "li  $t0, 6
+     li  $t1, 1
+     or $t0, $t0, $t1";
+  assert_equal
+    (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
+    7;
+
+  compile
+    "li  $t0, 7
+     li  $t1, 1
+     xor $t0, $t0, $t1";
+  assert_equal
+    (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
+    6;
+
+  compile
+    "li  $t0, 7
+     li  $t1, 1
+     nor $t0, $t0, $t1";
+  assert_equal
+    (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
+    ~-8;
+  ()
 
 let suite =
   "suite" >::: [
@@ -80,6 +114,7 @@ let suite =
     "Execution" >:: exec_test;
     "Assembly" >:: asm_test;
     "Memory" >:: memory_test;
+    "Instruction" >:: instruction_test;
   ]
 
 let _ = run_test_tt_main suite

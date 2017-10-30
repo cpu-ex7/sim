@@ -4,6 +4,10 @@ type dest = int
 type operator =
   | OpAdd
   | OpAddi
+  | OpAnd
+  | OpOr
+  | OpNor
+  | OpXor
   | OpSlti
   | OpJump
   | OpHalt
@@ -28,6 +32,10 @@ type lines = (operator * operands) array
 let op_alist =
   [("add", OpAdd);
    ("addi", OpAddi);
+   ("and", OpAnd);
+   ("or", OpOr);
+   ("nor", OpNor);
+   ("xor", OpXor);
    ("slti", OpSlti);
    ("j", OpJump);
    ("halt", OpHalt);

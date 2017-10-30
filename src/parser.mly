@@ -39,7 +39,7 @@ operands:
   | operand COMMA operand               { ($1, $3, Empty) }
   | operand                             { ($1, Empty, Empty) }
   |                                     { (Empty, Empty, Empty) }
- 
+
 operand:
   | REG                    { Reg $1 }
   | NUM                    { Imm $1 }
