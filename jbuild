@@ -1,0 +1,7 @@
+(jbuild_version 1)
+
+(executable
+ ((name           Bench)
+  (libraries      (Simulator))
+  (flags          (-ccopt -O3 -cclib -O3 -w +a-4))
+  (ocamlopt_flags (-inline 100))))
