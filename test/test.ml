@@ -1,5 +1,6 @@
 open OUnit
 open Simulator
+open Program
 open Sim
 open Asm
 open OpSyntax
@@ -53,7 +54,8 @@ let asm_test () =
 let memory_test () =
   Sim.file "fibtable.input";
   assert_equal
-    (exec_all (empty_core ()) |> Sim.dump_memory_alist)
+    (exec_all () |> ignore;
+     Sim.dump_memory_alist ())
     [(4160, 987);
      (4156, 610);
      (4152, 377);
@@ -79,7 +81,7 @@ let instruction_test () =
      li  $t1, 3
      and $t0, $t0, $t1";
   assert_equal
-    (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
+    (exec_all ()).reg.(OpSyntax.regnum_of_string "$t0")
     3;
 
   Sim.string
@@ -87,7 +89,7 @@ let instruction_test () =
      li  $t1, 1
      or $t0, $t0, $t1";
   assert_equal
-    (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
+    (exec_all ()).reg.(OpSyntax.regnum_of_string "$t0")
     7;
 
   Sim.string
@@ -95,7 +97,7 @@ let instruction_test () =
      li  $t1, 1
      xor $t0, $t0, $t1";
   assert_equal
-    (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
+    (exec_all ()).reg.(OpSyntax.regnum_of_string "$t0")
     6;
 
   Sim.string
@@ -103,7 +105,7 @@ let instruction_test () =
      li  $t1, 1
      nor $t0, $t0, $t1";
   assert_equal
-    (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
+    (exec_all ()).reg.(OpSyntax.regnum_of_string "$t0")
     ~-8;
 
   Sim.string
@@ -111,7 +113,7 @@ let instruction_test () =
      li  $t1, 16
      sub $t0, $t0, $t1";
   assert_equal
-    (exec_all (empty_core ())).reg.(OpSyntax.regnum_of_string "$t0")
+    (exec_all ()).reg.(OpSyntax.regnum_of_string "$t0")
     ~-14;
   ()
 

@@ -1,4 +1,5 @@
-open OpSyntax
+open Operand
+open Operator
 
 let pad str width =
   let left = width - String.length str in
@@ -56,11 +57,11 @@ let bits_of_line (op, operands) line_num =
 let print_assembly () =
   Array.iteri
     (fun line_num l -> print_endline (bits_of_line l line_num))
-    !Program.g_lines
+    !Program.g_program
 
 let assembly_string () =
   let ans = ref "" in
   Array.iteri
     (fun line_num l -> ans := (!ans ^ (bits_of_line l line_num)) ^ "\n")
-    !Program.g_lines;
+    !Program.g_program;
   !ans

@@ -4,4 +4,4 @@
  ((name           Bench)
   (libraries      (Simulator))
   (flags          (-ccopt -O3 -cclib -O3 -w +a-4))
-  (ocamlopt_flags (-O3 -unbox-closures -inline 100))))
+  (ocamlopt_flags (-O3 -inline 500))))

@@ -12,7 +12,7 @@
 %token EOF
 
 %start toplevel
-%type <OpSyntax.label> toplevel
+%type <Label.t> toplevel
 %%
 
 toplevel:

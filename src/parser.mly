@@ -1,5 +1,5 @@
 %{
-  open OpSyntax
+  open Operand
 %}
 
 %token COLON
@@ -14,7 +14,7 @@
 %token EOF
 
 %start toplevel
-%type <OpSyntax.lines> toplevel
+%type <Program.t> toplevel
 %%
 
 toplevel:
@@ -32,7 +32,7 @@ others:
   | NEWLINE                { }
 
 op:
-  | VAR operands NEWLINE   { OpSyntax.lookup $1, $2 }
+  | VAR operands NEWLINE   { Operator.of_string $1, $2 }
 
 operands:
   | operand COMMA operand COMMA operand { ($1, $3, $5) }
@@ -46,6 +46,6 @@ operand:
   | MINUS NUM              { Imm (-$2) }
   | NUM LPAREN REG RPAREN  { RelReg ($1, $3) }
   | VAR {
-     try Dest (List.assoc $1 !(Program.g_label))
+     try Dest (List.assoc $1 !(Label.g_label))
      with Not_found -> failwith ("parser: label definition not found: " ^ $1)
    }

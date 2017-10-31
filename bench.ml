@@ -1,10 +1,10 @@
 open Simulator
-open Sim
+open Core
+open Operand
 
 let () =
   Sim.file "test/sum.input";
-  let core = (empty_core ()) in
-  core.reg.(OpSyntax.regnum_of_string "$a0") <- 20000000;
-  let core =  (Sim.exec_all core) in
+  !g_core.reg.(regnum_of_string "$a0") <- 200000000;
+  let core =  Sim.exec_all () in
   print_int !(core.count);
   print_newline ()
