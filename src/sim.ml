@@ -8,10 +8,15 @@ exception ExecutionEnd
 
 (* ユーティリティ関数 *)
 let incr () = !g_core.pc := !(!g_core.pc) + 1
+let jump i = !g_core.pc := i
 let rget i = !g_core.reg.(i)
 let rset i n = !g_core.reg.(i) <- n
-let set_verified idx line =
-  !(g_program_verified).(idx) <- line
+let mget i = !g_core.mem.(i)
+let mset i j = !g_core.mem.(i) <- j
+let rgetf i = !g_core.freg.(i)
+let rsetf i n = !g_core.freg.(i) <- n
+let mgetf i = !g_core.fmem.(i)
+let msetf i j = !g_core.fmem.(i) <- j
 
 (* Program.g_programのオペランドがあっているかを確認し、
    簡略化したプログラムをg_program_verifiedに格納する。 *)
@@ -67,89 +72,46 @@ let verify_operands () =
 (* 命令を一行実行する *)
 let exec_oneline : line_verified -> unit = function
   (* 算術命令 *)
-  | OpAdd, i, j, k ->
-      rset i (rget j + rget k);
-      incr ()
-  | OpSub, i, j, k ->
-      rset i (rget j - rget k);
-      incr ()
-  | OpAddi, i, j, k ->
-      rset i (rget j + k);
-      incr ()
+  | OpAdd,  i, j, k -> rset i (rget j + rget k); incr ()
+  | OpSub,  i, j, k -> rset i (rget j - rget k); incr ()
+  | OpAddi, i, j, k -> rset i (rget j + k);      incr ()
   (* 論理命令 *)
-  | OpAnd, i, j, k ->
-      rset i (rget j land rget k);
-      incr ()
-  | OpOr, i, j, k ->
-      rset i (rget j lor rget k);
-      incr ()
-  | OpNor, i, j, k ->
-      rset i (lnot (rget j lor rget k));
-      incr ()
-  | OpXor, i, j, k ->
-      rset i (rget j lxor rget k);
-      incr ()
+  | OpAnd, i, j, k -> rset i (rget j land rget k);       incr ()
+  | OpOr,  i, j, k -> rset i (rget j lor rget k);        incr ()
+  | OpNor, i, j, k -> rset i (lnot (rget j lor rget k)); incr ()
+  | OpXor, i, j, k -> rset i (rget j lxor rget k);       incr ()
   (* シフト命令 *)
-  | OpSll, i, j, k ->
-      rset i (rget j lsl k);
-      incr ()
-  | OpSllv, i, j, k ->
-      rset i (rget j lsl rget k);
-      incr ()
-  | OpSrl, i, j, k ->
-      rset i (rget j lsr k);
-      incr ()
-  | OpSrlv, i, j, k ->
-      rset i (rget j lsr rget k);
-      incr ()
-  | OpSra, i, j, k ->
-      rset i (rget j asr rget k);
-      incr ()
-  | OpSrav, i, j, k ->
-      rset i (rget j asr k);
-      incr ()
+  | OpSll,  i, j, k -> rset i (rget j lsl k);      incr ()
+  | OpSllv, i, j, k -> rset i (rget j lsl rget k); incr ()
+  | OpSrl,  i, j, k -> rset i (rget j lsr k);      incr ()
+  | OpSrlv, i, j, k -> rset i (rget j lsr rget k); incr ()
+  | OpSra,  i, j, k -> rset i (rget j asr rget k); incr ()
+  | OpSrav, i, j, k -> rset i (rget j asr k);      incr ()
   (* 制御命令 *)
-  | OpSlt, i, j, k ->
-      rset i (if rget j < rget k then 1 else 0);
-      incr ()
-  | OpSlti, i, j, k ->
-      rset i (if rget j < k then 1 else 0);
-      incr ()
-  | OpJump, i, _, _ ->
-      !g_core.pc := i
-  | OpJal, i, _, _ ->
-      rset (regnum_of_string "$ra") (!(!g_core.pc) + 8);
-      !g_core.pc := i
-  | OpJr, i, _, _ ->
-      !g_core.pc := rget i
-  | OpBne, i, j, k ->
-      !g_core.pc := if rget i <> rget j then k else !(!g_core.pc) + 1
-  | OpBeq, i, j, k ->
-      !g_core.pc := if rget i = rget j then k else !(!g_core.pc) + 1
+  | OpSlt,  i, j, k -> rset i (if rget j < rget k then 1 else 0); incr ()
+  | OpSlti, i, j, k -> rset i (if rget j < k      then 1 else 0); incr ()
+  | OpJump, i, _, _ -> jump i
+  | OpJr,   i, _, _ -> jump @@ rget i
+  | OpJal,  i, _, _ -> rset (regnum_of_string "$ra") (!(!g_core.pc) + 1); jump i
+  | OpBne,  i, j, k -> jump @@ if rget i <> rget j then k else !(!g_core.pc) + 1
+  | OpBeq,  i, j, k -> jump @@ if rget i = rget j  then k else !(!g_core.pc) + 1
   | OpHalt, _, _, _ -> raise ExecutionEnd
   (* float命令 *)
-  | OpLwc1, i, j, k -> rsetf i !g_core.fmem.(k + rget j)      ; incr ();
-  | OpSwc1, i, j, k -> !g_core.fmem.(k + rget j) <- rgetf i; incr ();
-  | OpLwc2, i, _, _ -> rsetf i (float_of_string (read_line ())); incr ();
-  | OpSwc2, i, _, _ -> print_float @@ rgetf i; incr ();
-  | OpAddf, i, j, k -> rsetf i (rgetf j +. rgetf k); incr ();
-  | OpSubf, i, j, k -> rsetf i (rgetf j -. rgetf k); incr ();
-  | OpMulf, i, j, k -> rsetf i (rgetf j *. rgetf k); incr ();
-  | OpDivf, i, j, k -> rsetf i (rgetf j /. rgetf k); incr ();
-  | OpSqrt, i, j, _ -> rsetf i (sqrt @@ rgetf j); incr ();
-  | OpAbs,  i, j, _ -> rsetf i (abs_float @@ rgetf j); incr ()
+  | OpLwc1, i, j, k -> rsetf i !g_core.fmem.(k + rget j);        incr ()
+  | OpSwc1, i, j, k -> msetf (k + rget j) (rgetf i);             incr ()
+  | OpLwc2, i, _, _ -> rsetf i (float_of_string (read_line ())); incr ()
+  | OpSwc2, i, _, _ -> print_float @@ rgetf i;                   incr ()
+  | OpAddf, i, j, k -> rsetf i (rgetf j +. rgetf k);             incr ()
+  | OpSubf, i, j, k -> rsetf i (rgetf j -. rgetf k);             incr ()
+  | OpMulf, i, j, k -> rsetf i (rgetf j *. rgetf k);             incr ()
+  | OpDivf, i, j, k -> rsetf i (rgetf j /. rgetf k);             incr ()
+  | OpSqrt, i, j, _ -> rsetf i (sqrt @@ rgetf j);                incr ()
+  | OpAbs,  i, j, _ -> rsetf i (abs_float @@ rgetf j);           incr ()
   (* メモリ命令 *)
-  | OpLi, i, j, _
-  | OpLui,  i, j, _ (* no assertion *) ->
-      rset i j;
-      incr ()
-  | OpLw, i, d, from ->
-      (try rset i !g_core.mem.(d + !g_core.reg.(from))
-       with Not_found -> rset i 0);
-      incr ()
-  | OpSw, i, d, from ->
-      !g_core.mem.((d + !g_core.reg.(from))) <- !g_core.reg.(i);
-      incr ()
+  | OpLi,   i, j, _
+  | OpLui,  i, j, _ -> rset i j;                    incr ()
+  | OpLw,   i, j, k -> rset i @@ mget (j + rget k); incr ()
+  | OpSw,   i, j, k -> mset (j + rget k) (rget i);  incr ()
 
 let dump_memory () =
   Array.iteri
