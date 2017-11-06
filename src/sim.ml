@@ -7,6 +7,7 @@ open Program
 exception ExecutionEnd
 
 (* ユーティリティ関数 *)
+let next_pc () = !(!g_core.pc) + 1
 let incr () = !g_core.pc := !(!g_core.pc) + 1
 let jump i = !g_core.pc := i
 let rget i = !g_core.reg.(i)
@@ -17,6 +18,8 @@ let rgetf i = !g_core.freg.(i)
 let rsetf i n = !g_core.freg.(i) <- n
 let mgetf i = !g_core.fmem.(i)
 let msetf i j = !g_core.fmem.(i) <- j
+let cget () = !(!g_core.cc)
+let cset b = !g_core.cc := b
 let round_even f =
   let d = f -. (float_of_int @@ int_of_float f) in
   if d < 0.5 then int_of_float f
@@ -75,6 +78,16 @@ let verify_operands () =
     | OpMfc2,  (Reg i, Reg j,     _) -> !(g_program_verified).(index) <- (OpMfc2,  i, j, 0)
     | OpRevn,  (Reg i, Reg j,     _) -> !(g_program_verified).(index) <- (OpRevn,  i, j, 0)
     | OpCvtsw, (Reg i, Reg j,     _) -> !(g_program_verified).(index) <- (OpCvtsw, i, j, 0)
+    (* float比較命令 *)
+    | OpEqf, (Reg i, Reg j, _)       -> !(g_program_verified).(index) <- (OpEqf, i, j, 0)
+    | OpNef, (Reg i, Reg j, _)       -> !(g_program_verified).(index) <- (OpNef, i, j, 0)
+    | OpLtf, (Reg i, Reg j, _)       -> !(g_program_verified).(index) <- (OpLtf, i, j, 0)
+    | OpLef, (Reg i, Reg j, _)       -> !(g_program_verified).(index) <- (OpLef, i, j, 0)
+    | OpGtf, (Reg i, Reg j, _)       -> !(g_program_verified).(index) <- (OpGtf, i, j, 0)
+    | OpGef, (Reg i, Reg j, _)       -> !(g_program_verified).(index) <- (OpGef, i, j, 0)
+    (* float制御命令 *)
+    | OpBct, (Reg i, _, _)           -> !(g_program_verified).(index) <- (OpBct, i, 0, 0)
+    | OpBcf, (Reg i, _, _)           -> !(g_program_verified).(index) <- (OpBcf, i, 0, 0)
     (* メモリ命令 *)
     | OpLi,   (Reg i, Imm j, Empty)  -> !(g_program_verified).(index) <- (OpLi,   i, j, 0)
     | OpLui,  (Reg i, Imm j, Empty)  -> !(g_program_verified).(index) <- (OpLui,  i, j, 0)
@@ -124,8 +137,18 @@ let exec_oneline : line_verified -> unit = function
   (* float変換命令 *)
   | OpMfc1, i, j, _  -> rset  i @@ Int32.to_int @@ Int32.bits_of_float @@ rgetf j; incr ()
   | OpMfc2, i, j, _  -> rsetf i @@ Int32.float_of_bits @@ Int32.of_int @@ rget  j; incr ()
-  | OpRevn, i, j, _ -> rset i @@ round_even @@ rgetf j
-  | OpCvtsw, i, j, _ -> rsetf i @@ float_of_int @@ rget j
+  | OpRevn, i, j, _ -> rset i @@ round_even @@ rgetf j;                            incr ()
+  | OpCvtsw, i, j, _ -> rsetf i @@ float_of_int @@ rget j;                         incr ()
+  (* float比較命令 *)
+  | OpEqf, i, j, _ -> cset (rgetf i = rgetf j);  incr ()
+  | OpNef, i, j, _ -> cset (rgetf i <> rgetf j); incr ()
+  | OpLtf, i, j, _ -> cset (rgetf i < rgetf j);  incr ()
+  | OpLef, i, j, _ -> cset (rgetf i <= rgetf j); incr ()
+  | OpGtf, i, j, _ -> cset (rgetf i > rgetf j);  incr ()
+  | OpGef, i, j, _ -> cset (rgetf i >= rgetf j); incr ()
+  (* float制御命令 *)
+  | OpBct, i, _, _ -> jump @@ if      cget ()  then i else next_pc ()
+  | OpBcf, i, _, _ -> jump @@ if not (cget ()) then i else next_pc ()
   (* メモリ命令 *)
   | OpLi,   i, j, _
   | OpLui,  i, j, _ -> rset i j;                    incr ()

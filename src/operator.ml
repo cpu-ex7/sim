@@ -41,6 +41,16 @@ type t =
   | OpMfc2
   | OpRevn
   | OpCvtsw
+  (* float比較命令 *)
+  | OpEqf
+  | OpNef
+  | OpLtf
+  | OpLef
+  | OpGtf
+  | OpGef
+  (* float制御命令 *)
+  | OpBct
+  | OpBcf
   (* メモリ命令 *)
   | OpLi
   | OpLui
@@ -90,6 +100,16 @@ let op_alist =
     ("mfc2", OpMfc2);
     ("round.w.fmt", OpRevn);
     ("cvt.s.w", OpCvtsw);
+    (* float比較命令 *)
+    ("eqf", OpEqf);
+    ("nef", OpNef);
+    ("ltf", OpLtf);
+    ("lef", OpLef);
+    ("gtf", OpGtf);
+    ("gef", OpGef);
+    (* float比較命令 *)
+    ("bc1t", OpBct);
+    ("bc1f", OpBcf);
     (* メモリ命令 *)
     ("li", OpLi);
     ("lui", OpLui);

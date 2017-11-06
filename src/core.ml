@@ -1,5 +1,6 @@
 type t = {
   pc : int ref;       (* プログラムカウンタ *)
+  cc : bool ref;       (* コンディションレジスタ($cc) *)
   reg : int array;    (* 整数レジスタ *)
   freg : float array; (* floatレジスタ *)
   mem : int array;    (* メモリ *)
@@ -13,6 +14,7 @@ type t = {
 let g_core =
   ref {
     pc = ref 0;
+    cc = ref false;
     reg = Array.make 32 0;
     freg = Array.make 32 0.0;
     mem = Array.make 8192 0;    (* 一応 8192 にしておく、増やす必要? *)
@@ -25,6 +27,7 @@ let g_core =
 let load_empty_core () = g_core :=
     {
       pc = ref 0;
+      cc = ref false;
       reg = Array.make 32 0;
       freg = Array.make 32 0.0;
       mem = Array.make 8192 0;    (* 一応 8192 にしておく、増やす必要? *)
