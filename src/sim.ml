@@ -21,14 +21,16 @@ let msetf i j = !g_core.fmem.(i) <- j
 let cget () = !(!g_core.cc)
 let cset b = !g_core.cc := b
 let round_even f =
-  let d = f -. (float_of_int @@ int_of_float f) in
-  if d < 0.5 then int_of_float f
-  else if d > 0.5 then int_of_float @@ f +. 1.0
-  else
-    (* f = x.5 のとき: 偶数丸め *)
-    let i = int_of_float f in
-    if i mod 2 = 0 then i
-    else i + 1
+  let round_even_i f =
+    let d = f -. (float_of_int @@ int_of_float f) in
+    if d < 0.5 then int_of_float f
+    else if d > 0.5 then int_of_float @@ f +. 1.0
+    else
+      (* f = x.5 のとき: 偶数丸め *)
+      let i = int_of_float f in
+      if i mod 2 = 0 then i
+      else i + 1 in
+  float_of_int @@ round_even_i f
 
 (* Program.g_programのオペランドがあっているかを確認し、
    簡略化したプログラムをg_program_verifiedに格納する。 *)
@@ -137,7 +139,7 @@ let exec_oneline : line_verified -> unit = function
   (* float変換命令 *)
   | OpMfc1, i, j, _  -> rset  i @@ Int32.to_int @@ Int32.bits_of_float @@ rgetf j; incr ()
   | OpMfc2, i, j, _  -> rsetf i @@ Int32.float_of_bits @@ Int32.of_int @@ rget  j; incr ()
-  | OpRevn, i, j, _ -> rset i @@ round_even @@ rgetf j;                            incr ()
+  | OpRevn, i, j, _ -> rsetf i @@ round_even @@ rgetf j;                            incr ()
   | OpCvtsw, i, j, _ -> rsetf i @@ float_of_int @@ rget j;                         incr ()
   (* float比較命令 *)
   | OpEqf, i, j, _ -> cset (rgetf i = rgetf j);  incr ()
