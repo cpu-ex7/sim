@@ -45,6 +45,17 @@ let verify_operands () =
     | OpBne,  (Reg i, Reg j, Dest k) -> !(g_program_verified).(index) <- (OpBne,  i, j, k)
     | OpBeq,  (Reg i, Reg j, Dest k) -> !(g_program_verified).(index) <- (OpBeq,  i, j, k)
     | OpHalt, _                      -> !(g_program_verified).(index) <- (OpHalt, 0, 0, 0)
+    (* float命令 *)
+    | OpSwc1, (Reg i, Reg j, Imm k)  -> !(g_program_verified).(index) <- (OpSwc1, i, j, k)
+    | OpLwc1, (Reg i, Reg j, Imm k)  -> !(g_program_verified).(index) <- (OpLwc1, i, j, k)
+    | OpSwc2, (Reg i,     _,     _)  -> !(g_program_verified).(index) <- (OpSwc2, i, 0, 0)
+    | OpLwc2, (Reg i,     _,     _)  -> !(g_program_verified).(index) <- (OpLwc2, i, 0, 0)
+    | OpAddf, (Reg i, Reg j, Reg k)  -> !(g_program_verified).(index) <- (OpAddf, i, j, k)
+    | OpSubf, (Reg i, Reg j, Reg k)  -> !(g_program_verified).(index) <- (OpSubf, i, j, k)
+    | OpDivf, (Reg i, Reg j, Reg k)  -> !(g_program_verified).(index) <- (OpDivf, i, j, k)
+    | OpMulf, (Reg i, Reg j, Reg k)  -> !(g_program_verified).(index) <- (OpMulf, i, j, k)
+    | OpSqrt, (Reg i, Reg j,     _)  -> !(g_program_verified).(index) <- (OpDivf, i, j, 0)
+    | OpAbs,  (Reg i, Reg j,     _)  -> !(g_program_verified).(index) <- (OpMulf, i, j, 0)
     (* メモリ命令 *)
     | OpLi,   (Reg i, Imm j, Empty)  -> !(g_program_verified).(index) <- (OpLi,   i, j, 0)
     | OpLui,  (Reg i, Imm j, Empty)  -> !(g_program_verified).(index) <- (OpLui,  i, j, 0)
@@ -116,6 +127,17 @@ let exec_oneline : line_verified -> unit = function
   | OpBeq, i, j, k ->
       !g_core.pc := if rget i = rget j then k else !(!g_core.pc) + 1
   | OpHalt, _, _, _ -> raise ExecutionEnd
+  (* float命令 *)
+  | OpLwc1, i, j, k -> rsetf i !g_core.fmem.(k + rget j)      ; incr ();
+  | OpSwc1, i, j, k -> !g_core.fmem.(k + rget j) <- rgetf i; incr ();
+  | OpLwc2, i, _, _ -> rsetf i (float_of_string (read_line ())); incr ();
+  | OpSwc2, i, _, _ -> print_float @@ rgetf i; incr ();
+  | OpAddf, i, j, k -> rsetf i (rgetf j +. rgetf k); incr ();
+  | OpSubf, i, j, k -> rsetf i (rgetf j -. rgetf k); incr ();
+  | OpMulf, i, j, k -> rsetf i (rgetf j *. rgetf k); incr ();
+  | OpDivf, i, j, k -> rsetf i (rgetf j /. rgetf k); incr ();
+  | OpSqrt, i, j, _ -> rsetf i (sqrt @@ rgetf j); incr ();
+  | OpAbs,  i, j, _ -> rsetf i (abs_float @@ rgetf j); incr ()
   (* メモリ命令 *)
   | OpLi, i, j, _
   | OpLui,  i, j, _ (* no assertion *) ->

@@ -25,6 +25,17 @@ type t =
   | OpBne
   | OpBeq
   | OpHalt
+  (* float命令 *)
+  | OpLwc1
+  | OpLwc2
+  | OpSwc1
+  | OpSwc2
+  | OpAddf
+  | OpSubf
+  | OpMulf
+  | OpDivf
+  | OpSqrt
+  | OpAbs
   (* メモリ命令 *)
   | OpLi
   | OpLui
@@ -58,6 +69,17 @@ let op_alist =
     ("bne", OpBne);
     ("beq", OpBeq);
     ("halt", OpHalt);
+    (* float命令 *)
+    ("lwc1", OpLwc1);
+    ("swc1", OpSwc1);
+    ("lwc2", OpLwc2);
+    ("swc2", OpSwc2);
+    ("addf", OpAddf);
+    ("subf", OpSubf);
+    ("mulf", OpMulf);
+    ("divf", OpDivf);
+    ("sqrt", OpSqrt);
+    ("abs", OpAbs);
     (* メモリ命令 *)
     ("li", OpLi);
     ("lui", OpLui);
