@@ -17,6 +17,15 @@ let rgetf i = !g_core.freg.(i)
 let rsetf i n = !g_core.freg.(i) <- n
 let mgetf i = !g_core.fmem.(i)
 let msetf i j = !g_core.fmem.(i) <- j
+let round_even f =
+  let d = f -. (float_of_int @@ int_of_float f) in
+  if d < 0.5 then int_of_float f
+  else if d > 0.5 then int_of_float @@ f +. 1.0
+  else
+    (* f = x.5 のとき: 偶数丸め *)
+    let i = int_of_float f in
+    if i mod 2 = 0 then i
+    else i + 1
 
 (* Program.g_programのオペランドがあっているかを確認し、
    簡略化したプログラムをg_program_verifiedに格納する。 *)
@@ -61,6 +70,11 @@ let verify_operands () =
     | OpMulf, (Reg i, Reg j, Reg k)  -> !(g_program_verified).(index) <- (OpMulf, i, j, k)
     | OpSqrt, (Reg i, Reg j,     _)  -> !(g_program_verified).(index) <- (OpDivf, i, j, 0)
     | OpAbs,  (Reg i, Reg j,     _)  -> !(g_program_verified).(index) <- (OpMulf, i, j, 0)
+    (* float変換命令 *)
+    | OpMfc1,  (Reg i, Reg j,     _) -> !(g_program_verified).(index) <- (OpMfc1,  i, j, 0)
+    | OpMfc2,  (Reg i, Reg j,     _) -> !(g_program_verified).(index) <- (OpMfc2,  i, j, 0)
+    | OpRevn,  (Reg i, Reg j,     _) -> !(g_program_verified).(index) <- (OpRevn,  i, j, 0)
+    | OpCvtsw, (Reg i, Reg j,     _) -> !(g_program_verified).(index) <- (OpCvtsw, i, j, 0)
     (* メモリ命令 *)
     | OpLi,   (Reg i, Imm j, Empty)  -> !(g_program_verified).(index) <- (OpLi,   i, j, 0)
     | OpLui,  (Reg i, Imm j, Empty)  -> !(g_program_verified).(index) <- (OpLui,  i, j, 0)
@@ -107,6 +121,11 @@ let exec_oneline : line_verified -> unit = function
   | OpDivf, i, j, k -> rsetf i (rgetf j /. rgetf k);             incr ()
   | OpSqrt, i, j, _ -> rsetf i (sqrt @@ rgetf j);                incr ()
   | OpAbs,  i, j, _ -> rsetf i (abs_float @@ rgetf j);           incr ()
+  (* float変換命令 *)
+  | OpMfc1, i, j, _  -> rset  i @@ Int32.to_int @@ Int32.bits_of_float @@ rgetf j; incr ()
+  | OpMfc2, i, j, _  -> rsetf i @@ Int32.float_of_bits @@ Int32.of_int @@ rget  j; incr ()
+  | OpRevn, i, j, _ -> rset i @@ round_even @@ rgetf j
+  | OpCvtsw, i, j, _ -> rsetf i @@ float_of_int @@ rget j
   (* メモリ命令 *)
   | OpLi,   i, j, _
   | OpLui,  i, j, _ -> rset i j;                    incr ()

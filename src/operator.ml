@@ -36,6 +36,11 @@ type t =
   | OpDivf
   | OpSqrt
   | OpAbs
+  (* float変換命令 *)
+  | OpMfc1
+  | OpMfc2
+  | OpRevn
+  | OpCvtsw
   (* メモリ命令 *)
   | OpLi
   | OpLui
@@ -80,6 +85,11 @@ let op_alist =
     ("divf", OpDivf);
     ("sqrt", OpSqrt);
     ("abs", OpAbs);
+    (* float変換命令 *)
+    ("mfc1", OpMfc1);
+    ("mfc2", OpMfc2);
+    ("round.w.fmt", OpRevn);
+    ("cvt.s.w", OpCvtsw);
     (* メモリ命令 *)
     ("li", OpLi);
     ("lui", OpLui);
