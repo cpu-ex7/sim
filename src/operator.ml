@@ -121,4 +121,6 @@ let op_alist_rev =
   List.map (fun (x, y) -> (y, x)) op_alist
 
 (* op_strに対応するOperator.t型の値を返す *)
-let of_string op_str = List.assoc op_str op_alist
+let of_string op_str =
+  try List.assoc op_str op_alist
+  with Not_found -> failwith @@ "operator not found: " ^ op_str

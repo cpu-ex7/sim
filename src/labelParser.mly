@@ -27,7 +27,8 @@ toplevel:
 line_list:
   | label line_list        { $2 }
   | others line_list       { Array.append [|$1|] $2 }
-  | label                  { [||] }
+
+| label                  { [||] }
   | others                 { [|$1|] }
 
 label:

@@ -3,7 +3,9 @@ open Simulator
 open Program
 open Sim
 open Asm
-open OpSyntax
+open Core
+open Operand
+open Operator
 
 let parse_test () =
   assert_equal
@@ -22,7 +24,7 @@ let parse_test () =
 
 let compile_test () =
   assert_equal
-    (Sim.file "sum.input"; !Program.g_lines)
+    (Sim.file "sum.input"; !Program.g_program)
     [|(OpAdd,  (Reg 9, Reg 0, Reg 0));
       (OpSlti, (Reg 8, Reg 4, Imm 1));
       (OpBne,  (Reg 8, Reg 0, Dest 6));
@@ -81,7 +83,7 @@ let instruction_test () =
      li  $t1, 3
      and $t0, $t0, $t1";
   assert_equal
-    (exec_all ()).reg.(OpSyntax.regnum_of_string "$t0")
+    (exec_all ()).reg.(Operand.regnum_of_string "$t0")
     3;
 
   Sim.string
@@ -89,7 +91,7 @@ let instruction_test () =
      li  $t1, 1
      or $t0, $t0, $t1";
   assert_equal
-    (exec_all ()).reg.(OpSyntax.regnum_of_string "$t0")
+    (exec_all ()).reg.(Operand.regnum_of_string "$t0")
     7;
 
   Sim.string
@@ -97,7 +99,7 @@ let instruction_test () =
      li  $t1, 1
      xor $t0, $t0, $t1";
   assert_equal
-    (exec_all ()).reg.(OpSyntax.regnum_of_string "$t0")
+    (exec_all ()).reg.(Operand.regnum_of_string "$t0")
     6;
 
   Sim.string
@@ -105,7 +107,7 @@ let instruction_test () =
      li  $t1, 1
      nor $t0, $t0, $t1";
   assert_equal
-    (exec_all ()).reg.(OpSyntax.regnum_of_string "$t0")
+    (exec_all ()).reg.(Operand.regnum_of_string "$t0")
     ~-8;
 
   Sim.string
@@ -113,7 +115,7 @@ let instruction_test () =
      li  $t1, 16
      sub $t0, $t0, $t1";
   assert_equal
-    (exec_all ()).reg.(OpSyntax.regnum_of_string "$t0")
+    (exec_all ()).reg.(Operand.regnum_of_string "$t0")
     ~-14;
   ()
 

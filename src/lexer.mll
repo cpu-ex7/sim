@@ -11,7 +11,7 @@ let comment = '#'[^'\n']*'\n'
 
 rule main = parse
 | space+          { main lexbuf }
-| comment         { new_line lexbuf; main lexbuf }
+| comment         { new_line lexbuf; NEWLINE }
 | "\n"            { new_line lexbuf; NEWLINE }
 | ","             { COMMA }
 | ":"             { COLON }
