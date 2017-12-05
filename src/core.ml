@@ -10,7 +10,7 @@ type t = {
   count : int ref;    (* ログ *)
 }
 
-let empty_core () =
+let empty () =
   let core =
     {
       pc = ref 0;
@@ -29,22 +29,38 @@ let empty_core () =
   core.reg.(Operand.regnum_of_string "$ra") <- -1;
   core
 
-(* グローバルのコア *)
-let g_core = ref @@ empty_core ()
-
-(* グローバルのコアに空のコアをロードする *)
-let load_empty_core () = g_core := empty_core ()
-
 (* 引数用レジスタにnumsをセットする *)
-let set_args args =
+let set_args core args =
   assert ((List.length args) <= 4);
   List.iteri
     (fun i n ->
-       !g_core.reg.(Operand.regnum_of_string "$a0" + i) <- n)
+       !core.reg.(Operand.regnum_of_string "$a0" + i) <- n)
     args
 
-let set_fp n =
-  !g_core.reg.(Operand.regnum_of_string "$fp") <- n
+let set_register_name core str n =
+  !core.reg.(Operand.regnum_of_string str) <- n
+let set_register_idx core idx n =
+  !core.reg.(idx) <- n
 
-let set_sp n =
-  !g_core.reg.(Operand.regnum_of_string "$sp") <- n
+(* from番地からnum個のメモリの内容を表示 *)
+let dump_memory core from num =
+  print_endline "memory (int)";
+  for i = from to from + num do
+    Printf.printf "mem[%d] -> %d" i (!core.mem.(i))
+  done;
+  print_endline "memory (float)";
+  for i = from to from + num do
+    Printf.printf "smem[%d] -> %f" i (!core.fmem.(i))
+  done
+
+(* from番地からi個のメモリの内容を返す *)
+let dump_memory_alist core from num =
+  let ans = ref [] in
+  for i = from to from + num do
+    ans := (i, !core.mem.(i)) :: !ans
+  done;
+  let fans = ref [] in
+  for i = from to from + num do
+    fans := (i, !core.fmem.(i)) :: !fans
+  done;
+  !ans, !fans
