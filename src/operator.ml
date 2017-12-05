@@ -122,5 +122,7 @@ let op_alist_rev =
 
 (* op_strに対応するOperator.t型の値を返す *)
 let of_string op_str =
-  try List.assoc op_str op_alist
-  with Not_found -> failwith @@ "operator not found: " ^ op_str
+  try
+    List.assoc op_str op_alist
+  with Not_found ->
+    failwith @@ "operand not found : " ^ op_str

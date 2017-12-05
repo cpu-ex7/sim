@@ -43,7 +43,7 @@ let string_of_regnum = function
   | 29 -> "$sp"
   | 30 -> "$fp"
   | 31 -> "$ra"
-  | _ -> failwith "string_of_regnum"
+  | i -> failwith @@ "invalid register number : " ^ (string_of_int i)
 
 (* レジスタ文字列を数字に変換 *)
 let regnum_of_string = function
@@ -79,4 +79,4 @@ let regnum_of_string = function
   | "$sp" -> 29
   | "$fp" -> 30
   | "$ra" -> 31
-  | _ -> failwith "regnum_of_string"
+  | str -> failwith @@ "invalid register name : " ^ str
