@@ -87,6 +87,6 @@ let execute core = function
   | OpBcf, i, _, _ -> jump core @@ if not (cget core) then i else next_pc core
   (* メモリ命令 *)
   | OpLi,   i, j, _
-  | OpLui,  i, j, _ -> rset core i j;                    incr core
+  | OpLui,  i, j, _ -> rset core i ((i land ((1 lsl 17) -1)) + (j lsl 17)); incr core
   | OpLw,   i, j, k -> rset core i @@ mget core (j + rget core k); incr core
   | OpSw,   i, j, k -> mset core (j + rget core k) (rget core i);  incr core
