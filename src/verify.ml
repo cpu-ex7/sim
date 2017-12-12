@@ -1,6 +1,9 @@
 open Operator
 open Operand
 
+type line_verified = Operator.t * int * int * int
+type t = line_verified array
+
 (* Program.g_programのオペランドがあっているかを確認し、
    簡略化したプログラムをg_program_verifiedに格納する。 *)
 let f parsed_program =

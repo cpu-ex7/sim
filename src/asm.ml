@@ -123,14 +123,14 @@ let bits_of_line line line_num =
   | OpBcf,   i, _, _ -> sprintf "%s%s%s"
                           "010001" (bits_of_num i 20) "010000"
 
-let print_assembly () =
+let print_assembly prog_verified =
   Array.iteri
     (fun line_num l -> print_endline (bits_of_line l line_num))
-    !Program.g_program_verified
+    prog_verified
 
-let assembly_string () =
+let string_of_assembly prog_verified =
   let ans = ref "" in
   Array.iteri
     (fun line_num l -> ans := (!ans ^ (bits_of_line l line_num)) ^ "\n")
-    !Program.g_program_verified;
+    prog_verified;
   !ans

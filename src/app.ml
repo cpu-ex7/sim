@@ -2,7 +2,7 @@ open Core
 
 (* シミュレーターの状態 *)
 type state = {
-  program : Program.t_verified ref;
+  program : Verify.t ref;
   label   : Label.t ref;
   core    : Core.t ref;
 }
@@ -79,3 +79,9 @@ let load_string str =
   ParserArgs.label := label_parse_string str;
   !g.label := !ParserArgs.label;
   !g.program := !(Verify.f (parse_string str))
+
+let print_assembly () =
+  Asm.print_assembly (program g)
+
+let string_of_assembly () =
+  Asm.string_of_assembly (program g)

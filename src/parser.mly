@@ -47,5 +47,6 @@ operand:
   | NUM LPAREN REG RPAREN  { RelReg ($1, $3) }
   | VAR {
      try Dest (List.assoc $1 !(ParserArgs.label))
-     with Not_found -> failwith ("parser: label definition not found: " ^ $1)
+     with Not_found ->
+       failwith ("parser: label definition not found: " ^ $1)
    }
