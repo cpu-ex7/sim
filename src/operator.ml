@@ -7,6 +7,7 @@ type t =
   (* 論理命令 *)
   | OpAnd
   | OpOr
+  | OpOri
   | OpNor
   | OpXor
   (* シフト命令 *)
@@ -52,7 +53,6 @@ type t =
   | OpBct
   | OpBcf
   (* メモリ命令 *)
-  | OpLi
   | OpLui
   | OpLw
   | OpSw
@@ -66,6 +66,7 @@ let op_alist =
     (* 論理命令 *)
     ("and", OpAnd);
     ("or", OpOr);
+    ("ori", OpOri);
     ("nor", OpNor);
     ("xor", OpXor);
     (* シフト命令 *)
@@ -111,7 +112,6 @@ let op_alist =
     ("bc1t", OpBct);
     ("bc1f", OpBcf);
     (* メモリ命令 *)
-    ("li", OpLi);
     ("lui", OpLui);
     ("lw", OpLw);
     ("sw", OpSw);]

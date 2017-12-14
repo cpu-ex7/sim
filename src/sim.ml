@@ -41,6 +41,7 @@ let execute core = function
   (* 論理命令 *)
   | OpAnd, i, j, k -> rset core i (rget core j land rget core k);       incr core
   | OpOr,  i, j, k -> rset core i (rget core j lor rget core k);        incr core
+  | OpOri, i, j, k -> rset core i (rget core j lor k);                  incr core
   | OpNor, i, j, k -> rset core i (lnot (rget core j lor rget core k)); incr core
   | OpXor, i, j, k -> rset core i (rget core j lxor rget core k);       incr core
   (* シフト命令 *)
@@ -86,7 +87,6 @@ let execute core = function
   | OpBct, i, _, _ -> jump core @@ if      cget core then i else next_pc core
   | OpBcf, i, _, _ -> jump core @@ if not (cget core) then i else next_pc core
   (* メモリ命令 *)
-  | OpLi,   i, j, _
   | OpLui,  i, j, _ -> rset core i ((i land ((1 lsl 17) -1)) + (j lsl 17)); incr core
   | OpLw,   i, j, k -> rset core i @@ mget core (j + rget core k); incr core
   | OpSw,   i, j, k -> mset core (j + rget core k) (rget core i);  incr core

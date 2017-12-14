@@ -33,6 +33,8 @@ let bits_of_line line line_num =
                           "000000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "00000" "100100"
   | OpOr,    i, j, k -> sprintf "%s%s%s%s%s%s"
                           "000000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "00000" "000000"
+  | OpOri,   i, j, k -> sprintf "%s%s%s%s"
+                          "001101" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num k 16)
   | OpNor,   i, j, k -> sprintf "%s%s%s%s%s%s"
                           "000000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "00000" "000111"
   | OpXor,   i, j, k -> sprintf "%s%s%s%s%s%s"
@@ -67,8 +69,7 @@ let bits_of_line line line_num =
                           "000101" (bits_of_num i 5) (bits_of_num j 5) (bits_of_num (k - line_num) 16)
   | OpHalt,  _, _, _  -> ""
   (* メモリ命令 *)
-  | OpLui,   i, j, _
-  | OpLi,    i, j, _ -> sprintf "%s%s%s%s"
+  | OpLui,   i, j, _ -> sprintf "%s%s%s%s"
                           "001111" "00000" (bits_of_num i 5) (bits_of_num j 16)
   | OpLw,    i, j, k -> sprintf "%s%s%s%s"
                           "100011" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num k 16)
