@@ -24,7 +24,6 @@ let file_test () =
   ()
 
 let instruction_test () =
-  let assert_equal = assert_equal ?printer:(Some string_of_int) in
 
   App.reset_all ();
   App.load_string
@@ -70,6 +69,35 @@ let instruction_test () =
   assert_equal
     (App.execute ()).reg.(Operand.regnum_of_string "$t0")
     ~-14;
+
+  App.reset_all ();
+  App.set_input "hoge";
+  App.load_string "
+    read_char $zero
+    read_char $at
+    read_char $v0
+    read_char $v1";
+  let core = App.execute () in
+  assert_equal
+    (core.reg.(regnum_of_string "$zero"),
+     core.reg.(regnum_of_string "$at"),
+     core.reg.(regnum_of_string "$v0"),
+     core.reg.(regnum_of_string "$v1"))
+    (104, 111, 103, 101);
+
+  App.reset_all ();
+  App.load_string "
+    addi $v0, $zero, 104
+    print_char $v0
+    addi $v0, $zero, 111
+    print_char $v0
+    addi $v0, $zero, 103
+    print_char $v0
+    addi $v0, $zero, 101
+    print_char $v0";
+  ignore (App.execute ());
+  (* 出力が"hoge"ならOK *)
+
   ()
 
 let suite =

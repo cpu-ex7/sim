@@ -9,10 +9,10 @@ type state = {
 
 (* グローバルの状態 *)
 let g = ref {
-  program = ref [||];
-  label=ref [];
-  core= ref (Core.empty ());
-}
+    program = ref [||];
+    label=ref [];
+    core= ref (Core.empty ());
+  }
 
 let reset_all () =
   g := {
@@ -85,3 +85,7 @@ let print_assembly () =
 
 let string_of_assembly () =
   Asm.string_of_assembly (program g)
+
+let set_input str =
+  (core g).input_index := 0;
+  (core g).input_string := str

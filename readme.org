@@ -34,5 +34,15 @@ $ ./_build/default/Bench.exe
 
 ユーザーが使うであろう関数はすべて =App= モジュールに入っているので、utopの補完を元に探そう。
 
+よく使う関数まとめ。
+
+| load_file      | ファイルの内容をアセンブリとして読み込む |
+| load_string    | 文字列をアセンブリとして読み込む         |
+| execute        | 最後まで実行する                         |
+| print_assembly | アセンブラの出力を表示                   |
+| set_args       | 引数用レジスタに整数をセットする         |
+| set_input      | コアへの入力をセットする                 |
+
+
 #+CAPTION: デモ
 [[file:demo.png]]

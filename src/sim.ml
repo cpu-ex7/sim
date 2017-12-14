@@ -20,6 +20,9 @@ let mgetf core i = core.fmem.(i)
 let msetf core i j = core.fmem.(i) <- j
 let cget core  = !(core.cc)
 let cset core b = core.cc := b
+let get_input core =
+  core.input_index := !(core.input_index) + 1;
+  !(core.input_string).[!(core.input_index) - 1]
 let round_even f =
   let round_even_i f =
     let d = f -. (float_of_int @@ int_of_float f) in
@@ -63,8 +66,8 @@ let execute core = function
   (* float命令 *)
   | OpLwc1, i, j, k -> rsetf core i core.fmem.(k + rget core j);      incr core
   | OpSwc1, i, j, k -> msetf core (k + rget core j) (rgetf core i);   incr core
-  | OpLwc2, i, _, _ -> rsetf core i (float_of_string (read_line ())); incr core
-  | OpSwc2, i, _, _ -> print_float @@ rgetf core i;                   incr core
+  | OpLwc2, i, _, _ -> rset core i (Char.code (get_input core));      incr core
+  | OpSwc2, i, _, _ -> print_char @@ Char.chr @@ rget core i;         incr core
   | OpAddf, i, j, k -> rsetf core i (rgetf core j +. rgetf core k);   incr core
   | OpSubf, i, j, k -> rsetf core i (rgetf core j -. rgetf core k);   incr core
   | OpMulf, i, j, k -> rsetf core i (rgetf core j *. rgetf core k);   incr core

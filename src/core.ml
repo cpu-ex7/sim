@@ -7,6 +7,8 @@ type t = {
   (* floatメモリ: 型の整合性を取るのが難しいので、int/floatでメモリを分ける *)
   (* 2つのメモリ間の同期は取らない *)
   fmem : float array;
+  input_string : string ref;
+  input_index : int ref;
   count : int ref;    (* ログ *)
 }
 
@@ -19,6 +21,8 @@ let empty () =
       freg = Array.make 32 0.0;
       mem = Array.make 8192 0;    (* 一応 8192 にしておく、増やす必要? *)
       fmem = Array.make 8192 0.0; (* 一応 8192 にしておく、増やす必要? *)
+      input_string = ref "";
+      input_index = ref 0;
       count = ref 0
     } in
   (* fp, spの初期値は適当 *)

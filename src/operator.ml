@@ -89,7 +89,9 @@ let op_alist =
     ("lwc1", OpLwc1);
     ("swc1", OpSwc1);
     ("lwc2", OpLwc2);
+    ("read_char", OpLwc2);
     ("swc2", OpSwc2);
+    ("print_char", OpSwc2);
     ("addf", OpAddf);
     ("subf", OpSubf);
     ("mulf", OpMulf);
