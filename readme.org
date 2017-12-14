@@ -1,0 +1,38 @@
+* Simulator
+
+** ビルド
+
+jbuilderとMenhirが必要
+
+#+BEGIN_SRC bash
+$ opam install jbuilder menhir
+#+END_SRC
+
+コンパイラも速いほうがいい
+
+#+BEGIN_SRC bash
+$ opam switch 4.05.0+flambda
+$ eval `opam config env`
+#+END_SRC
+
+*** ビルドしてREPLを起動
+
+#+BEGIN_SRC bash
+$ jbuilder utop src
+#+END_SRC
+
+*** 高速な実行形式を作成
+
+bench.mlをいじってから
+
+#+BEGIN_SRC bash
+$ jbuilder build Bench.exe
+$ ./_build/default/Bench.exe
+#+END_SRC
+
+** REPLの操作
+
+ユーザーが使うであろう関数はすべて =App= モジュールに入っているので、utopの補完を元に探そう。
+
+#+CAPTION: デモ
+[[file:demo.png]]
