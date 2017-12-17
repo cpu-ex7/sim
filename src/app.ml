@@ -81,6 +81,13 @@ let load_string str =
   !g.label := !ParserArgs.label;
   !g.program := !(Verify.f (parse_string str))
 
+(* コアの状態をリセットすることなくstrを実行する *)
+(* デバッグ用 *)
+let execute_string str =
+  load_string str;
+  (core g).pc := of_int 0;
+  execute ()
+
 let print_assembly () =
   Asm.print_assembly (program g)
 

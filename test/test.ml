@@ -86,16 +86,26 @@ let instruction_test () =
 
   App.reset_all ();
   App.load_string "
-    addi $v0, $zero, 104
+    addi $v0, $zero, 105
+    print_char $v0
+    addi $v0, $zero, 116
+    print_char $v0
+    addi $v0, $zero, 32
+    print_char $v0
+    addi $v0, $zero, 119
     print_char $v0
     addi $v0, $zero, 111
     print_char $v0
-    addi $v0, $zero, 103
+    addi $v0, $zero, 114
     print_char $v0
-    addi $v0, $zero, 101
+    addi $v0, $zero, 107
+    print_char $v0
+    addi $v0, $zero, 115
+    print_char $v0
+    addi $v0, $zero, 33
     print_char $v0";
   ignore (App.execute ());
-  (* 出力が"hoge"ならOK *)
+  (* 出力が"it works!"ならOK *)
 
   App.reset_all ();
   App.load_string

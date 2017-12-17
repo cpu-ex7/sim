@@ -48,7 +48,7 @@ let set_register_idx core idx n =
 let dump_memory core from num =
   print_endline "memory (int)";
   for i = from to from + num do
-    Printf.printf "mem[%d] -> %d" i (to_int !core.mem.(i))
+    Printf.printf "mem[%d] -> %d\n" i (to_int !core.mem.(i))
   done
 
 (* from番地からi個のメモリの内容を返す *)
