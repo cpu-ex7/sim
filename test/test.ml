@@ -109,12 +109,11 @@ let instruction_test () =
 
   App.reset_all ();
   App.load_string
-    (Printf.sprintf"
-       ori  $v1, $zero, %s
-       sw   $v1, 0($zero)
-       lwc1 $f0, 0($zero)
-       addf $f1, $f0, $f0
-     " (Int32.to_string (Int32.bits_of_float 12345.6789)));
+    "lui  $v1, 17984
+     ori  $v1, $v1, 59063
+     sw   $v1, 0($zero)
+     lwc1 $f0, 0($zero)
+     addf $f1, $f0, $f0";
   let core = App.execute () in
   assert_equal
     ~printer:(fun (x, y) -> Printf.sprintf "%f, %f" x y)

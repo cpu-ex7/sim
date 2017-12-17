@@ -43,9 +43,9 @@ let shift_right a b =
 let shift_right_logical a b =
   shift_right_logical a (to_int b)
 
-(* 1 << 17 - 1 *)
+(* 1 << 16 - 1 *)
 (* luiで使用 *)
-let shift_num = of_int 131071
+let shift_num = of_int 65535
 
 (* 命令を一行実行する *)
 let execute core = function
@@ -102,6 +102,9 @@ let execute core = function
   | OpBct, i, _, _ -> jump core @@ if      cget core then i else next_pc core
   | OpBcf, i, _, _ -> jump core @@ if not (cget core) then i else next_pc core
   (* メモリ命令 *)
-  | OpLui,  i, j, _ -> rset core i (add (logand i shift_num) (Int32.shift_left j 17)); incr core
+  | OpLui,  i, j, _ -> rset core i
+                         (add
+                            (logand (rget core i) shift_num)
+                            (Int32.shift_left j 16)); incr core
   | OpLw,   i, j, k -> rset core i @@ mget core (add j @@ rget core k); incr core
   | OpSw,   i, j, k -> mset core (add j @@ rget core k) (rget core i);  incr core
