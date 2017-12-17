@@ -36,12 +36,13 @@ $ ./_build/default/Bench.exe
 
 よく使う関数まとめ。
 
-| load_file      | ファイルの内容をアセンブリとして読み込む |
-| load_string    | 文字列をアセンブリとして読み込む         |
-| execute        | 最後まで実行する                         |
-| print_assembly | アセンブラの出力を表示                   |
-| set_args       | 引数用レジスタに整数をセットする         |
-| set_input      | コアへの入力をセットする                 |
+| load_file      | ファイルの内容をアセンブリとして読み込む                            |
+| load_string    | 文字列をアセンブリとして読み込む                                    |
+| execute        | ロードしたプログラムを最後まで実行する                              |
+| execute_string | コアの状態をリセットすることなく文字列をロード&実行する(デバッグ用) |
+| print_assembly | アセンブラの出力を表示                                              |
+| set_args       | 引数用レジスタに整数をセットする                                    |
+| set_input      | コアへの入力をセットする                                            |
 
 
 #+CAPTION: デモ
