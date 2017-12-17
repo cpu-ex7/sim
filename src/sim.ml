@@ -1,3 +1,4 @@
+open Int32
 open Core
 open Operand
 open Operator
@@ -7,22 +8,22 @@ open Program
 exception ExecutionEnd
 
 (* ユーティリティ関数 *)
-let next_pc core = !(core.pc) + 1
-let incr core = core.pc := !(core.pc) + 1
+let next_pc core = add !(core.pc) one
+let incr core = core.pc := add !(core.pc) one
 let jump core i = core.pc := i
-let rget core i = core.reg.(i)
-let rset core i n = core.reg.(i) <- n
-let mget core i = core.mem.(i)
-let mset core i j = core.mem.(i) <- j
-let rgetf core i = core.freg.(i)
-let rsetf core i n = core.freg.(i) <- n
-let mgetf core i = core.fmem.(i)
-let msetf core i j = core.fmem.(i) <- j
+let rget core i = core.reg.(to_int i)
+let rset core i n = core.reg.(to_int i) <- n
+let mget core i = core.mem.(to_int i)
+let mgetf core i = float_of_bits core.mem.(to_int i)
+let mset core i j = core.mem.(to_int i) <- j
+let msetf core i j = core.mem.(to_int i) <- bits_of_float j
+let rgetf core i = core.freg.(to_int i)
+let rsetf core i n = core.freg.(to_int i) <- n
 let cget core  = !(core.cc)
 let cset core b = core.cc := b
 let get_input core =
   core.input_index := !(core.input_index) + 1;
-  !(core.input_string).[!(core.input_index) - 1]
+  !(core.input_string).[!(core.input_index) - 1] |> Char.code |> of_int
 let round_even f =
   let round_even_i f =
     let d = f -. (float_of_int @@ int_of_float f) in
@@ -35,50 +36,61 @@ let round_even f =
       else i + 1 in
   float_of_int @@ round_even_i f
 
+let shift_left a b =
+  shift_left a (to_int b)
+let shift_right a b =
+  shift_right a (to_int b)
+let shift_right_logical a b =
+  shift_right_logical a (to_int b)
+
+(* 1 << 17 - 1 *)
+(* luiで使用 *)
+let shift_num = of_int 131071
+
 (* 命令を一行実行する *)
 let execute core = function
   (* 算術命令 *)
-  | OpAdd,  i, j, k -> rset core i (rget core j + rget core k); incr core
-  | OpSub,  i, j, k -> rset core i (rget core j - rget core k); incr core
-  | OpAddi, i, j, k -> rset core i (rget core j + k);      incr core
+  | OpAdd,  i, j, k -> rset core i (add (rget core j) (rget core k)); incr core
+  | OpSub,  i, j, k -> rset core i (sub (rget core j) (rget core k)); incr core
+  | OpAddi, i, j, k -> rset core i (add (rget core j)             k); incr core
   (* 論理命令 *)
-  | OpAnd, i, j, k -> rset core i (rget core j land rget core k);       incr core
-  | OpOr,  i, j, k -> rset core i (rget core j lor rget core k);        incr core
-  | OpOri, i, j, k -> rset core i (rget core j lor k);                  incr core
-  | OpNor, i, j, k -> rset core i (lnot (rget core j lor rget core k)); incr core
-  | OpXor, i, j, k -> rset core i (rget core j lxor rget core k);       incr core
+  | OpAnd, i, j, k -> rset core i (logand (rget core j) (rget core k)); incr core
+  | OpOr,  i, j, k -> rset core i (logor  (rget core j) (rget core k)); incr core
+  | OpOri, i, j, k -> rset core i (logor  (rget core j)             k); incr core
+  | OpNor, i, j, k -> rset core i (lognot (logor (rget core j) (rget core k))); incr core
+  | OpXor, i, j, k -> rset core i (logxor (rget core j) (rget core k)); incr core
   (* シフト命令 *)
-  | OpSll,  i, j, k -> rset core i (rget core j lsl k);           incr core
-  | OpSllv, i, j, k -> rset core i (rget core j lsl rget core k); incr core
-  | OpSrl,  i, j, k -> rset core i (rget core j lsr k);           incr core
-  | OpSrlv, i, j, k -> rset core i (rget core j lsr rget core k); incr core
-  | OpSra,  i, j, k -> rset core i (rget core j asr rget core k); incr core
-  | OpSrav, i, j, k -> rset core i (rget core j asr k);           incr core
+  | OpSll,  i, j, k -> rset core i (shift_left          (rget core j)             k); incr core
+  | OpSllv, i, j, k -> rset core i (shift_left          (rget core j) (rget core k)); incr core
+  | OpSrl,  i, j, k -> rset core i (shift_right_logical (rget core j)             k); incr core
+  | OpSrlv, i, j, k -> rset core i (shift_right_logical (rget core j) (rget core k)); incr core
+  | OpSra,  i, j, k -> rset core i (shift_right         (rget core j) (rget core k)); incr core
+  | OpSrav, i, j, k -> rset core i (shift_right         (rget core j)             k); incr core
   (* 制御命令 *)
-  | OpSlt,  i, j, k -> rset core i (if rget core j < rget core k then 1 else 0); incr core
-  | OpSlti, i, j, k -> rset core i (if rget core j < k      then 1 else 0);      incr core
+  | OpSlt,  i, j, k -> rset core i (if rget core j < rget core k then one else zero); incr core
+  | OpSlti, i, j, k -> rset core i (if rget core j < k      then one else zero);      incr core
   | OpJump, i, _, _ -> jump core i
   | OpJr,   i, _, _ -> jump core @@ rget core i
-  | OpJal,  i, _, _ -> rset core (regnum_of_string "$ra") (!(core.pc) + 1); jump core i
-  | OpBne,  i, j, k -> jump core @@ if rget core i <> rget core j then k else !(core.pc) + 1
-  | OpBeq,  i, j, k -> jump core @@ if rget core i = rget core j  then k else !(core.pc) + 1
+  | OpJal,  i, _, _ -> rset core (of_int 31) (next_pc core); jump core i
+  | OpBne,  i, j, k -> jump core @@ if rget core i <> rget core j then k else next_pc core
+  | OpBeq,  i, j, k -> jump core @@ if rget core i = rget core j  then k else next_pc core
   | OpHalt, _, _, _ -> raise ExecutionEnd
   (* float命令 *)
-  | OpLwc1, i, j, k -> rsetf core i core.fmem.(k + rget core j);      incr core
-  | OpSwc1, i, j, k -> msetf core (k + rget core j) (rgetf core i);   incr core
-  | OpLwc2, i, _, _ -> rset core i (Char.code (get_input core));      incr core
-  | OpSwc2, i, _, _ -> print_char @@ Char.chr @@ rget core i;         incr core
-  | OpAddf, i, j, k -> rsetf core i (rgetf core j +. rgetf core k);   incr core
-  | OpSubf, i, j, k -> rsetf core i (rgetf core j -. rgetf core k);   incr core
-  | OpMulf, i, j, k -> rsetf core i (rgetf core j *. rgetf core k);   incr core
-  | OpDivf, i, j, k -> rsetf core i (rgetf core j /. rgetf core k);   incr core
-  | OpSqrt, i, j, _ -> rsetf core i (sqrt @@ rgetf core j);           incr core
-  | OpAbs,  i, j, _ -> rsetf core i (abs_float @@ rgetf core j);      incr core
+  | OpLwc1, i, j, k -> rsetf core i (mgetf core (add k (rget core j))); incr core
+  | OpSwc1, i, j, k -> msetf core (add k (rget core j)) (rgetf core i); incr core
+  | OpLwc2, i, _, _ -> rset core i (get_input core);                    incr core
+  | OpSwc2, i, _, _ -> print_char @@ Char.chr @@ to_int @@ rget core i; incr core
+  | OpAddf, i, j, k -> rsetf core i (rgetf core j +. rgetf core k);     incr core
+  | OpSubf, i, j, k -> rsetf core i (rgetf core j -. rgetf core k);     incr core
+  | OpMulf, i, j, k -> rsetf core i (rgetf core j *. rgetf core k);     incr core
+  | OpDivf, i, j, k -> rsetf core i (rgetf core j /. rgetf core k);     incr core
+  | OpSqrt, i, j, _ -> rsetf core i (sqrt @@ rgetf core j);             incr core
+  | OpAbs,  i, j, _ -> rsetf core i (abs_float @@ rgetf core j);        incr core
   (* float変換命令 *)
-  | OpMfc1, i, j, _  -> rset core  i @@ Int32.to_int @@ Int32.bits_of_float @@ rgetf core j; incr core
-  | OpMfc2, i, j, _  -> rsetf core i @@ Int32.float_of_bits @@ Int32.of_int @@ rget core  j; incr core
-  | OpRevn, i, j, _ -> rsetf core i @@ round_even @@ rgetf core j;                           incr core
-  | OpCvtsw, i, j, _ -> rsetf core i @@ float_of_int @@ rget core j;                         incr core
+  | OpMfc1, i, j, _  -> rset core  i @@ Int32.bits_of_float @@ rgetf core j; incr core
+  | OpMfc2, i, j, _  -> rsetf core i @@ Int32.float_of_bits @@ rget core  j; incr core
+  | OpRevn, i, j, _  -> rsetf core i @@ round_even @@ rgetf core j;          incr core
+  | OpCvtsw, i, j, _ -> rsetf core i @@ float_of_bits @@ rget core j;        incr core
   (* float比較命令 *)
   | OpEqf, i, j, _ -> cset core (rgetf core i = rgetf core j);  incr core
   | OpNef, i, j, _ -> cset core (rgetf core i <> rgetf core j); incr core
@@ -90,6 +102,6 @@ let execute core = function
   | OpBct, i, _, _ -> jump core @@ if      cget core then i else next_pc core
   | OpBcf, i, _, _ -> jump core @@ if not (cget core) then i else next_pc core
   (* メモリ命令 *)
-  | OpLui,  i, j, _ -> rset core i ((i land ((1 lsl 17) -1)) + (j lsl 17)); incr core
-  | OpLw,   i, j, k -> rset core i @@ mget core (j + rget core k); incr core
-  | OpSw,   i, j, k -> mset core (j + rget core k) (rget core i);  incr core
+  | OpLui,  i, j, _ -> rset core i (add (logand i shift_num) (Int32.shift_left j 17)); incr core
+  | OpLw,   i, j, k -> rset core i @@ mget core (add j @@ rget core k); incr core
+  | OpSw,   i, j, k -> mset core (add j @@ rget core k) (rget core i);  incr core

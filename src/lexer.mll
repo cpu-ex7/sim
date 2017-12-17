@@ -18,39 +18,39 @@ rule main = parse
 | "-"             { MINUS }
 | "("             { LPAREN }
 | ")"             { RPAREN }
-| '$'"zero"       { REG 0 }
-| '$'"at"         { REG 1 }
-| '$'"v0"         { REG 2 }
-| '$'"v1"         { REG 3 }
-| '$'"a0"         { REG 4 }
-| '$'"a1"         { REG 5 }
-| '$'"a2"         { REG 6 }
-| '$'"a3"         { REG 7 }
-| '$'"t0"         { REG 8 }
-| '$'"t1"         { REG 9 }
-| '$'"t2"         { REG 10 }
-| '$'"t3"         { REG 11 }
-| '$'"t4"         { REG 12 }
-| '$'"t5"         { REG 13 }
-| '$'"t6"         { REG 14 }
-| '$'"t7"         { REG 15 }
-| '$'"s0"         { REG 16 }
-| '$'"s1"         { REG 17 }
-| '$'"s2"         { REG 18 }
-| '$'"s3"         { REG 19 }
-| '$'"s4"         { REG 20 }
-| '$'"s5"         { REG 21 }
-| '$'"s6"         { REG 22 }
-| '$'"s7"         { REG 23 }
-| '$'"t8"         { REG 24 }
-| '$'"t9"         { REG 25 }
-| '$'"k0"         { REG 26 }
-| '$'"k1"         { REG 27 }
-| '$'"gp"         { REG 28 }
-| '$'"sp"         { REG 29 }
-| '$'"fp"         { REG 30 }
-| '$'"ra"         { REG 31 }
-| digit+ as n     { NUM (int_of_string n) }
+| '$'"zero"       { REG (Int32.of_int 0) }
+| '$'"at"         { REG (Int32.of_int 1) }
+| '$'"v0"         { REG (Int32.of_int 2) }
+| '$'"v1"         { REG (Int32.of_int 3) }
+| '$'"a0"         { REG (Int32.of_int 4) }
+| '$'"a1"         { REG (Int32.of_int 5) }
+| '$'"a2"         { REG (Int32.of_int 6) }
+| '$'"a3"         { REG (Int32.of_int 7) }
+| '$'"t0"         { REG (Int32.of_int 8) }
+| '$'"t1"         { REG (Int32.of_int 9) }
+| '$'"t2"         { REG (Int32.of_int 10) }
+| '$'"t3"         { REG (Int32.of_int 11) }
+| '$'"t4"         { REG (Int32.of_int 12) }
+| '$'"t5"         { REG (Int32.of_int 13) }
+| '$'"t6"         { REG (Int32.of_int 14) }
+| '$'"t7"         { REG (Int32.of_int 15) }
+| '$'"s0"         { REG (Int32.of_int 16) }
+| '$'"s1"         { REG (Int32.of_int 17) }
+| '$'"s2"         { REG (Int32.of_int 18) }
+| '$'"s3"         { REG (Int32.of_int 19) }
+| '$'"s4"         { REG (Int32.of_int 20) }
+| '$'"s5"         { REG (Int32.of_int 21) }
+| '$'"s6"         { REG (Int32.of_int 22) }
+| '$'"s7"         { REG (Int32.of_int 23) }
+| '$'"t8"         { REG (Int32.of_int 24) }
+| '$'"t9"         { REG (Int32.of_int 25) }
+| '$'"k0"         { REG (Int32.of_int 26) }
+| '$'"k1"         { REG (Int32.of_int 27) }
+| '$'"gp"         { REG (Int32.of_int 28) }
+| '$'"sp"         { REG (Int32.of_int 29) }
+| '$'"fp"         { REG (Int32.of_int 30) }
+| '$'"ra"         { REG (Int32.of_int 31) }
+| digit+ as n     { NUM (Int32.of_string n) }
 | ident as id     { VAR id  }
 | eof             { EOF }
 | _ {

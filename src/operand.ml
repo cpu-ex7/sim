@@ -1,10 +1,13 @@
 (* オペランドの型 *)
-type reg = int
-type imm = int
-type dest = int
+open Int32
+
+type reg = int32
+type imm = int32
+type dest = int32
 type t =
   | Empty
   | Reg of reg
+  | Regf of reg
   | Imm of imm
   | Dest of dest
   | RelReg of (imm * reg)

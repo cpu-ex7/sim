@@ -8,8 +8,8 @@
 %token MINUS
 %token LPAREN
 %token RPAREN
-%token <int> REG
-%token <int> NUM
+%token <int32> REG
+%token <int32> NUM
 %token <string> VAR
 %token EOF
 
@@ -43,7 +43,7 @@ operands:
 operand:
   | REG                    { Reg $1 }
   | NUM                    { Imm $1 }
-  | MINUS NUM              { Imm (-$2) }
+  | MINUS NUM              { Imm (Int32.neg $2) }
   | NUM LPAREN REG RPAREN  { RelReg ($1, $3) }
   | VAR {
      try Dest (List.assoc $1 !(ParserArgs.label))

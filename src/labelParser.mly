@@ -32,7 +32,7 @@ line_list:
   | others                 { [|$1|] }
 
 label:
-  | VAR COLON NEWLINE      { labels := ($1, !num_ops) :: !labels }
+  | VAR COLON NEWLINE      { labels := ($1, Int32.of_int !num_ops) :: !labels }
 
 others:
   | vars NEWLINE          { new_op () }

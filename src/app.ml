@@ -1,4 +1,5 @@
 open Core
+open Int32
 
 (* シミュレーターの状態 *)
 type state = {
@@ -26,7 +27,7 @@ let reset_core () = !g.core := Core.empty ()
 let program g = !(!g.program)
 let core g = !(!g.core)
 let count g = !(!(!g.core).count)
-let pc g = !(!(!g.core).pc)
+let pc g = to_int !(!(!g.core).pc)
 
 (* プログラムを一行だけ実行する *)
 let execute_one_line () =

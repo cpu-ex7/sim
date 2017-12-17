@@ -1,3 +1,4 @@
+open Int32
 open OUnit
 open Simulator
 open Operand
@@ -8,19 +9,17 @@ let file_test () =
   App.load_file "fib.input";
   App.set_args [10];
   assert_equal
-    ?printer:(Some string_of_int)
     (App.execute ()).reg.(Operand.regnum_of_string "$v0")
-    55;
+    (of_int 55);
 
   App.reset_all ();
   App.load_file "fib.input";
   let core = App.execute () in
   assert_equal
-    ?printer:(Some (fun (x, y, z) -> Format.sprintf "%d %d %d" x y z))
     (core.reg.(regnum_of_string "$v0"),
      core.reg.(regnum_of_string "$sp"),
      core.reg.(regnum_of_string "$fp"))
-    (55, 4096, 4096);
+    (of_int 55, of_int 4096, of_int 4096);
   ()
 
 let instruction_test () =
@@ -32,7 +31,7 @@ let instruction_test () =
      and   $t0, $t0, $t1";
   assert_equal
     (App.execute ()).reg.(Operand.regnum_of_string "$t0")
-    3;
+    (of_int 3);
 
   App.reset_all ();
   App.load_string
@@ -41,7 +40,7 @@ let instruction_test () =
      or   $t0, $t0,   $t1";
   assert_equal
     (App.execute ()).reg.(Operand.regnum_of_string "$t0")
-    7;
+    (of_int 7);
 
   App.reset_all ();
   App.load_string
@@ -50,7 +49,7 @@ let instruction_test () =
      xor $t0,  $t0,   $t1";
   assert_equal
     (App.execute ()).reg.(Operand.regnum_of_string "$t0")
-    6;
+    (of_int 6);
 
   App.reset_all ();
   App.load_string
@@ -59,7 +58,7 @@ let instruction_test () =
      nor $t0,  $t0,   $t1";
   assert_equal
     (App.execute ()).reg.(Operand.regnum_of_string "$t0")
-    ~-8;
+    (of_int ~-8);
 
   App.reset_all ();
   App.load_string
@@ -68,7 +67,7 @@ let instruction_test () =
      sub $t0,  $t0,   $t1";
   assert_equal
     (App.execute ()).reg.(Operand.regnum_of_string "$t0")
-    ~-14;
+    (of_int ~-14);
 
   App.reset_all ();
   App.set_input "hoge";
@@ -83,7 +82,7 @@ let instruction_test () =
      core.reg.(regnum_of_string "$at"),
      core.reg.(regnum_of_string "$v0"),
      core.reg.(regnum_of_string "$v1"))
-    (104, 111, 103, 101);
+    (of_int 104, of_int 111, of_int 103, of_int 101);
 
   App.reset_all ();
   App.load_string "

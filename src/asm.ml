@@ -1,3 +1,4 @@
+open Int32
 open Printf
 open Operand
 open Operator
@@ -10,7 +11,8 @@ let pad str width =
 
 (* dを2進法で表す幅widthになるまで0埋めする *)
 let rec bits_of_num d width =
-  if d < 0 then bits_of_num ((2 lsl (width - 1)) + d) width else
+  let d = Int32.to_int d in
+  if d < 0 then bits_of_num (of_int ((2 lsl (width - 1)) + d)) width else
   if d = 0 then pad "0" width else
     let rec loop acc d =
       if d = 0 then acc else
@@ -64,9 +66,9 @@ let bits_of_line line line_num =
   | OpJr,    i, _, _ -> sprintf "%s%s%s%s%s%s"
                           "000000" (bits_of_num i 5) "00000" "00000" "00000" "001000"
   | OpBeq,   i, j, k -> sprintf "%s%s%s%s"
-                          "000100" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num (k - line_num) 16)
+                          "000100" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num (sub k @@ of_int line_num) 16)
   | OpBne,   i, j, k -> sprintf "%s%s%s%s"
-                          "000101" (bits_of_num i 5) (bits_of_num j 5) (bits_of_num (k - line_num) 16)
+                          "000101" (bits_of_num i 5) (bits_of_num j 5) (bits_of_num (sub k @@ of_int line_num) 16)
   | OpHalt,  _, _, _  -> ""
   (* メモリ命令 *)
   | OpLui,   i, j, _ -> sprintf "%s%s%s%s"
