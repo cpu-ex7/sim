@@ -9,6 +9,7 @@
 %token LPAREN
 %token RPAREN
 %token <int32> REG
+%token <int32> FREG
 %token <int32> NUM
 %token <string> VAR
 %token EOF
@@ -42,6 +43,7 @@ operands:
 
 operand:
   | REG                    { Reg $1 }
+  | FREG                   { FReg $1 }
   | NUM                    { Imm $1 }
   | MINUS NUM              { Imm (Int32.neg $2) }
   | NUM LPAREN REG RPAREN  { RelReg ($1, $3) }

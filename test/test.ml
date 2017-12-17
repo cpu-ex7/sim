@@ -97,6 +97,20 @@ let instruction_test () =
   ignore (App.execute ());
   (* 出力が"hoge"ならOK *)
 
+  App.reset_all ();
+  App.load_string
+    (Printf.sprintf"
+       ori  $v1, $zero, %s
+       sw   $v1, 0($zero)
+       lwc1 $f0, 0($zero)
+       addf $f1, $f0, $f0
+     " (Int32.to_string (Int32.bits_of_float 12345.6789)));
+  let core = App.execute () in
+  assert_equal
+    ~printer:(fun (x, y) -> Printf.sprintf "%f, %f" x y)
+    (core.freg.(0), core.freg.(1))
+    (12345.6789 |> Int32.bits_of_float |> Int32.float_of_bits,
+     12345.6789 |> Int32.bits_of_float |> Int32.float_of_bits |> ( *. ) 2.0);
   ()
 
 let suite =

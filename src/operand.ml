@@ -7,7 +7,7 @@ type dest = int32
 type t =
   | Empty
   | Reg of reg
-  | Regf of reg
+  | FReg of reg
   | Imm of imm
   | Dest of dest
   | RelReg of (imm * reg)
