@@ -24,6 +24,7 @@ let cset core b = core.cc := b
 let get_input core =
   core.input_index := !(core.input_index) + 1;
   !(core.input_string).[!(core.input_index) - 1] |> Char.code |> of_int
+(*
 let round_even f =
   let round_even_i f =
     let d = f -. (float_of_int @@ int_of_float f) in
@@ -35,6 +36,12 @@ let round_even f =
       if i mod 2 = 0 then i
       else i + 1 in
   float_of_int @@ round_even_i f
+*)
+
+let round_even f =
+  let d = f -. (float_of_int @@ int_of_float f) in
+    if(d < 0.5) then Int32.float_of_bits @@ Int32.of_float f
+    else Int32.float_of_bits @@ Int32.succ @@ Int32.of_float f
 
 let shift_left a b =
   shift_left a (to_int b)
@@ -76,8 +83,8 @@ let execute core = function
   | OpBeq,  i, j, k -> jump core @@ if rget core i = rget core j  then k else next_pc core
   | OpHalt, _, _, _ -> raise ExecutionEnd
   (* float命令 *)
-  | OpLwc1, i, j, k -> rsetf core i (mgetf core (add k (rget core j))); incr core
-  | OpSwc1, i, j, k -> msetf core (add k (rget core j)) (rgetf core i); incr core
+  | OpLwc1, i, j, k -> rsetf core i (mgetf core (add j (rget core k))); incr core
+  | OpSwc1, i, j, k -> msetf core (add j (rget core k)) (rgetf core i); incr core
   | OpLwc2, i, _, _ -> rset core i (get_input core);                    incr core
   | OpSwc2, i, _, _ -> print_char @@ Char.chr @@ to_int @@ rget core i; incr core
   | OpAddf, i, j, k -> rsetf core i (rgetf core j +. rgetf core k);     incr core
@@ -86,11 +93,12 @@ let execute core = function
   | OpDivf, i, j, k -> rsetf core i (rgetf core j /. rgetf core k);     incr core
   | OpSqrt, i, j, _ -> rsetf core i (sqrt @@ rgetf core j);             incr core
   | OpAbs,  i, j, _ -> rsetf core i (abs_float @@ rgetf core j);        incr core
+  | OpMvf,  i, j, _ -> rsetf core i (rgetf core j);                     incr core
   (* float変換命令 *)
   | OpMfc1, i, j, _  -> rset core  i @@ Int32.bits_of_float @@ rgetf core j; incr core
   | OpMfc2, i, j, _  -> rsetf core i @@ Int32.float_of_bits @@ rget core  j; incr core
   | OpRevn, i, j, _  -> rsetf core i @@ round_even @@ rgetf core j;          incr core
-  | OpCvtsw, i, j, _ -> rsetf core i @@ float_of_bits @@ rget core j;        incr core
+  | OpCvtsw, i, j, _ -> rsetf core i @@ Int32.to_float @@ Int32.bits_of_float @@ rgetf core j;        incr core
   (* float比較命令 *)
   | OpEqf, i, j, _ -> cset core (rgetf core i = rgetf core j);  incr core
   | OpNef, i, j, _ -> cset core (rgetf core i <> rgetf core j); incr core
@@ -102,9 +110,6 @@ let execute core = function
   | OpBct, i, _, _ -> jump core @@ if      cget core then i else next_pc core
   | OpBcf, i, _, _ -> jump core @@ if not (cget core) then i else next_pc core
   (* メモリ命令 *)
-  | OpLui,  i, j, _ -> rset core i
-                         (add
-                            (logand (rget core i) shift_num)
-                            (Int32.shift_left j 16)); incr core
+  | OpLui,  i, j, _ -> rset core i (Int32.shift_left j 16); incr core
   | OpLw,   i, j, k -> rset core i @@ mget core (add j @@ rget core k); incr core
   | OpSw,   i, j, k -> mset core (add j @@ rget core k) (rget core i);  incr core

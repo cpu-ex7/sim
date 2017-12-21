@@ -37,6 +37,7 @@ type t =
   | OpDivf
   | OpSqrt
   | OpAbs
+  | OpMvf
   (* float変換命令 *)
   | OpMfc1
   | OpMfc2
@@ -98,11 +99,12 @@ let op_alist =
     ("divf", OpDivf);
     ("sqrt", OpSqrt);
     ("abs", OpAbs);
+    ("mvf", OpMvf);
     (* float変換命令 *)
     ("mfc1", OpMfc1);
     ("mfc2", OpMfc2);
-    ("round.w.fmt", OpRevn);
-    ("cvt.s.w", OpCvtsw);
+    ("roundwfmt", OpRevn);
+    ("cvtsw", OpCvtsw);
     (* float比較命令 *)
     ("eqf", OpEqf);
     ("nef", OpNef);
