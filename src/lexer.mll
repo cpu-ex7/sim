@@ -50,7 +50,7 @@ rule main = parse
 | '$'"sp"         { REG (Int32.of_int 29) }
 | '$'"fp"         { REG (Int32.of_int 30) }
 | '$'"ra"         { REG (Int32.of_int 31) }
-| '$'"f" digit as str { FREG (Int32.of_string (String.sub str 2 ((String.length str) - 2))) }
+| '$'"f" digit+ as str { FREG (Int32.of_string (String.sub str 2 ((String.length str) - 2))) }
 | digit+ as n     { NUM (Int32.of_string n) }
 | ident as id     { VAR id  }
 | eof             { EOF }

@@ -69,7 +69,8 @@ let bits_of_line line line_num =
                           "000100" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num (sub k @@ of_int line_num) 16)
   | OpBne,   i, j, k -> sprintf "%s%s%s%s"
                           "000101" (bits_of_num i 5) (bits_of_num j 5) (bits_of_num (sub k @@ of_int line_num) 16)
-  | OpHalt,  _, _, _  -> ""
+  | OpHalt,  _, _, _  -> sprintf "%s%s%s%s"
+                          "000100" "00000" "00000" "0000000000000000"
   (* メモリ命令 *)
   | OpLui,   i, j, _ -> sprintf "%s%s%s%s"
                           "001111" "00000" (bits_of_num i 5) (bits_of_num j 16)
@@ -79,25 +80,27 @@ let bits_of_line line line_num =
                           "101011" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num k 16)
   (* float命令 *)
   | OpLwc1,  i, j, k -> sprintf "%s%s%s%s"
-                          "110001" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num k 16)
+                          "110001" (bits_of_num k 5) (bits_of_num i 5) (bits_of_num j 16)
   | OpSwc1,  i, j, k -> sprintf "%s%s%s%s"
-                          "111001" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num k 16)
+                          "111001" (bits_of_num k 5) (bits_of_num i 5) (bits_of_num j 16)
   | OpLwc2,  i, _, _ -> sprintf "%s%s%s"
                           "110010" (bits_of_num i 5) (pad "" 21)
   | OpSwc2,  i, _, _ -> sprintf "%s%s%s"
                           "111010" (bits_of_num i 5) (pad "" 21)
   | OpAddf,  i, j, k -> sprintf "%s%s%s%s%s%s"
-                          "010001" "00000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "000000"
+                          "010001" "00000" (bits_of_num k 5) (bits_of_num j 5) (bits_of_num i 5) "000000"
   | OpSubf,  i, j, k -> sprintf "%s%s%s%s%s%s"
-                          "010001" "00000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "000001"
+                          "010001" "00000" (bits_of_num k 5) (bits_of_num j 5) (bits_of_num i 5) "000001"
   | OpMulf,  i, j, k -> sprintf "%s%s%s%s%s%s"
-                          "010001" "00000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "000010"
+                          "010001" "00000" (bits_of_num k 5) (bits_of_num j 5) (bits_of_num i 5) "000010"
   | OpDivf,  i, j, k -> sprintf "%s%s%s%s%s%s"
-                          "010001" "00000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "000011"
+                          "010001" "00000" (bits_of_num k 5) (bits_of_num j 5) (bits_of_num i 5) "000011"
   | OpSqrt,  i, j, _ -> sprintf "%s%s%s%s%s%s"
                           "010001" "00000" "00000" (bits_of_num j 5) (bits_of_num i 5) "000100"
   | OpAbs,   i, j, _ -> sprintf "%s%s%s%s%s%s"
                           "010001" "00000" "00000" (bits_of_num j 5) (bits_of_num i 5) "000101"
+  | OpMvf,   i, j, _ -> sprintf "%s%s%s%s%s%s"
+                          "010001" "00000" "00000" (bits_of_num j 5) (bits_of_num i 5) "000110"
   (* float変換 *)
   | OpMfc1,  i, j, _ -> sprintf "%s%s%s%s%s%s"
                           "010001" "00000" (bits_of_num i 5) (bits_of_num j 5) "00000" "001000"
@@ -122,9 +125,9 @@ let bits_of_line line line_num =
                           "010001" "00000" "00000" (bits_of_num i 5) (bits_of_num j 5) "111101"
   (* float制御命令 *)
   | OpBct,   i, _, _ -> sprintf "%s%s%s"
-                          "010001" (bits_of_num i 20) "010001"
+                          "010001" (bits_of_num (sub i @@ of_int line_num) 20) "010001"
   | OpBcf,   i, _, _ -> sprintf "%s%s%s"
-                          "010001" (bits_of_num i 20) "010000"
+                          "010001" (bits_of_num (sub i @@ of_int line_num) 20) "010000"
 
 let print_assembly prog_verified =
   Array.iteri
