@@ -17,8 +17,8 @@ let mget core i = core.mem.(to_int i)
 let mgetf core i = float_of_bits core.mem.(to_int i)
 let mset core i j = core.mem.(to_int i) <- j
 let msetf core i j = core.mem.(to_int i) <- bits_of_float j
-let rgetf core i = core.freg.(to_int i)
-let rsetf core i n = core.freg.(to_int i) <- n
+let rgetf core i = float_of_bits core.freg.(to_int i) (*fregがint32*)
+let rsetf core i n = core.freg.(to_int i) <- bits_of_float n (*fregがint32*)
 let cget core  = !(core.cc)
 let cset core b = core.cc := b
 let get_input core =

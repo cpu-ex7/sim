@@ -117,7 +117,7 @@ let instruction_test () =
   let core = App.execute () in
   assert_equal
     ~printer:(fun (x, y) -> Printf.sprintf "%f, %f" x y)
-    (core.freg.(0), core.freg.(1))
+    (float_of_bits core.freg.(0), float_of_bits core.freg.(1)) (*fregがint32*)
     (12345.6789 |> Int32.bits_of_float |> Int32.float_of_bits,
      12345.6789 |> Int32.bits_of_float |> Int32.float_of_bits |> ( *. ) 2.0);
   ()

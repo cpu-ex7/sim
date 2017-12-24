@@ -5,7 +5,7 @@ type t = {
   pc : int32 ref;       (* プログラムカウンタ *)
   cc : bool ref;       (* コンディションレジスタ($cc) *)
   reg : int32 array;    (* 整数レジスタ *)
-  freg : float array; (* floatレジスタ *)
+  freg : int32 array; (* floatレジスタ *)
   mem : int32 array;    (* メモリ *)
   input_string : string ref;
   input_index : int ref;
@@ -19,7 +19,8 @@ let print_core c =
     printf "reg%02d  : %08lx\n" i (c.reg).(i);
   done;
   for i = 0 to 31 do
-    printf "freg%02d : %08lx\n" i (Int32.bits_of_float (c.freg).(i)); 
+    printf "freg%02d : %08lx\n" i  (c.freg).(i); (*fregがint32*)
+    (*printf "freg%02d : %08lx\n" i (Int32.bits_of_float (c.freg).(i));*) (*fregがfloatのとき*) 
     (*printf "freg%02d : %016Lx\n" i (Int64.bits_of_float (c.freg).(i));*) (*倍精度で表示したい場合*)
   done;
   printf "input_string : %s\n" !(c.input_string);
@@ -32,7 +33,7 @@ let empty () =
       pc = ref Int32.zero;
       cc = ref false;
       reg = Array.make 32 Int32.zero;
-      freg = Array.make 32 0.0;
+      freg = Array.make 32 (bits_of_float 0.0); (*fregがint32*)
       mem = Array.make 8192 Int32.zero;    (* 一応 8192 にしておく、増やす必要? *)
       input_string = ref "";
       input_index = ref 0;
