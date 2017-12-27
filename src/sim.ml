@@ -8,22 +8,6 @@ open Float32
 
 exception ExecutionEnd
 
-(* ユーティリティ関数 *)
-let next_pc core = add !(core.pc) one
-let incr core = core.pc := add !(core.pc) one
-let jump core i = core.pc := i
-let rget core i = core.reg.(to_int i)
-let rset core i n = core.reg.(to_int i) <- n
-let mget core i = core.mem.(to_int i)
-let mset core i j = core.mem.(to_int i) <- j
-let rgetf core i = core.freg.(to_int i)
-let rsetf core i n = core.freg.(to_int i) <- n
-let cget core  = !(core.cc)
-let cset core b = core.cc := b
-let get_input core =
-  core.input_index := !(core.input_index) + 1;
-  !(core.input_string).[!(core.input_index) - 1] |> Char.code |> of_int
-
 let round_even f =
   let d = f -. (float_of_int @@ int_of_float f) in
   if(d < 0.5) then Int32.float_of_bits @@ Int32.of_float f
