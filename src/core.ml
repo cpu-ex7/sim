@@ -15,11 +15,11 @@ type t = {
 let print_core c =
   printf "pc : %08lx\n" !(c.pc);
   printf "cc : %B\n" !(c.cc);
-  for i = 0 to 31 do 
+  for i = 0 to 31 do
     printf "reg%02d  : %08lx\n" i (c.reg).(i);
   done;
   for i = 0 to 31 do
-    printf "freg%02d : %08lx\n" i (Int32.bits_of_float (c.freg).(i)); 
+    printf "freg%02d : %08lx\n" i (Int32.bits_of_float (c.freg).(i));
     (*printf "freg%02d : %016Lx\n" i (Int64.bits_of_float (c.freg).(i));*) (*倍精度で表示したい場合*)
   done;
   printf "input_string : %s\n" !(c.input_string);

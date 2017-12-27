@@ -24,24 +24,11 @@ let cset core b = core.cc := b
 let get_input core =
   core.input_index := !(core.input_index) + 1;
   !(core.input_string).[!(core.input_index) - 1] |> Char.code |> of_int
-(*
-let round_even f =
-  let round_even_i f =
-    let d = f -. (float_of_int @@ int_of_float f) in
-    if d < 0.5 then int_of_float f
-    else if d > 0.5 then int_of_float @@ f +. 1.0
-    else
-      (* f = x.5 のとき: 偶数丸め *)
-      let i = int_of_float f in
-      if i mod 2 = 0 then i
-      else i + 1 in
-  float_of_int @@ round_even_i f
-*)
 
 let round_even f =
   let d = f -. (float_of_int @@ int_of_float f) in
-    if(d < 0.5) then Int32.float_of_bits @@ Int32.of_float f
-    else Int32.float_of_bits @@ Int32.succ @@ Int32.of_float f
+  if(d < 0.5) then Int32.float_of_bits @@ Int32.of_float f
+  else Int32.float_of_bits @@ Int32.succ @@ Int32.of_float f
 
 let shift_left a b =
   shift_left a (to_int b)
