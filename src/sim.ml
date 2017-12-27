@@ -4,6 +4,7 @@ open Operand
 open Operator
 open Label
 open Program
+open Float32
 
 exception ExecutionEnd
 
@@ -14,9 +15,7 @@ let jump core i = core.pc := i
 let rget core i = core.reg.(to_int i)
 let rset core i n = core.reg.(to_int i) <- n
 let mget core i = core.mem.(to_int i)
-let mgetf core i = float_of_bits core.mem.(to_int i)
 let mset core i j = core.mem.(to_int i) <- j
-let msetf core i j = core.mem.(to_int i) <- bits_of_float j
 let rgetf core i = core.freg.(to_int i)
 let rsetf core i n = core.freg.(to_int i) <- n
 let cget core  = !(core.cc)
@@ -70,22 +69,22 @@ let execute core = function
   | OpBeq,  i, j, k -> jump core @@ if rget core i = rget core j  then k else next_pc core
   | OpHalt, _, _, _ -> raise ExecutionEnd
   (* float命令 *)
-  | OpLwc1, i, j, k -> rsetf core i (mgetf core (add j (rget core k))); incr core
-  | OpSwc1, i, j, k -> msetf core (add j (rget core k)) (rgetf core i); incr core
-  | OpLwc2, i, _, _ -> rset core i (get_input core);                    incr core
-  | OpSwc2, i, _, _ -> print_char @@ Char.chr @@ to_int @@ rget core i; incr core
-  | OpAddf, i, j, k -> rsetf core i (rgetf core j +. rgetf core k);     incr core
-  | OpSubf, i, j, k -> rsetf core i (rgetf core j -. rgetf core k);     incr core
-  | OpMulf, i, j, k -> rsetf core i (rgetf core j *. rgetf core k);     incr core
-  | OpDivf, i, j, k -> rsetf core i (rgetf core j /. rgetf core k);     incr core
-  | OpSqrt, i, j, _ -> rsetf core i (sqrt @@ rgetf core j);             incr core
-  | OpAbs,  i, j, _ -> rsetf core i (abs_float @@ rgetf core j);        incr core
+  | OpLwc1, i, j, k -> rsetf core i (mget core (addf32 j (rget core k))); incr core
+  | OpSwc1, i, j, k -> mset core (add j (rget core k)) (rgetf core i);    incr core
+  | OpLwc2, i, _, _ -> rset core i (get_input core);                      incr core
+  | OpSwc2, i, _, _ -> print_char @@ Char.chr @@ to_int @@ rget core i;   incr core
+  | OpAddf, i, j, k -> rsetf core i (addf32 (rgetf core j) (rgetf core k)); incr core
+  | OpSubf, i, j, k -> rsetf core i (subf32 (rgetf core j) (rgetf core k)); incr core
+  | OpMulf, i, j, k -> rsetf core i (mulf32 (rgetf core j) (rgetf core k)); incr core
+  | OpDivf, i, j, k -> rsetf core i (divf32 (rgetf core j) (rgetf core k)); incr core
+  | OpSqrt, i, j, _ -> rsetf core i (sqrt32 @@ rgetf core j);             incr core
+  | OpAbs,  i, j, _ -> rsetf core i (abs_float32 @@ rgetf core j);        incr core
   | OpMvf,  i, j, _ -> rsetf core i (rgetf core j);                     incr core
   (* float変換命令 *)
-  | OpMfc1, i, j, _  -> rset core  i @@ Int32.bits_of_float @@ rgetf core j; incr core
-  | OpMfc2, i, j, _  -> rsetf core i @@ Int32.float_of_bits @@ rget core  j; incr core
-  | OpRevn, i, j, _  -> rsetf core i @@ round_even @@ rgetf core j;          incr core
-  | OpCvtsw, i, j, _ -> rsetf core i @@ Int32.to_float @@ Int32.bits_of_float @@ rgetf core j;        incr core
+  | OpMfc1, i, j, _  -> rset  core i @@ rgetf core j; incr core
+  | OpMfc2, i, j, _  -> rsetf core i @@ rget  core j; incr core
+  | OpRevn, i, j, _  -> rsetf core i @@ round_even32   @@ rgetf core j; incr core
+  | OpCvtsw, i, j, _ -> rsetf core i @@ float32_of_int @@ rgetf core j; incr core
   (* float比較命令 *)
   | OpEqf, i, j, _ -> cset core (rgetf core i = rgetf core j);  incr core
   | OpNef, i, j, _ -> cset core (rgetf core i <> rgetf core j); incr core

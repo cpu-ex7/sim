@@ -4,4 +4,5 @@
 (menhir ((modules (parser labelParser))))
 
 (library
- ((name           Simulator)))
+ ((name Simulator)
+  (c_names (float32))))

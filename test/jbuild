@@ -6,5 +6,5 @@
 
 (alias
  ((name    runtest)
-  (deps    (test.bc (glob_files *.input)))
+  (deps    (test.exe (glob_files *.input)))
   (action  (run ${<}))))
