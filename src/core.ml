@@ -12,14 +12,14 @@ type t = {
   count : int ref;    (* ログ *)
 }
 
-let print_core c =
-  printf "pc : %08lx\n" !(c.pc);
-  printf "cc : %B\n" !(c.cc);
+let print_core _ c =
+  printf "pc     : %08lx %10ld\n" !(c.pc) !(c.pc);
+  printf "cc     : %B\n" !(c.cc);
   for i = 0 to 31 do
-    printf "reg%02d  : %08lx\n" i (c.reg).(i);
+    printf "reg%02d  : %08lx %10ld\n" i (c.reg).(i) (c.reg).(i);
   done;
   for i = 0 to 31 do
-    printf "freg%02d : %08lx\n" i (c.freg).(i);
+    printf "freg%02d : %08lx %19.8f\n" i (c.freg).(i) (Int32.float_of_bits (c.freg).(i));
     (*printf "freg%02d : %016Lx\n" i (c.freg).(i);*) (*倍精度で表示したい場合*)
   done;
   printf "input_string : %s\n" !(c.input_string);
