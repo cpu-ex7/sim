@@ -209,10 +209,30 @@ let instruction_test () =
 
   ()
 
+let special_label () =
+  App.reset_all ();
+  App.load_string
+    "    j @
+     @:
+         j @@
+     @@:
+         j @@@
+     @@@:
+         addi $v0, $zero, 42
+         halt";
+  let core = App.execute () in
+  assert_equal
+    core.reg.(regnum_of_string "$v0")
+    42l;
+  ()
+
+
+
 let suite =
   "suite" >::: [
     "File" >:: file_test;
     "Instruction" >:: instruction_test;
+    "SpecialDLabel" >:: special_label;
   ]
 
 let _ = run_test_tt_main suite

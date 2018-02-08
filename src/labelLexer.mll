@@ -4,7 +4,7 @@
 }
 
 let digit = ['0'-'9']
-let alpha = ['a'-'z' 'A'-'Z' '_' '$' ',' '-' '(' ')' ]
+let alpha = ['a'-'z' 'A'-'Z' '_' '$' ',' '-' '(' ')' '@']
 let ident = (alpha | digit)*
 let space = ' ' | '\t' | '\r'
 let comment = '#'[^'\n']*'\n'
