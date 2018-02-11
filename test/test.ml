@@ -71,7 +71,7 @@ let instruction_test () =
     (of_int ~-14);
 
   App.reset_all ();
-  App.set_input "hoge";
+  App.set_input_string "hoge";
   App.load_string "
     read_char $zero
     read_char $at
@@ -86,7 +86,7 @@ let instruction_test () =
     (of_int 104, of_int 111, of_int 103, of_int 101);
 
   App.reset_all ();
-  App.set_input "hoge";
+  App.set_input_string "hoge";
   App.load_string "read_word $zero";
   let core = App.execute () in
   assert_equal
@@ -94,6 +94,25 @@ let instruction_test () =
     core.reg.(regnum_of_string "$zero")
     (* 0b1101000110111111001111100101 = 'e'::'g'::'o'::'h' *)
     (of_int 0b1100101110011111011111101000);
+
+  App.reset_all ();
+  App.set_input_file "hoge.input";
+  App.load_string "
+    read_char $zero
+    read_char $t0
+    read_char $t1
+    read_char $t2
+    read_char $t3
+    read_char $t4";
+  let core = App.execute () in
+  assert_equal
+    (core.reg.(regnum_of_string "$zero"),
+     core.reg.(regnum_of_string "$t0"),
+     core.reg.(regnum_of_string "$t1"),
+     core.reg.(regnum_of_string "$t2"),
+     core.reg.(regnum_of_string "$t3"),
+     core.reg.(regnum_of_string "$t4"))
+    (104l, 111l, 10l, 103l, 10l, 101l);
 
   App.reset_all ();
   App.load_string "

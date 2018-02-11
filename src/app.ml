@@ -10,10 +10,10 @@ type state = {
 
 (* グローバルの状態 *)
 let g = ref {
-    program = ref [||];
-    label=ref [];
-    core= ref (Core.empty ());
-  }
+  program = ref [||];
+  label = ref [];
+  core = ref (Core.empty ());
+}
 
 let reset_all () =
   g := {
@@ -94,6 +94,23 @@ let print_assembly () =
 let string_of_assembly () =
   Asm.string_of_assembly (program g)
 
-let set_input str =
+let set_input_string str =
   (core g).input_index := 0;
   (core g).input_string := str
+
+let read_file filename =
+  let lines = ref [] in
+  let chan = open_in filename in
+  try
+    while true; do
+      lines := input_line chan :: !lines
+    done;
+    ""
+  with End_of_file ->
+    close_in chan;
+    let str = List.fold_left (fun x y -> x ^ "\n" ^ y) "" @@ List.rev !lines in
+    String.sub str 1 ((String.length str) - 1)
+
+let set_input_file filename =
+  (core g).input_index := 0;
+  (core g).input_string := read_file filename
