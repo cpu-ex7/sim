@@ -16,7 +16,11 @@ let print_core _ c =
   printf "pc     : %08lx %10ld\n" !(c.pc) !(c.pc);
   printf "cc     : %B\n" !(c.cc);
   for i = 0 to 31 do
-    printf "reg%02d  : %08lx %10ld\n" i (c.reg).(i) (c.reg).(i);
+    printf "reg%02d(%5s)  : %08lx %10ld\n"
+      i
+      (Operand.string_of_regnum i)
+      (c.reg).(i)
+      (c.reg).(i);
   done;
   for i = 0 to 31 do
     printf "freg%02d : %08lx %19.8f\n" i (c.freg).(i) (Int32.float_of_bits (c.freg).(i));

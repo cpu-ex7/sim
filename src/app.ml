@@ -31,7 +31,8 @@ let pc g = to_int !(!(!g.core).pc)
 
 (* プログラムを一行だけ実行する *)
 let execute_one_line () =
-  Sim.execute (core g) (program g).(pc g)
+  Sim.execute (core g) (program g).(pc g);
+  (core g)
 
 (* 終了するまでプログラムを実行する *)
 let execute () =
@@ -40,7 +41,7 @@ let execute () =
        (* ログを更新 *)
        (core g).count := !((core g).count) + 1;
        (* 1行だけ実行する *)
-       execute_one_line ()
+       ignore (execute_one_line ())
      done with _ -> ()); (* Intex_error or ExecutionEnd *)
   (core g)
 
