@@ -141,6 +141,7 @@ let execute core = function
   | OpSwc2, i, _, _ ->
       let c = Char.chr (to_int (rget core i)) in
       print_char c;
+      flush_all ();
       incr core
   | OpLwc3, i, _, _ ->
       (* 評価はリストの最後から行われることに注意 *)
