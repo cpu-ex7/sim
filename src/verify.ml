@@ -22,7 +22,7 @@ let f parsed_program =
     | OpAddi, (Reg i, Reg j, Imm k) ->
         update index OpAddi i j k
     | OpAddi, (Reg i, Reg j, Rabel k) ->
-        update index OpAddi i j (ParserArgs.find_label k)
+        update index OpAddi i j (Label.find_label k)
 
     (* 論理命令 *)
     | OpAnd, (Reg i, Reg j, Reg k) ->
@@ -58,32 +58,32 @@ let f parsed_program =
     | OpJump, (Imm i, Empty, Empty) ->
         update index OpJump i zero zero
     | OpJump, (Rabel i, Empty, Empty) ->
-        let n = Int32.sub (ParserArgs.find_label i) (of_int index) in
+        let n = Int32.sub (Label.find_label i) (of_int index) in
         update index OpJump n zero zero
     | OpJal, (Imm i, Empty, Empty) ->
         update index OpJal i zero zero
     | OpJal, (Rabel i, Empty, Empty) ->
-        let n = Int32.sub (ParserArgs.find_label i) (of_int index) in
+        let n = Int32.sub (Label.find_label i) (of_int index) in
         update index OpJal n zero zero
     | OpJalr, (Reg i, Empty, Empty) ->
         update index OpJalr i zero zero
     | OpJalr, (Rabel i, Empty, Empty) ->
-        let n = Int32.sub (ParserArgs.find_label i) (of_int index) in
+        let n = Int32.sub (Label.find_label i) (of_int index) in
         update index OpJal n zero zero
     | OpJr, (Reg i, Empty, Empty) ->
         update index OpJr i zero zero
     | OpJr, (Rabel i, Empty, Empty) ->
-        let n = Int32.sub (ParserArgs.find_label i) (of_int index) in
+        let n = Int32.sub (Label.find_label i) (of_int index) in
         update index OpJr n zero zero
     | OpBne, (Reg i, Reg j, Imm k) ->
         update index OpBne i j k
     | OpBne, (Reg i, Reg j, Rabel k) ->
-        let n = Int32.sub (ParserArgs.find_label k) (of_int index) in
+        let n = Int32.sub (Label.find_label k) (of_int index) in
         update index OpBne i j n
     | OpBeq, (Reg i, Reg j, Imm k) ->
         update index OpBeq i j k
     | OpBeq, (Reg i, Reg j, Rabel k) ->
-        let n = Int32.sub (ParserArgs.find_label k) (of_int index) in
+        let n = Int32.sub (Label.find_label k) (of_int index) in
         update index OpBeq i j n
     | OpHalt, _ ->
         update index OpHalt zero zero zero
