@@ -30,8 +30,10 @@ let count _ = !(!(!global.core).count)
 let pc _ = to_int !(!(!global.core).pc)
 
 (* プログラムを一行だけ実行する *)
-let execute_one_line () =
-  Sim.execute (core ()) (program ()).(pc ());
+let execute_n n =
+  for i=0 to n-1 do
+    Sim.execute (core ()) (program ()).(pc ());
+  done;
   (core ())
 
 (* 終了するまでプログラムを実行する *)
@@ -41,7 +43,7 @@ let execute () =
        (* ログを更新 *)
        (core ()).count := !((core ()).count) + 1;
        (* 1行だけ実行する *)
-       ignore (execute_one_line ())
+       ignore (execute_n 1)
      done with _ -> ()); (* Intex_error or ExecutionEnd *)
   (core ())
 
