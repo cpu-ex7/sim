@@ -37,16 +37,29 @@ let execute_n n =
   done;
   (core ())
 
-(* 終了するまでプログラムを実行する *)
-let execute () =
-  (try while true
+(* 終了するまでプログラムを実行する/例外を出さない *)
+let execute_noexcept () =
+  (try
+     while true
      do
        (* ログを更新 *)
        (core ()).count := !((core ()).count) + 1;
        (* 1行だけ実行する *)
        ignore (execute_n 1)
-     done with _ -> ()); (* Intex_error or ExecutionEnd *)
-  (core ())
+     done;
+   with _ -> ());
+  core ()
+
+(* 終了するまでプログラムを実行する/例外を出す *)
+let execute () =
+  while true
+  do
+    (* ログを更新 *)
+    (core ()).count := !((core ()).count) + 1;
+    (* 1行だけ実行する *)
+    ignore (execute_n 1)
+  done;
+  core ()
 
 (* レジスタのロード関連 *)
 (* 引数用レジスタにnumsをセットする *)

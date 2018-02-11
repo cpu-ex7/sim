@@ -10,12 +10,12 @@ let file_test () =
   App.load_file "fib.input";
   App.set_args [10];
   assert_equal
-    (App.execute ()).reg.(Operand.regnum_of_string "$v0")
+    (App.execute_noexcept ()).reg.(Operand.regnum_of_string "$v0")
     (of_int 55);
 
   App.reset_all ();
   App.load_file "fib.input";
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     (core.reg.(regnum_of_string "$v0"),
      core.reg.(regnum_of_string "$sp"),
@@ -32,7 +32,7 @@ let instruction_test () =
      and   $t0, $t0, $t1";
   assert_equal
     ~msg: "ori"
-    (App.execute ()).reg.(Operand.regnum_of_string "$t0")
+    (App.execute_noexcept ()).reg.(Operand.regnum_of_string "$t0")
     (of_int 3);
 
   App.reset_all ();
@@ -42,7 +42,7 @@ let instruction_test () =
      or    $t0, $t0, $t1";
   assert_equal
     ~msg:"or"
-    (App.execute ()).reg.(Operand.regnum_of_string "$t0")
+    (App.execute_noexcept ()).reg.(Operand.regnum_of_string "$t0")
     (of_int 7);
 
   App.reset_all ();
@@ -52,7 +52,7 @@ let instruction_test () =
      xor   $t0, $t0, $t1";
   assert_equal
     ~msg:"xor"
-    (App.execute ()).reg.(Operand.regnum_of_string "$t0")
+    (App.execute_noexcept ()).reg.(Operand.regnum_of_string "$t0")
     (of_int 6);
 
   App.reset_all ();
@@ -62,7 +62,7 @@ let instruction_test () =
      nor   $t0, $t0, $t1";
   assert_equal
     ~msg:"nor"
-    (App.execute ()).reg.(Operand.regnum_of_string "$t0")
+    (App.execute_noexcept ()).reg.(Operand.regnum_of_string "$t0")
     (of_int ~-8);
 
   App.reset_all ();
@@ -72,7 +72,7 @@ let instruction_test () =
      sub   $t0, $t0, $t1";
   assert_equal
     ~msg:"sub"
-    (App.execute ()).reg.(Operand.regnum_of_string "$t0")
+    (App.execute_noexcept ()).reg.(Operand.regnum_of_string "$t0")
     (of_int ~-14);
 
   App.reset_all ();
@@ -82,7 +82,7 @@ let instruction_test () =
     read_char $at
     read_char $v0
     read_char $v1";
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     ~msg: "read_char"
     (core.reg.(regnum_of_string "$zero"),
@@ -94,7 +94,7 @@ let instruction_test () =
   App.reset_all ();
   App.set_input_string "hoge";
   App.load_string "read_word $zero";
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     ~msg: "read_word"
     core.reg.(regnum_of_string "$zero")
@@ -110,7 +110,7 @@ let instruction_test () =
     read_char $t2
     read_char $t3
     read_char $t4";
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     ~msg: "set_input_file()"
     (core.reg.(regnum_of_string "$zero"),
@@ -141,7 +141,7 @@ let instruction_test () =
     print_char $v0
     addi $v0, $zero, 33
     print_char $v0";
-  ignore (App.execute ());
+  ignore (App.execute_noexcept ());
   (* 出力が"it works!"ならOK *)
 
   App.reset_all ();
@@ -154,7 +154,7 @@ let instruction_test () =
         addf $f1, $f0, $f0"
        (upper_bits_of_float 12345.6789 |> to_string)
        (lower_bits_of_float 12345.6789 |> to_string));
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     ~msg:"addf"
     (core.freg.(0), core.freg.(1))
@@ -171,7 +171,7 @@ let instruction_test () =
         abs $f1, $f0, $f0"
        (upper_bits_of_float ~-.12345.6789 |> to_string)
        (lower_bits_of_float ~-.12345.6789 |> to_string));
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     ~msg:"abs"
     (core.freg.(0), core.freg.(1))
@@ -188,7 +188,7 @@ let instruction_test () =
         abs $f1, $f0, $f0"
        (upper_bits_of_float 12345.6789 |> to_string)
        (lower_bits_of_float 12345.6789 |> to_string));
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     ~msg:"abs"
     (core.freg.(0), core.freg.(1))
@@ -202,7 +202,7 @@ let instruction_test () =
         sw   $v1, 0($zero)
         lwc1 $f0, 0($zero)
         cvtsw $f1, $f0, $f0");
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     ~msg:"cvtsw"
     (core.freg.(0), core.freg.(1))
@@ -219,7 +219,7 @@ let instruction_test () =
         roundwfmt $f1, $f0, $f0"
        (upper_bits_of_float 12345.45 |> to_string)
        (lower_bits_of_float 12345.45 |> to_string));
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     ~msg:"roundwfmt"
     (core.freg.(0), core.freg.(1))
@@ -236,7 +236,7 @@ let instruction_test () =
         roundwfmt $f1, $f0, $f0"
        (upper_bits_of_float 0.5 |> to_string)
        (lower_bits_of_float 0.5 |> to_string));
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     ~msg:"roundwfmt"
     (core.freg.(0), core.freg.(1))
@@ -249,7 +249,7 @@ let instruction_test () =
      jalr $t1
      halt
      halt";
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     ~msg:"jalr"
     (!(core.pc), core.reg.(regnum_of_string "$ra"))
@@ -270,7 +270,7 @@ let instruction_test () =
         halt"
        (upper_bits_of_float 10.0 |> to_string)
        (lower_bits_of_float 10.0 |> to_string));
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     ~msg:"bct"
     !(core.pc)
@@ -291,7 +291,7 @@ let instruction_test () =
         halt"
        (upper_bits_of_float 10.0 |> to_string)
        (lower_bits_of_float 10.0 |> to_string));
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     ~msg:"bcf"
     !(core.pc)
@@ -310,7 +310,7 @@ let special_label () =
      @@@:
          addi $v0, $zero, 42
          halt";
-  let core = App.execute () in
+  let core = App.execute_noexcept () in
   assert_equal
     core.reg.(regnum_of_string "$v0")
     42l;
