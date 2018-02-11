@@ -248,6 +248,49 @@ let instruction_test () =
     (!(core.pc), core.reg.(regnum_of_string "$ra"))
     (3l, 2l);
 
+  (* bcf *)
+  App.reset_all ();
+  App.load_string
+    (Printf.sprintf
+       "lui  $v1, %s
+        ori  $v1, $v1, %s
+        sw   $v1, 0($zero)
+        lwc1 $f0, 0($zero)
+        mulf $f1, $f0, $f0
+        gtf  $f0, $f1
+        bc1t hoge
+        halt
+      hoge:
+        halt"
+       (upper_bits_of_float 10.0 |> to_string)
+       (lower_bits_of_float 10.0 |> to_string));
+  let core = App.execute () in
+  assert_equal
+    !(core.pc)
+    7l;
+
+  (* bct *)
+  App.reset_all ();
+  App.load_string
+    (Printf.sprintf
+       "lui  $v1, %s
+        ori  $v1, $v1, %s
+        sw   $v1, 0($zero)
+        lwc1 $f0, 0($zero)
+        mulf $f1, $f0, $f0
+        gtf  $f0, $f1
+        bc1f hoge
+        halt
+      hoge:
+        halt"
+       (upper_bits_of_float 10.0 |> to_string)
+       (lower_bits_of_float 10.0 |> to_string));
+  let core = App.execute () in
+  assert_equal
+    !(core.pc)
+    8l;
+
+
   ()
 
 let special_label () =

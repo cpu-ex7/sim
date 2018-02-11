@@ -141,8 +141,14 @@ let f parsed_program =
     (* float制御命令 *)
     | OpBct, (Imm i, _, _) ->
         update index OpBct i zero zero
+    | OpBct, (Rabel i, _, _) ->
+        let n = Int32.sub (Label.find_label i) (of_int index) in
+        update index OpBct n zero zero
     | OpBcf, (Imm i, _, _) ->
         update index OpBcf i zero zero
+    | OpBcf, (Rabel i, _, _) ->
+        let n = Int32.sub (Label.find_label i) (of_int index) in
+        update index OpBcf n zero zero
 
     (* メモリ命令 *)
     | OpLui, (Reg i, Imm j, Empty) ->

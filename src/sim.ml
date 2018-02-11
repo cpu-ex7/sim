@@ -228,11 +228,11 @@ let execute core = function
   (* float制御命令 *)
   | OpBct, i, _, _ ->
       let cond = cget core in
-      let dest = if cond then i else next_pc core in
+      let dest = if cond then add (pc core) i else next_pc core in
       jump core dest
   | OpBcf, i, _, _ ->
       let cond = not (cget core) in
-      let dest = if cond then i else next_pc core in
+      let dest = if cond then add (pc core) i else next_pc core in
       jump core dest
 
   (* メモリ命令 *)
