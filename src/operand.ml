@@ -9,6 +9,7 @@ type t =
   | Reg of reg
   | FReg of reg
   | Imm of imm
+  | Rabel of string
   | Dest of dest
   | RelReg of (imm * reg)
 

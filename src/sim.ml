@@ -46,12 +46,27 @@ let execute core = function
   (* 制御命令 *)
   | OpSlt,  i, j, k -> rset core i (if rget core j < rget core k then one else zero); incr core
   | OpSlti, i, j, k -> rset core i (if rget core j < k      then one else zero);      incr core
-  | OpJump, i, _, _ -> jump core i
-  | OpJr,   i, _, _ -> jump core @@ rget core i
-  | OpJal,  i, _, _ -> rset core (of_int 31) (next_pc core); jump core i
-  | OpJalr,  i, _, _ -> rset core (of_int 31) (next_pc core); jump core @@ rget core i
-  | OpBne,  i, j, k -> jump core @@ if rget core i <> rget core j then k else next_pc core
-  | OpBeq,  i, j, k -> jump core @@ if rget core i = rget core j  then k else next_pc core
+  | OpJump, i, _, _ -> jump core (add (pc core) i)
+  | OpJr,   i, _, _ ->
+      jump core @@ rget core i
+  | OpJal,  i, _, _ ->
+      rset core (of_int 31) (next_pc core);
+      jump core (add (pc core) i)
+  | OpJalr,  i, _, _ ->
+      rset core (of_int 31) (next_pc core);
+      jump core @@ add (pc core) (rget core i)
+  | OpBne,  i, j, k ->
+      let target =
+        if rget core i <> rget core j
+        then add k (pc core)
+        else next_pc core in
+      jump core target
+  | OpBeq,  i, j, k ->
+      let target =
+        if rget core i = rget core j
+        then add k (pc core)
+        else next_pc core in
+      jump core target
   | OpHalt, _, _, _ -> raise ExecutionEnd
   (* float命令 *)
   | OpLwc1, i, j, k -> rsetf core i (mget core (addf32 j (rget core k))); incr core

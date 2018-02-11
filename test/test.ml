@@ -239,7 +239,7 @@ let instruction_test () =
   (* round_even *)
   App.reset_all ();
   App.load_string
-    "ori $t1, $zero, 3
+    "ori $t1, $zero, 2
      jalr $t1
      halt
      halt";

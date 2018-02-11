@@ -15,7 +15,10 @@ let f parsed_program =
     (* 算術命令 *)
     | OpAdd,  (Reg i, Reg j, Reg k)  -> !(verified).(index) <- (OpAdd,  i, j, k)
     | OpSub,  (Reg i, Reg j, Reg k)  -> !(verified).(index) <- (OpSub,  i, j, k)
-    | OpAddi, (Reg i, Reg j, Imm k)  -> !(verified).(index) <- (OpAddi, i, j, k)
+    | OpAddi, (Reg i, Reg j, Imm k)
+      -> !(verified).(index) <- (OpAddi, i, j, k)
+    | OpAddi, (Reg i, Reg j, Rabel k)
+      -> !(verified).(index) <- (OpAddi, i, j, ParserArgs.find_label k)
     (* 論理命令 *)
     | OpAnd,  (Reg i, Reg j, Reg k)  -> !(verified).(index) <- (OpAnd,  i, j, k)
     | OpOr,   (Reg i, Reg j, Reg k)  -> !(verified).(index) <- (OpOr,   i, j, k)
@@ -33,11 +36,29 @@ let f parsed_program =
     | OpSlt,  (Reg i, Reg j, Reg k)  -> !(verified).(index) <- (OpSlt,  i, j, k)
     | OpSlti, (Reg i, Reg j, Imm k)  -> !(verified).(index) <- (OpSlti, i, j, k)
     | OpJump, (Imm i, Empty, Empty) -> !(verified).(index) <- (OpJump, i, zero, zero)
+    | OpJump, (Rabel i, Empty, Empty) ->
+        let n = Int32.sub (ParserArgs.find_label i) (of_int index) in
+        !(verified).(index) <- (OpJump, n, zero, zero)
     | OpJal,  (Imm i, Empty, Empty) -> !(verified).(index) <- (OpJal,  i, zero, zero)
+    | OpJal, (Rabel i, Empty, Empty) ->
+        let n = Int32.sub (ParserArgs.find_label i) (of_int index) in
+        !(verified).(index) <- (OpJal, n, zero, zero)
     | OpJalr,  (Reg i, Empty, Empty) -> !(verified).(index) <- (OpJalr,  i, zero, zero)
+    | OpJalr, (Rabel i, Empty, Empty) ->
+        let n = Int32.sub (ParserArgs.find_label i) (of_int index) in
+        !(verified).(index) <- (OpJal, n, zero, zero)
     | OpJr,   (Reg i, Empty, Empty)  -> !(verified).(index) <- (OpJr,   i, zero, zero)
+    | OpJr, (Rabel i, Empty, Empty) ->
+        let n = Int32.sub (ParserArgs.find_label i) (of_int index) in
+        !(verified).(index) <- (OpJr, n, zero, zero)
     | OpBne,  (Reg i, Reg j, Imm k) -> !(verified).(index) <- (OpBne,  i, j, k)
+    | OpBne, (Reg i, Reg j, Rabel k) ->
+        let n = Int32.sub (ParserArgs.find_label k) (of_int index) in
+        !(verified).(index) <- (OpBne, i, j, n)
     | OpBeq,  (Reg i, Reg j, Imm k) -> !(verified).(index) <- (OpBeq,  i, j, k)
+    | OpBeq, (Reg i, Reg j, Rabel k) ->
+        let n = Int32.sub (ParserArgs.find_label k) (of_int index) in
+        !(verified).(index) <- (OpBeq, i, j, n)
     | OpHalt, _                      -> !(verified).(index) <- (OpHalt, zero, zero, zero)
     (* float命令 *)
     | OpSwc1, (FReg i, RelReg (j, k), _) -> !(verified).(index) <- (OpSwc1, i, j, k)

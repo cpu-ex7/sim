@@ -79,6 +79,7 @@ let dump_memory_alist core from num =
   !ans
 
 (* ユーティリティ関数 *)
+let pc core = !(core.pc)
 let next_pc core = add !(core.pc) one
 let incr core = core.pc := add !(core.pc) one
 let jump core i = core.pc := i

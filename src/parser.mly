@@ -52,8 +52,4 @@ operand:
     with Not_found ->
        failwith ("parser: label definition not found: " ^ $1)
    }
-  | VAR {
-     try Imm (List.assoc $1 !(ParserArgs.label))
-     with Not_found ->
-       failwith ("parser: label definition not found: " ^ $1)
-   }
+  | VAR { Rabel $1 }
