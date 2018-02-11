@@ -24,6 +24,7 @@ let reset_all () =
 
 let reset_core () = !global.core := Core.empty ()
 
+let label _ = !(!global.label)
 let program _ = !(!global.program)
 let core _ = !(!global.core)
 let count _ = !(!(!global.core).count)
@@ -117,3 +118,13 @@ let read_file filename =
 let set_input_file filename =
   (core global).input_index := 0;
   (core global).input_string := read_file filename
+
+let print_program x =
+  Array.iter
+    (fun i -> Verify.print_verified i; print_newline ())
+    x
+
+let print_label x =
+  List.iter
+    (fun (str, num) -> Printf.printf "%8s : %5ld\n" str num)
+    x

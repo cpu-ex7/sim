@@ -164,4 +164,4 @@ let f parsed_program =
 
 let print_verified (op, i, j, k) =
   print_operator op;
-  Printf.printf " %ld, %ld, %ld " i j k
+  Printf.printf " %5ld, %5ld, %5ld " i j k
