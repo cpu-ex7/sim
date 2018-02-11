@@ -86,6 +86,16 @@ let instruction_test () =
     (of_int 104, of_int 111, of_int 103, of_int 101);
 
   App.reset_all ();
+  App.set_input "hoge";
+  App.load_string "read_word $zero";
+  let core = App.execute () in
+  assert_equal
+    ~printer:(fun x -> to_string x)
+    core.reg.(regnum_of_string "$zero")
+    (* 0b1101000110111111001111100101 = 'e'::'g'::'o'::'h' *)
+    (of_int 0b1100101110011111011111101000);
+
+  App.reset_all ();
   App.load_string "
     addi $v0, $zero, 105
     print_char $v0

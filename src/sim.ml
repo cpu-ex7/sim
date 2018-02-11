@@ -57,6 +57,14 @@ let execute core = function
   | OpSwc1, i, j, k -> mset core (add j (rget core k)) (rgetf core i);    incr core
   | OpLwc2, i, _, _ -> rset core i (get_input core);                      incr core
   | OpSwc2, i, _, _ -> print_char @@ Char.chr @@ to_int @@ rget core i;   incr core
+  | OpLwc3, i, _, _ ->
+      let inputs = [get_input core;get_input core;get_input core;get_input core;] in
+      let num =
+        List.fold_left (fun acc elem -> (logor (shift_left acc 7l) elem))
+          0l
+          inputs in
+      rset core i num;
+      incr core
   | OpAddf, i, j, k -> rsetf core i (addf32 (rgetf core j) (rgetf core k)); incr core
   | OpSubf, i, j, k -> rsetf core i (subf32 (rgetf core j) (rgetf core k)); incr core
   | OpMulf, i, j, k -> rsetf core i (mulf32 (rgetf core j) (rgetf core k)); incr core

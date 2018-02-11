@@ -43,6 +43,7 @@ let f parsed_program =
     | OpLwc1, (FReg i, RelReg (j, k), _) -> !(verified).(index) <- (OpLwc1, i, j, k)
     | OpSwc2, (Reg i,     _,     _)      -> !(verified).(index) <- (OpSwc2, i, zero, zero)
     | OpLwc2, (Reg i,     _,     _)      -> !(verified).(index) <- (OpLwc2, i, zero, zero)
+    | OpLwc3, (Reg i,     _,     _)      -> !(verified).(index) <- (OpLwc3, i, zero, zero)
     | OpAddf, (FReg i, FReg j, FReg k)   -> !(verified).(index) <- (OpAddf, i, j, k)
     | OpSubf, (FReg i, FReg j, FReg k)   -> !(verified).(index) <- (OpSubf, i, j, k)
     | OpDivf, (FReg i, FReg j, FReg k)   -> !(verified).(index) <- (OpDivf, i, j, k)
