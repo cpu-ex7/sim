@@ -22,6 +22,7 @@ type t =
   | OpSlti
   | OpJump
   | OpJal
+  | OpJalr
   | OpJr
   | OpBne
   | OpBeq
@@ -83,6 +84,7 @@ let op_alist =
     ("slti", OpSlti);
     ("j", OpJump);
     ("jal", OpJal);
+    ("jalr", OpJalr);
     ("jr", OpJr);
     ("bne", OpBne);
     ("beq", OpBeq);

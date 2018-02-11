@@ -49,6 +49,7 @@ let execute core = function
   | OpJump, i, _, _ -> jump core i
   | OpJr,   i, _, _ -> jump core @@ rget core i
   | OpJal,  i, _, _ -> rset core (of_int 31) (next_pc core); jump core i
+  | OpJalr,  i, _, _ -> rset core (of_int 31) (next_pc core); jump core @@ rget core i
   | OpBne,  i, j, k -> jump core @@ if rget core i <> rget core j then k else next_pc core
   | OpBeq,  i, j, k -> jump core @@ if rget core i = rget core j  then k else next_pc core
   | OpHalt, _, _, _ -> raise ExecutionEnd

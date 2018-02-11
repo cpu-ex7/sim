@@ -34,6 +34,7 @@ let f parsed_program =
     | OpSlti, (Reg i, Reg j, Imm k)  -> !(verified).(index) <- (OpSlti, i, j, k)
     | OpJump, (Imm i, Empty, Empty) -> !(verified).(index) <- (OpJump, i, zero, zero)
     | OpJal,  (Imm i, Empty, Empty) -> !(verified).(index) <- (OpJal,  i, zero, zero)
+    | OpJalr,  (Reg i, Empty, Empty) -> !(verified).(index) <- (OpJalr,  i, zero, zero)
     | OpJr,   (Reg i, Empty, Empty)  -> !(verified).(index) <- (OpJr,   i, zero, zero)
     | OpBne,  (Reg i, Reg j, Imm k) -> !(verified).(index) <- (OpBne,  i, j, k)
     | OpBeq,  (Reg i, Reg j, Imm k) -> !(verified).(index) <- (OpBeq,  i, j, k)

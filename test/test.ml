@@ -217,6 +217,18 @@ let instruction_test () =
     (0.5 |> Int32.bits_of_float,
      1.0 |> Int32.bits_of_float);
 
+  (* round_even *)
+  App.reset_all ();
+  App.load_string
+    "ori $t1, $zero, 3
+     jalr $t1
+     halt
+     halt";
+  let core = App.execute () in
+  assert_equal
+    (!(core.pc), core.reg.(regnum_of_string "$ra"))
+    (3l, 2l);
+
   ()
 
 let special_label () =
