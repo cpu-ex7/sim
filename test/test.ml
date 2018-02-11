@@ -245,7 +245,7 @@ let instruction_test () =
 
   App.reset_all ();
   App.load_string
-    "ori $t1, $zero, 2
+    "ori $t1, $zero, 3
      jalr $t1
      halt
      halt";

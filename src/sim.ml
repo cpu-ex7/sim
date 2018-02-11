@@ -108,7 +108,7 @@ let execute core = function
       rset core regnum_lr (next_pc core);
       jump core dest
   | OpJalr, i, _, _ ->
-      let dest = add (pc core) (rget core i) in
+      let dest = rget core i in
       rset core regnum_lr (next_pc core);
       jump core dest
 
