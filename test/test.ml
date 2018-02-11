@@ -31,42 +31,47 @@ let instruction_test () =
      addi  $t1, $t1, 3
      and   $t0, $t0, $t1";
   assert_equal
+    ~msg: "ori"
     (App.execute ()).reg.(Operand.regnum_of_string "$t0")
     (of_int 3);
 
   App.reset_all ();
   App.load_string
-    "addi  $t0, $zero,   6
-     addi  $t1, $zero,   1
-     or   $t0, $t0,   $t1";
+    "addi  $t0, $zero, 6
+     addi  $t1, $zero, 1
+     or    $t0, $t0, $t1";
   assert_equal
+    ~msg:"or"
     (App.execute ()).reg.(Operand.regnum_of_string "$t0")
     (of_int 7);
 
   App.reset_all ();
   App.load_string
-    "addi  $t0, $zero,   7
-     addi  $t1, $zero,   1
-     xor $t0,  $t0,   $t1";
+    "addi  $t0, $zero, 7
+     addi  $t1, $zero, 1
+     xor   $t0, $t0, $t1";
   assert_equal
+    ~msg:"xor"
     (App.execute ()).reg.(Operand.regnum_of_string "$t0")
     (of_int 6);
 
   App.reset_all ();
   App.load_string
-    "addi  $t0, $zero,   7
-     addi  $t1, $zero,   1
-     nor $t0,  $t0,   $t1";
+    "addi  $t0, $zero, 7
+     addi  $t1, $zero, 1
+     nor   $t0, $t0, $t1";
   assert_equal
+    ~msg:"nor"
     (App.execute ()).reg.(Operand.regnum_of_string "$t0")
     (of_int ~-8);
 
   App.reset_all ();
   App.load_string
-    "addi  $t0, $zero,   2
-     addi  $t1, $zero,  16
-     sub $t0,  $t0,   $t1";
+    "addi  $t0, $zero, 2
+     addi  $t1, $zero, 16
+     sub   $t0, $t0, $t1";
   assert_equal
+    ~msg:"sub"
     (App.execute ()).reg.(Operand.regnum_of_string "$t0")
     (of_int ~-14);
 
@@ -79,6 +84,7 @@ let instruction_test () =
     read_char $v1";
   let core = App.execute () in
   assert_equal
+    ~msg: "read_char"
     (core.reg.(regnum_of_string "$zero"),
      core.reg.(regnum_of_string "$at"),
      core.reg.(regnum_of_string "$v0"),
@@ -90,7 +96,7 @@ let instruction_test () =
   App.load_string "read_word $zero";
   let core = App.execute () in
   assert_equal
-    ~printer:(fun x -> to_string x)
+    ~msg: "read_word"
     core.reg.(regnum_of_string "$zero")
     (* 0b1101000110111111001111100101 = 'e'::'g'::'o'::'h' *)
     (of_int 0b1100101110011111011111101000);
@@ -106,6 +112,7 @@ let instruction_test () =
     read_char $t4";
   let core = App.execute () in
   assert_equal
+    ~msg: "set_input_file()"
     (core.reg.(regnum_of_string "$zero"),
      core.reg.(regnum_of_string "$t0"),
      core.reg.(regnum_of_string "$t1"),
@@ -149,11 +156,11 @@ let instruction_test () =
        (lower_bits_of_float 12345.6789 |> to_string));
   let core = App.execute () in
   assert_equal
+    ~msg:"addf"
     (core.freg.(0), core.freg.(1))
     (12345.6789 |> Int32.bits_of_float,
      24691.3578 |> Int32.bits_of_float);
 
-  (* abs *)
   App.reset_all ();
   App.load_string
     (Printf.sprintf
@@ -166,11 +173,11 @@ let instruction_test () =
        (lower_bits_of_float ~-.12345.6789 |> to_string));
   let core = App.execute () in
   assert_equal
+    ~msg:"abs"
     (core.freg.(0), core.freg.(1))
     (-12345.6789 |> Int32.bits_of_float,
      12345.6789 |> Int32.bits_of_float);
 
-  (* abs *)
   App.reset_all ();
   App.load_string
     (Printf.sprintf
@@ -183,11 +190,11 @@ let instruction_test () =
        (lower_bits_of_float 12345.6789 |> to_string));
   let core = App.execute () in
   assert_equal
+    ~msg:"abs"
     (core.freg.(0), core.freg.(1))
     (12345.6789 |> Int32.bits_of_float,
      12345.6789 |> Int32.bits_of_float);
 
-  (* cvtsw *)
   App.reset_all ();
   App.load_string
     (Printf.sprintf
@@ -197,11 +204,11 @@ let instruction_test () =
         cvtsw $f1, $f0, $f0");
   let core = App.execute () in
   assert_equal
+    ~msg:"cvtsw"
     (core.freg.(0), core.freg.(1))
     (12345l,
      12345.0 |> Int32.bits_of_float);
 
-  (* round_even *)
   App.reset_all ();
   App.load_string
     (Printf.sprintf
@@ -214,12 +221,11 @@ let instruction_test () =
        (lower_bits_of_float 12345.45 |> to_string));
   let core = App.execute () in
   assert_equal
-    ~printer:(fun (x,y) -> Printf.sprintf "%f, %f" (float_of_bits x) (float_of_bits y))
+    ~msg:"roundwfmt"
     (core.freg.(0), core.freg.(1))
     (12345.45 |> Int32.bits_of_float,
      12345.0 |> Int32.bits_of_float);
 
-  (* round_even *)
   App.reset_all ();
   App.load_string
     (Printf.sprintf
@@ -232,11 +238,11 @@ let instruction_test () =
        (lower_bits_of_float 0.5 |> to_string));
   let core = App.execute () in
   assert_equal
+    ~msg:"roundwfmt"
     (core.freg.(0), core.freg.(1))
     (0.5 |> Int32.bits_of_float,
      1.0 |> Int32.bits_of_float);
 
-  (* round_even *)
   App.reset_all ();
   App.load_string
     "ori $t1, $zero, 2
@@ -245,10 +251,10 @@ let instruction_test () =
      halt";
   let core = App.execute () in
   assert_equal
+    ~msg:"jalr"
     (!(core.pc), core.reg.(regnum_of_string "$ra"))
     (3l, 2l);
 
-  (* bcf *)
   App.reset_all ();
   App.load_string
     (Printf.sprintf
@@ -266,10 +272,10 @@ let instruction_test () =
        (lower_bits_of_float 10.0 |> to_string));
   let core = App.execute () in
   assert_equal
+    ~msg:"bct"
     !(core.pc)
     7l;
 
-  (* bct *)
   App.reset_all ();
   App.load_string
     (Printf.sprintf
@@ -287,9 +293,9 @@ let instruction_test () =
        (lower_bits_of_float 10.0 |> to_string));
   let core = App.execute () in
   assert_equal
+    ~msg:"bcf"
     !(core.pc)
     8l;
-
 
   ()
 
