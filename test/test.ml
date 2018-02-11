@@ -224,7 +224,7 @@ let instruction_test () =
     ~msg:"roundwfmt"
     (core.freg.(0), core.freg.(1))
     (12345.45 |> Int32.bits_of_float,
-     12345.0 |> Int32.bits_of_float);
+     12345l);
 
   App.reset_all ();
   App.load_string
@@ -241,7 +241,7 @@ let instruction_test () =
     ~msg:"roundwfmt"
     (core.freg.(0), core.freg.(1))
     (0.5 |> Int32.bits_of_float,
-     1.0 |> Int32.bits_of_float);
+     1l);
 
   App.reset_all ();
   App.load_string

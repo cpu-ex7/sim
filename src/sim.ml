@@ -8,11 +8,6 @@ open Float32
 
 exception ExecutionEnd
 
-let round_even f =
-  let d = f -. (float_of_int @@ int_of_float f) in
-  if(d < 0.5) then Int32.float_of_bits @@ Int32.of_float f
-  else Int32.float_of_bits @@ Int32.succ @@ Int32.of_float f
-
 let shift_left a b =
   shift_left a (to_int b)
 let shift_right a b =

@@ -47,5 +47,5 @@ CAMLprim value round_even32(value a) {
   af = af - d;
   if (d >= 0.5)
     af += 1.0f;
-  return caml_copy_int32(*(int32_t *)&af);
+  return caml_copy_int32((int32_t)af);
 }
