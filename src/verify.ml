@@ -161,3 +161,7 @@ let f parsed_program =
         failwith ("bad operands: " ^ (List.assoc op Operator.op_alist_rev))
   done;
   verified
+
+let print_verified (op, i, j, k) =
+  print_operator op;
+  Printf.printf " %ld, %ld, %ld " i j k

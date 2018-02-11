@@ -128,6 +128,9 @@ let op_alist =
 let op_alist_rev =
   List.map (fun (x, y) -> (y, x)) op_alist
 
+let print_operator x =
+  print_string (List.assoc x op_alist_rev)
+
 (* op_strに対応するOperator.t型の値を返す *)
 let of_string op_str =
   try
