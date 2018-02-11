@@ -44,6 +44,11 @@ $ ./_build/default/Bench.exe
 | set_args       | 引数用レジスタに整数をセットする                                    |
 | set_input      | コアへの入力をセットする                                            |
 
-
 #+CAPTION: デモ
-[[file:demo.png]]
+[[file:image/demo.png]]
+
+ロードしたラベルとプログラム及びコアの状態は =App.label ()=, =App.program ()=, =App.core ()= で確認できる。
+
+[[file:image/label.png]]
+[[file:image/program.png]]
+[[file:image/core.png]]
