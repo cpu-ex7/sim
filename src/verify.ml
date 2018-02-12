@@ -97,8 +97,6 @@ let f parsed_program =
         update index OpSwc2 i zero zero
     | OpLwc2, (Reg i, _, _) ->
         update index OpLwc2 i zero zero
-    | OpLwc3, (Reg i, _, _) ->
-        update index OpLwc3 i zero zero
     | OpAddf, (FReg i, FReg j, FReg k) ->
         update index OpAddf i j k
     | OpSubf, (FReg i, FReg j, FReg k) ->

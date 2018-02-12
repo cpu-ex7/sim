@@ -120,25 +120,21 @@ let execute core = function
         else next_pc core in
       jump core dest
   (* float命令 *)
-  | OpLwc1, i, j, k ->
-      let value = mget core (addf32 j (rget core k)) in
-      rsetf core i value;
-      incr core
   | OpSwc1, i, j, k ->
       let dest = add j (rget core k) in
       let value = rgetf core i in
       mset core dest value;
-      incr core
-  | OpLwc2, i, _, _ ->
-      let value = get_input core in
-      rset core i value;
       incr core
   | OpSwc2, i, _, _ ->
       let c = Char.chr (to_int (rget core i)) in
       print_char c;
       flush_all ();
       incr core
-  | OpLwc3, i, _, _ ->
+  | OpLwc1, i, j, k ->
+      let value = mget core (addf32 j (rget core k)) in
+      rsetf core i value;
+      incr core
+  | OpLwc2, i, _, _ ->
       (* 評価はリストの最後から行われることに注意 *)
       let inputs = [get_input core;
                     get_input core;

@@ -77,22 +77,6 @@ let instruction_test () =
 
   App.reset_all ();
   App.set_input_string "hoge";
-  App.load_string "
-    read_char $zero
-    read_char $at
-    read_char $v0
-    read_char $v1";
-  let core = App.execute_noexcept () in
-  assert_equal
-    ~msg: "read_char"
-    (core.reg.(regnum_of_string "$zero"),
-     core.reg.(regnum_of_string "$at"),
-     core.reg.(regnum_of_string "$v0"),
-     core.reg.(regnum_of_string "$v1"))
-    (of_int 104, of_int 111, of_int 103, of_int 101);
-
-  App.reset_all ();
-  App.set_input_string "hoge";
   App.load_string "read_word $zero";
   let core = App.execute_noexcept () in
   assert_equal
@@ -103,23 +87,12 @@ let instruction_test () =
 
   App.reset_all ();
   App.set_input_file "hoge.input";
-  App.load_string "
-    read_char $zero
-    read_char $t0
-    read_char $t1
-    read_char $t2
-    read_char $t3
-    read_char $t4";
+  App.load_string "read_word $zero";
   let core = App.execute_noexcept () in
   assert_equal
     ~msg: "set_input_file()"
-    (core.reg.(regnum_of_string "$zero"),
-     core.reg.(regnum_of_string "$t0"),
-     core.reg.(regnum_of_string "$t1"),
-     core.reg.(regnum_of_string "$t2"),
-     core.reg.(regnum_of_string "$t3"),
-     core.reg.(regnum_of_string "$t4"))
-    (104l, 111l, 10l, 103l, 10l, 101l);
+    core.reg.(regnum_of_string "$zero")
+    0b1100101110011111011111101000l;
 
   App.reset_all ();
   App.load_string "

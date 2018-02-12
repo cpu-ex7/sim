@@ -30,7 +30,6 @@ type t =
   (* float命令 *)
   | OpLwc1
   | OpLwc2
-  | OpLwc3
   | OpSwc1
   | OpSwc2
   | OpAddf
@@ -93,8 +92,7 @@ let op_alist =
     ("lwc1", OpLwc1);
     ("swc1", OpSwc1);
     ("lwc2", OpLwc2);
-    ("read_char", OpLwc2);
-    ("read_word", OpLwc3);
+    ("read_word", OpLwc2);
     ("swc2", OpSwc2);
     ("print_char", OpSwc2);
     ("addf", OpAddf);
