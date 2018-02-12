@@ -47,9 +47,4 @@ operand:
   | NUM                    { Imm $1 }
   | MINUS NUM              { Imm (Int32.neg $2) }
   | NUM LPAREN REG RPAREN  { RelReg ($1, $3) }
-  | VAR LPAREN REG RPAREN {
-    try RelReg ((List.assoc $1 !(Label.global)), $3)
-    with Not_found ->
-       failwith ("parser: label definition not found: " ^ $1)
-   }
   | VAR { Rabel $1 }
