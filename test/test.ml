@@ -272,6 +272,20 @@ let instruction_test () =
 
   ()
 
+let core_test () =
+  App.reset_all ();
+  App.set_register_name "$ra" 42l;
+  App.load_string "read_word $ra";
+  let cond =
+    try ignore (App.execute ()); false
+    with Invalid_argument _ -> true in
+  assert_equal
+    ~msg:"read_word with no input"
+    cond
+    true;
+
+  ()
+
 let special_label () =
   App.reset_all ();
   App.load_string
@@ -295,6 +309,7 @@ let suite =
   "suite" >::: [
     "File" >:: file_test;
     "Instruction" >:: instruction_test;
+    "core" >:: core_test;
     "SpecialDLabel" >:: special_label;
   ]
 
