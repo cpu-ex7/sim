@@ -87,9 +87,9 @@ let regnum_of_string = function
 
 let print_operand = function
   | Empty -> ()
-  | Reg i -> Printf.printf "%10s" (string_of_regnum (to_int i))
-  | FReg i -> Printf.printf "%10s" ("$f" ^ (string_of_int (to_int i)))
-  | Imm i -> Printf.printf "%10ld" i
-  | Rabel s -> Printf.printf "%10s" s
-  | Dest i -> Printf.printf "%10ld" i
-  | RelReg (i, j) -> Printf.printf "%4ld(%4ld)" i j
+  | Reg i -> Printf.printf "%20s" (string_of_regnum (to_int i))
+  | FReg i -> Printf.printf "%20s" ("$f" ^ (string_of_int (to_int i)))
+  | Imm i -> Printf.printf "%20ld" i
+  | Rabel s -> Printf.printf "%20s" s
+  | Dest i -> Printf.printf "%20ld" i
+  | RelReg (i, j) -> Printf.printf "%9ld(%9ld)" i j

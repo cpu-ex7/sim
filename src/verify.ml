@@ -164,6 +164,6 @@ let print_verified x =
   Array.iter
     (fun (op, i, j, k)  ->
        print_operator op;
-       Printf.printf " %5ld, %5ld, %5ld " i j k;
+       Printf.printf " %11ld, %11ld, %11ld " i j k;
        print_newline ())
     x
