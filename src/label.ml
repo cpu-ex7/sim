@@ -8,3 +8,8 @@ let find_label str =
     List.assoc str !global
   with Not_found ->
     failwith ("parser: label definition not found: " ^ str)
+
+let print_label x =
+  List.iter
+    (fun (str, num) -> Printf.printf "%8s : %5ld\n" str num)
+    x

@@ -3,14 +3,16 @@ open Int32
 
 (* シミュレーターの状態 *)
 type state = {
-  program : Verify.t ref;
-  label   : Label.t ref;
-  core    : Core.t ref;
+  program : Program.t ref;
+  verified : Verify.t ref;
+  label : Label.t ref;
+  core : Core.t ref;
 }
 
 (* グローバルの状態 *)
 let global = ref {
   program = ref [||];
+  verified = ref [||];
   label = ref [];
   core = ref (Core.empty ());
 }
@@ -18,6 +20,7 @@ let global = ref {
 let reset_all () =
   global := {
     program = ref [||];
+    verified = ref [||];
     label=ref [];
     core= ref (Core.empty ());
   }
@@ -26,6 +29,7 @@ let reset_core () = !global.core := Core.empty ()
 
 let label _ = !(!global.label)
 let program _ = !(!global.program)
+let verified _ = !(!global.verified)
 let core _ = !(!global.core)
 let count _ = !(!(!global.core).count)
 let pc _ = to_int !(!(!global.core).pc)
@@ -33,7 +37,7 @@ let pc _ = to_int !(!(!global.core).pc)
 (* プログラムを一行だけ実行する *)
 let execute_n n =
   for i=0 to n-1 do
-    Sim.execute (core ()) (program ()).(pc ());
+    Sim.execute (core ()) (verified ()).(pc ());
   done;
   (core ())
 
@@ -89,14 +93,16 @@ let parse_file filename =
 let load_file filename =
   Label.global := label_parse_file filename;
   !global.label := !Label.global;
-  !global.program := !(Verify.f (parse_file filename))
+  !global.program := parse_file filename;
+  !global.verified := Verify.f (program ())
 
 let load_string str =
   (* 最後に改行がないとまずいので... *)
   let str = str ^ "\n" in
   Label.global := label_parse_string str;
   !global.label := !Label.global;
-  !global.program := !(Verify.f (parse_string str))
+  !global.program := parse_string str;
+  !global.verified := Verify.f (program ())
 
 (* コアの状態をリセットすることなくstrを実行する *)
 (* デバッグ用 *)
@@ -106,10 +112,10 @@ let execute_string str =
   execute ()
 
 let print_assembly () =
-  Asm.print_assembly (program global)
+  Asm.print_assembly (verified global)
 
 let string_of_assembly () =
-  Asm.string_of_assembly (program global)
+  Asm.string_of_assembly (verified global)
 
 let set_input_string str =
   (core global).input_index := 0;
@@ -132,12 +138,7 @@ let set_input_file filename =
   (core global).input_index := 0;
   (core global).input_string := read_file filename
 
-let print_program x =
-  Array.iter
-    (fun i -> Verify.print_verified i; print_newline ())
-    x
-
-let print_label x =
-  List.iter
-    (fun (str, num) -> Printf.printf "%8s : %5ld\n" str num)
-    x
+let print_label _ = Label.print_label (label ())
+let print_program _ = Program.print_program_with_label (program ()) (label ())
+let print_verified _ = Verify.print_verified (verified ())
+let print_core _ = Core.print_core (core ())

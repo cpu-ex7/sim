@@ -160,8 +160,12 @@ let f parsed_program =
     | op, _ ->
         failwith ("bad operands: " ^ (List.assoc op Operator.op_alist_rev))
   done;
-  verified
+  !verified
 
-let print_verified (op, i, j, k) =
-  print_operator op;
-  Printf.printf " %5ld, %5ld, %5ld " i j k
+let print_verified x =
+  Array.iter
+    (fun (op, i, j, k)  ->
+       print_operator op;
+       Printf.printf " %5ld, %5ld, %5ld " i j k;
+       print_newline ())
+    x

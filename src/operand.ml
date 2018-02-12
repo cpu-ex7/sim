@@ -84,3 +84,12 @@ let regnum_of_string = function
   | "$fp" -> 30
   | "$ra" -> 31
   | str -> failwith @@ "invalid register name : " ^ str
+
+let print_operand = function
+  | Empty -> ()
+  | Reg i -> Printf.printf "%10s" (string_of_regnum (to_int i))
+  | FReg i -> Printf.printf "%10s" ("$f" ^ (string_of_int (to_int i)))
+  | Imm i -> Printf.printf "%10ld" i
+  | Rabel s -> Printf.printf "%10s" s
+  | Dest i -> Printf.printf "%10ld" i
+  | RelReg (i, j) -> Printf.printf "%4ld(%4ld)" i j

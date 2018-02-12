@@ -12,7 +12,7 @@ type t = {
   count : int ref;    (* ログ *)
 }
 
-let print_core _ c =
+let print_core c =
   printf "pc     : %08lx %10ld\n" !(c.pc) !(c.pc);
   printf "cc     : %B\n" !(c.cc);
   for i = 0 to 31 do

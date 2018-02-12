@@ -3,7 +3,8 @@ open Simulator;;
 (* エラーが出たときのバックとレースの有効化 *)
 Printexc.record_backtrace true;
 #install_printer Core.print_core
+#install_printer Operand.print_operand
 #install_printer Operator.print_operator
 #install_printer Verify.print_verified
-#install_printer App.print_program
-#install_printer App.print_label
+#install_printer Label.print_label
+#install_printer Program.print_program
