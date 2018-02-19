@@ -141,7 +141,7 @@ let execute core = function
                     get_input core;
                     get_input core;] in
       let num =
-        List.fold_left (fun acc elem -> (logor (shift_left acc 7l) elem))
+        List.fold_left (fun acc elem -> (logor (shift_left acc 8l) elem))
           0l
           inputs in
       rset core i num;
