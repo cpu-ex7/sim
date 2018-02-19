@@ -1,3 +1,4 @@
+
 open Int32
 open Printf
 open Operand
@@ -12,7 +13,7 @@ let pad str width =
 (* dを2進法で表す幅widthになるまで0埋めする *)
 let rec bits_of_num d width =
   let d = Int32.to_int d in
-  if d < 0 then bits_of_num (of_int ((2 lsl (width - 1)) + d)) width else
+  if d < 0 then bits_of_num (Int32.of_int ((2 lsl (width - 1)) + d)) width else
   if d = 0 then pad "0" width else
     let rec loop acc d =
       if d = 0 then acc else
@@ -40,13 +41,13 @@ let bits_of_line line line_num =
         "000000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "00000" "100100"
   | OpOr,    i, j, k ->
       sprintf "%s%s%s%s%s%s"
-        "000000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "00000" "000000"
+        "000000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "00000" "100101"
   | OpOri,   i, j, k ->
       sprintf "%s%s%s%s"
         "001101" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num k 16)
   | OpNor,   i, j, k ->
       sprintf "%s%s%s%s%s%s"
-        "000000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "00000" "000111"
+        "000000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "00000" "100111"
   | OpXor,   i, j, k ->
       sprintf "%s%s%s%s%s%s"
         "000000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "00000" "100110"
@@ -63,13 +64,13 @@ let bits_of_line line line_num =
         "000000" "00000" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num k 5) "000011"
   | OpSllv,  i, j, k ->
       sprintf "%s%s%s%s%s%s"
-        "000000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "00000" "000100"
+        "000000" (bits_of_num k 5) (bits_of_num j 5) (bits_of_num i 5) "00000" "000100"
   | OpSrlv,  i, j, k ->
       sprintf "%s%s%s%s%s%s"
-        "000000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "00000" "000110"
+        "000000" (bits_of_num k 5) (bits_of_num j 5) (bits_of_num i 5) "00000" "000110"
   | OpSrav,  i, j, k ->
       sprintf "%s%s%s%s%s%s"
-        "000000" (bits_of_num j 5) (bits_of_num k 5) (bits_of_num i 5) "00000" "000111"
+        "000000" (bits_of_num k 5) (bits_of_num j 5) (bits_of_num i 5) "00000" "000111"
 
   (* 制御命令 *)
   | OpSlt,   i, j, k ->
@@ -83,16 +84,19 @@ let bits_of_line line line_num =
         "000010" (bits_of_num i 26)
   | OpJal,   i, _, _ ->
       sprintf "%s%s"
-        "000010" (bits_of_num i 26)
+        "000011" (bits_of_num i 26)
   | OpJr,    i, _, _ ->
       sprintf "%s%s%s%s%s%s"
         "000000" (bits_of_num i 5) "00000" "00000" "00000" "001000"
+  | OpJalr, i,_,_ ->
+      sprintf "%s%s%s%s%s%s"
+        "000000" (bits_of_num i 5) "00000" "00000" "00000" "001001"
   | OpBeq,   i, j, k ->
       sprintf "%s%s%s%s"
-        "000100" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num (sub k @@ of_int line_num) 16)
+        "000100" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num k 16)
   | OpBne,   i, j, k ->
       sprintf "%s%s%s%s"
-        "000101" (bits_of_num i 5) (bits_of_num j 5) (bits_of_num (sub k @@ of_int line_num) 16)
+        "000101" (bits_of_num i 5) (bits_of_num j 5) (bits_of_num k 16)
   | OpHalt,  _, _, _  ->
       sprintf "%s%s%s%s"
         "000100" "00000" "00000" "0000000000000000"
@@ -103,10 +107,10 @@ let bits_of_line line line_num =
         "001111" "00000" (bits_of_num i 5) (bits_of_num j 16)
   | OpLw,    i, j, k ->
       sprintf "%s%s%s%s"
-        "100011" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num k 16)
+        "100011" (bits_of_num k 5) (bits_of_num i 5) (bits_of_num j 16)
   | OpSw,    i, j, k ->
       sprintf "%s%s%s%s"
-        "101011" (bits_of_num j 5) (bits_of_num i 5) (bits_of_num k 16)
+        "101011" (bits_of_num k 5) (bits_of_num i 5) (bits_of_num j 16)
 
   (* float命令 *)
   | OpLwc1,  i, j, k ->
@@ -180,10 +184,10 @@ let bits_of_line line line_num =
   (* float制御命令 *)
   | OpBct,   i, _, _ ->
       sprintf "%s%s%s"
-        "010001" (bits_of_num (sub i @@ of_int line_num) 20) "010001"
+        "010001" (bits_of_num i 20) "010001"
   | OpBcf,   i, _, _ ->
       sprintf "%s%s%s"
-        "010001" (bits_of_num (sub i @@ of_int line_num) 20) "010000"
+        "010001" (bits_of_num i 20) "010000"
 
 let print_assembly prog_verified =
   Array.iteri
