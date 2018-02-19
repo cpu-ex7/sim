@@ -131,7 +131,7 @@ let execute core = function
       flush_all ();
       incr core
   | OpLwc1, i, j, k ->
-      let value = mget core (addf32 j (rget core k)) in
+      let value = mget core (add j (rget core k)) in
       rsetf core i value;
       incr core
   | OpLwc2, i, _, _ ->
