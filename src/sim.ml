@@ -193,27 +193,28 @@ let execute core = function
 
   (* float比較命令 *)
   | OpEqf, i, j, _ ->
-      let cond = rgetf core i = rgetf core j in
+      let cond = Int32.float_of_bits @@ rgetf core i = Int32.float_of_bits @@ rgetf core j in
       cset core cond;
       incr core
   | OpNef, i, j, _ ->
-      let cond = rgetf core i <> rgetf core j in
+      let cond = Int32.float_of_bits @@ rgetf core i <> Int32.float_of_bits @@ rgetf core j in
       cset core cond;
       incr core
   | OpLtf, i, j, _ ->
+      let cond = Int32.float_of_bits @@ rgetf core i < Int32.float_of_bits @@ rgetf core j in
       let cond = rgetf core i < rgetf core j in
       cset core cond;
       incr core
   | OpLef, i, j, _ ->
-      let cond = rgetf core i <= rgetf core j in
+      let cond = Int32.float_of_bits @@ rgetf core i <= Int32.float_of_bits @@ rgetf core j in
       cset core cond;
       incr core
   | OpGtf, i, j, _ ->
-      let cond = rgetf core i > rgetf core j in
+      let cond = Int32.float_of_bits @@ rgetf core i > Int32.float_of_bits @@ rgetf core j in
       cset core cond;
       incr core
   | OpGef, i, j, _ ->
-      let cond = rgetf core i >= rgetf core j in
+      let cond = Int32.float_of_bits @@ rgetf core i >= Int32.float_of_bits @@ rgetf core j in
       cset core cond;
       incr core
 

@@ -47,4 +47,5 @@ operand:
   | NUM                    { Imm $1 }
   | MINUS NUM              { Imm (Int32.neg $2) }
   | NUM LPAREN REG RPAREN  { RelReg ($1, $3) }
+  | MINUS NUM LPAREN REG RPAREN  { RelReg (Int32.neg $2, $4) }
   | VAR { Rabel $1 }
