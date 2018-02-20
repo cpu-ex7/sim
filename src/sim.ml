@@ -93,15 +93,13 @@ let execute core = function
       rset core i value;
       incr core
   | OpJump, i, _, _ ->
-      let dest = add (pc core) i in
-      jump core dest
+      jump core i
   | OpJr, i, _, _ ->
       let dest = rget core i in
       jump core dest
   | OpJal, i, _, _ ->
-      let dest = add (pc core) i in
       rset core regnum_lr (next_pc core);
-      jump core dest
+      jump core i
   | OpJalr, i, _, _ ->
       let dest = rget core i in
       rset core regnum_lr (next_pc core);

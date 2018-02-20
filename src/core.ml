@@ -43,8 +43,8 @@ let empty () =
       count = ref 0
     } in
   (* fp, spの初期値は適当 *)
-  core.reg.(Operand.regnum_of_string "$fp") <- of_int 4096;
-  core.reg.(Operand.regnum_of_string "$sp") <- of_int 4096;
+  core.reg.(Operand.regnum_of_string "$fp") <- of_int 0;
+  core.reg.(Operand.regnum_of_string "$sp") <- of_int 0;
   (* $raの初期値を-1にして、 "jr $ra"で終わるコード片を実行した時に
      index_out_of_bounds例外がでて実行が終わるようにする *)
   core.reg.(Operand.regnum_of_string "$ra") <- of_int ~-1;
