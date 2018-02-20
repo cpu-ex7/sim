@@ -8,3 +8,4 @@ Printexc.record_backtrace true;
 #install_printer Verify.print_verified
 #install_printer Label.print_label
 #install_printer Program.print_program
+#install_printer Log.print_log

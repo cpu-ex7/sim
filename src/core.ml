@@ -10,6 +10,7 @@ type t = {
   input_string : string ref;
   input_index : int ref;
   count : int ref;    (* ログ *)
+  log : Log.t ref;
 }
 
 let print_core c =
@@ -40,7 +41,8 @@ let empty () =
       mem = Array.make 131072 Int32.zero;
       input_string = ref "";
       input_index = ref 0;
-      count = ref 0
+      count = ref 0;
+      log = ref (Log.init ());
     } in
   (* fp, spの初期値は適当 *)
   core.reg.(Operand.regnum_of_string "$fp") <- of_int 0;

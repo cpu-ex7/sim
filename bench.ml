@@ -3,7 +3,8 @@ open Core
 open Operand
 
 let () =
-  App.load_file "../min-caml/cpuex/min-rt.s";
-  App.set_input_file "/home/admin2/Desktop/cserver-com/convert_from_sld/sld/contest";;
-  let core =  App.execute () in
-  ()
+  App.load_file "test/min-rt.s";
+  App.set_input_file "test/contest";
+  let core = App.execute_noexcept () in
+  Printf.eprintf "%d\n" !(core.count);
+  App.print_log ()

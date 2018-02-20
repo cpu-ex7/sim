@@ -33,11 +33,13 @@ let verified _ = !(!global.verified)
 let core _ = !(!global.core)
 let count _ = !(!(!global.core).count)
 let pc _ = to_int !(!(!global.core).pc)
+let log _ = (core ()).log
 
 (* プログラムを一行だけ実行する *)
 let execute_n n =
   for i=0 to n-1 do
     Sim.execute (core ()) (verified ()).(pc ());
+    (* (log ()) := (Log.update (verified ()).(pc ()) !(log ())) *)
   done;
   (core ())
 
@@ -142,3 +144,4 @@ let print_label _ = Label.print_label (label ())
 let print_program _ = Program.print_program_with_label (program ()) (label ())
 let print_verified _ = Verify.print_verified (verified ())
 let print_core _ = Core.print_core (core ())
+let print_log _ = Log.print_log !(log ())
